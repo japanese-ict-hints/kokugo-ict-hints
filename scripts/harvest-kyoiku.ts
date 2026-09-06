@@ -124,10 +124,12 @@ if (process.argv.includes('--list-only')) {
   process.exit(0);
 }
 
-// 物語・説明文の教材を扱うものを先に処理する
+// 物語・説明文の教材を扱うものを先に処理する。--all を付けるとそれ以外も後ろに続ける
+const ALL = process.argv.includes('--all');
 const queue = [...found.entries()]
   .map(([u, t]) => ({ u, t, kind: kindOf(unitOf(t)) }))
-  .filter((x) => x.kind && !seen[x.u]);
+  .filter((x) => (ALL || x.kind) && !seen[x.u])
+  .sort((a, b) => (b.kind ? 1 : 0) - (a.kind ? 1 : 0));
 
 let items: Item[] = [];
 try { items = JSON.parse(await readFile(OUT, 'utf8')) as Item[]; } catch { /* 初回 */ }
