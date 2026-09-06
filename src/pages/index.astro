@@ -183,13 +183,15 @@ const toolItems = TOOL_IDS.map((id) => ({
         return;
       }
       var mine = ++seq;
+
+      // 索引の読み込みを待たせない。まず文字合わせで出し、Pagefind が来たら並べ替える。
+      // 初回の1打鍵目で索引を取りに行くので、待つと何も絞られない時間ができる。
+      var quick = substringMatches(q);
+      show(quick, quick.length);
+
       loadPagefind().then(function (pf) {
         if (mine !== seq) return;
-        if (!pf) {
-          var only = substringMatches(q);
-          show(only, only.length);
-          return;
-        }
+        if (!pf) return; // 文字合わせの結果をそのまま使う
         pf.search(q).then(function (search) {
           if (mine !== seq) return;
           Promise.all(search.results.slice(0, 50).map(function (r) { return r.data(); })).then(
