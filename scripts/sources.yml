@@ -240,6 +240,18 @@ sources:
     status: active
     note: 佐倉市の採択教科書と同じ発行者。単元名が教科書のものと一致する。PDFに学校名と授業者名が載るため §2.1 で落とす
 
+  - id: mitsumura-webmaga-chu-kokugo
+    name: 中学校国語科授業リポート（みつむら web magazine／光村図書出版）
+    host: www.mitsumura-tosho.co.jp
+    entry: https://www.mitsumura-tosho.co.jp/webmaga/jugyou/c-kokugo-jugyou-report
+    type: index
+    license: link-only
+    license_basis: https://www.mitsumura-tosho.co.jp/   # 記事末尾に無断転載の禁止を明記
+    license_checked: 2026-09-06
+    group: C
+    status: active
+    note: 中学校国語の授業取材記事。2026-09-06 時点で5本。学校名と授業者名が載るため §2.1 で落とす
+
 discovery:
   - name: 全国教育研究所連盟（教育研究機関リンク集）
     url: https://schit.net/zenkyou/
@@ -268,3 +280,4 @@ robots_checked:
   edtechzine.jp: サービス終了ページが返る。収集しない
   www.kyoiku-shuppan.co.jp: 404（robots.txt なし）。RFC 9309 により制限なしとして扱う
   kyoiku.sho.jp: 200。Disallow は /wp-admin/ /wp-includes/ /wp-content/plugins/ /cgi-bin/ /?s= /feed/ /comments/ など。記事ページ（/数字/）と /tag/ は対象外
+  www.mitsumura-tosho.co.jp: 200。Disallow は /application/ 配下など内部パスのみ。/webmaga/ は対象外
