@@ -1,11 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// 公開先は https://barutann0317tomo-byte.github.io/kokugo-ict-hints/ のプロジェクトページ。
+// 公開先は https://japanese-ict-hints.github.io/kokugo-ict-hints/ のプロジェクトページ。
 // site は canonical と sitemap にしか使わない。
 // リンクは src/lib/site.ts の url() を通しているので、base を変えれば全ページ追従する。
 export default defineConfig({
-  site: 'https://barutann0317tomo-byte.github.io',
+  site: 'https://japanese-ict-hints.github.io',
   base: '/kokugo-ict-hints',
   trailingSlash: 'always',
   build: { format: 'directory' },

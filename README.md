@@ -43,7 +43,7 @@ python3 scripts/preview.py && open .preview/index.html
 
 ## 公開する
 
-1. 公開先は https://barutann0317tomo-byte.github.io/kokugo-ict-hints/ （プロジェクトページ）。
+1. 公開先は https://japanese-ict-hints.github.io/kokugo-ict-hints/ （プロジェクトページ）。
    `astro.config.mjs` の `site` と `base` は設定済み。リンクはすべて `src/lib/site.ts` の
    `url()` を通しているので、リポジトリ名を変えるときは `base` だけ直せば全ページ追従する
 2. GitHub の Settings → Pages で Source を GitHub Actions にする
