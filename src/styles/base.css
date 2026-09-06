@@ -154,6 +154,9 @@ main { display: block; padding-bottom: 3.5rem; }
   background: var(--row-accent, var(--rule));
 }
 .tip-list > li:hover { background: var(--accent-soft); }
+.tip-list > li.has-mark { display: flex; gap: 0.7rem; align-items: flex-start; }
+.tip-list .dmark { flex: 0 0 26px; margin-top: 0.2rem; }
+.tip-list .row-body { min-width: 0; }
 .tip-list > li[hidden] { display: none; }
 .tip-list a.tip-title {
   color: var(--ink);
@@ -211,6 +214,9 @@ main { display: block; padding-bottom: 3.5rem; }
 }
 .meta-table dt { flex: 0 0 5.5em; color: var(--ink-mute); margin: 0; font-size: 0.8125rem; }
 .meta-table dd { margin: 0; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+
+.scene-flow { margin: 0 0 1.5rem; }
+.scene-flow-extra { font-size: 0.8125rem; color: var(--ink-mute); margin: 0.5rem 0 0; }
 
 .howto {
   list-style: none;

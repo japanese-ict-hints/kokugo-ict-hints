@@ -1,0 +1,62 @@
+---
+import { SCENES, type SceneId } from '../lib/vocab';
+
+interface Props {
+  scenes: readonly string[];
+}
+
+const { scenes } = Astro.props;
+
+// 授業の流れにあたる場面だけを帯にする。評価・家庭・校務は流れの外なので文字で添える。
+const FLOW: SceneId[] = ['intro', 'individual', 'share', 'discuss', 'reflect'];
+const OUTSIDE: SceneId[] = ['assess', 'home', 'admin'];
+
+const W = 96;
+const GAP = 10;
+const H = 50;
+const total = FLOW.length * (W + GAP) - GAP;
+
+const active = FLOW.filter((id) => scenes.includes(id));
+const outside = OUTSIDE.filter((id) => scenes.includes(id));
+
+const svg = FLOW.map((id, i) => {
+  const x = i * (W + GAP);
+  const on = scenes.includes(id);
+  const fill = on ? 'var(--accent)' : 'var(--paper-sunk)';
+  const color = on ? 'var(--paper)' : 'var(--ink-mute)';
+  const link =
+    i < FLOW.length - 1
+      ? `<path d="M${x + W + 2} 25 h${GAP - 4}" stroke="var(--rule)" stroke-width="3" stroke-linecap="round"/>`
+      : '';
+  return (
+    `<rect x="${x}" y="8" width="${W}" height="34" rx="17" fill="${fill}"/>` +
+    `<text x="${x + W / 2}" y="30" text-anchor="middle" font-size="14" fill="${color}">${SCENES[id].label}</text>` +
+    link
+  );
+}).join('');
+
+const label =
+  active.length > 0
+    ? `使う場面は ${active.map((id) => SCENES[id].label).join('、')}`
+    : '使う場面の指定なし';
+---
+
+<div class="scene-flow">
+  <svg
+    viewBox={`0 0 ${total} ${H}`}
+    width={total}
+    height={H}
+    role="img"
+    aria-label={label}
+    style={`width: 100%; max-width: ${total}px; height: auto;`}
+  >
+    <Fragment set:html={svg} />
+  </svg>
+  {
+    outside.length > 0 && (
+      <p class="scene-flow-extra">
+        ほかに {outside.map((id) => SCENES[id].label).join('、')}
+      </p>
+    )
+  }
+</div>

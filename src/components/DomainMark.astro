@@ -1,0 +1,38 @@
+---
+import { DOMAINS, type DomainId } from '../lib/vocab';
+
+interface Props {
+  domain: DomainId;
+  size?: number;
+}
+
+const { domain, size = 26 } = Astro.props;
+
+// 領域の記号。すべて自作。外部サイトの画像は使わない（CLAUDE.md §2.1）。
+// 単色で、色は領域色を currentColor 経由で受ける。意味は文字ラベルが担うので aria-hidden。
+const MARKS: Record<DomainId, string> = {
+  'speak-listen':
+    '<path d="M9 6a9 9 0 0 1 0 12M14 3a15 15 0 0 1 0 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/><circle cx="5" cy="12" r="2.6" fill="currentColor"/>',
+  write:
+    '<path d="M4 20 L18 5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M4 20 l0.4-3.4 3.4-0.4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M14 9 l3 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+  read: '<path d="M4 7h7M4 12h7M4 17h5M14 7h6M14 12h6M14 17h4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>',
+  language:
+    '<circle cx="6" cy="7" r="2.4" fill="currentColor"/><circle cx="17" cy="12" r="2.4" fill="currentColor"/><circle cx="8" cy="18" r="2.4" fill="currentColor"/><path d="M8 8.5 L15 10.7M15.5 14 L9.6 16.4" stroke="currentColor" stroke-width="1.8"/>',
+  handwriting:
+    '<path d="M12 3v14" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M12 17c0 2.5 2 3.6 4.5 3.2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>',
+  'reading-life':
+    '<rect x="4" y="14" width="16" height="3.4" rx="1" fill="currentColor"/><rect x="6" y="9.5" width="12" height="3.4" rx="1" fill="currentColor" opacity=".72"/><rect x="8" y="5" width="8" height="3.4" rx="1" fill="currentColor" opacity=".5"/>',
+};
+---
+
+<svg
+  class="dmark"
+  viewBox="0 0 24 24"
+  width={size}
+  height={size}
+  aria-hidden="true"
+  focusable="false"
+  style={`color: ${DOMAINS[domain].color}`}
+>
+  <Fragment set:html={MARKS[domain]} />
+</svg>
