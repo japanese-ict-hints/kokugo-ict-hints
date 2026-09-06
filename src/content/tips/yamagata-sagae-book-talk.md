@@ -2,7 +2,7 @@
 title: "紹介したい本を画面で見せながら、聞き手に分かるように話す"
 summary: "小学2年で、お気に入りの本を紹介する単元。端末で本の見どころを映しながら発表させ、聞き手に分かりやすく伝えることをねらった。単元のまとめの時間に位置づけている。"
 source:
-  url: "https://www.yamagata-c.ed.jp/file/1650"
+  url: "https://www.yamagata-c.ed.jp/file/1650#page=35"
   publisher: "山形県教育センター"
   region: "山形県"
   published: null

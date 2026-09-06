@@ -8,9 +8,17 @@
     "build": "astro build",
     "preview": "astro preview",
     "discover": "node scripts/discover.ts",
-    "license-check": "node scripts/license-check.ts"
+    "license-check": "node scripts/license-check.ts",
+    "collect": "node scripts/collect.ts",
+    "linkcheck": "node scripts/linkcheck.ts"
   },
   "dependencies": {
     "astro": "^5.6.0"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.124.0",
+    "pdfjs-dist": "^6.3.289",
+    "yaml": "^2.9.0",
+    "zod": "^3.25.76"
   }
 }

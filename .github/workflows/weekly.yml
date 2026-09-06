@@ -1,0 +1,98 @@
+name: Weekly collect
+
+# 毎週月曜 06:00 JST（前日 21:00 UTC）
+on:
+  schedule:
+    - cron: '0 21 * * 0'
+  workflow_dispatch:
+    inputs:
+      group:
+        description: '処理する群（空なら今週の群）'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+
+      # .cache は成果物ではないが、seen.json を持ち越さないと毎回同じURLを取りに行く
+      - uses: actions/cache@v4
+        with:
+          path: .cache
+          key: collect-cache-${{ github.run_id }}
+          restore-keys: collect-cache-
+
+      - name: 収集
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          node scripts/collect.ts ${{ inputs.group && format('--group {0}', inputs.group) || '' }} 2>&1 | tee collect.log
+
+      - name: 差分があればPRを作る
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$(git status --porcelain src/content/tips)" ]; then
+            echo "新しい事例はなかった"
+            exit 0
+          fi
+          DATE=$(date -u +%Y-%m-%d)
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch -c "collect/$DATE"
+          git add src/content/tips
+          git commit -m "収集: $DATE
+
+          scripts/collect.ts の自動実行。すべて status: draft。
+          公開の可否は運営者が確認して published に変える（CLAUDE.md §5.1）。"
+          git push -u origin "collect/$DATE"
+          gh pr create --title "収集 $DATE" --body-file - <<'BODY'
+          `scripts/collect.ts` の自動実行の結果です。
+
+          **自動マージはしません。** 次を確認してから `status: published` に変えてください。
+
+          - 要約が出典の言い回しをなぞっていないか
+          - 学校名・教職員名・児童生徒が特定できる情報が入っていないか
+          - `license` が `link-only` の事例で、本文を引用していないか
+          - 国語の授業で本当に使えるか
+
+          実行ログは Actions の `collect` ジョブを見てください。
+          BODY
+
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: リンク切れ検査
+        id: check
+        run: node scripts/linkcheck.ts --md linkcheck.md || echo "broken=1" >> "$GITHUB_OUTPUT"
+      - name: 切れていたら Issue を1本にまとめて起票
+        if: steps.check.outputs.broken == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="出典のリンク切れ $(date -u +%Y-%m-%d)"
+          EXISTING=$(gh issue list --state open --search "リンク切れ in:title" --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file linkcheck.md
+          else
+            gh issue create --title "$TITLE" --body-file linkcheck.md --label "" || \
+              gh issue create --title "$TITLE" --body-file linkcheck.md
+          fi

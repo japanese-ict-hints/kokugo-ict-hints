@@ -2,7 +2,7 @@
 title: "スピーチで見せたい物を写真や動画にして、全員の画面に配る"
 summary: "中学1年の話すことの単元。教室に持ち込めない「好きなもの」を事前に写真や動画にしておき、端末で全員に配ってから話す。見せる材料の準備を、話の構成を考える活動に組み込んでいる。"
 source:
-  url: "https://www.yamagata-c.ed.jp/file/1650"
+  url: "https://www.yamagata-c.ed.jp/file/1650#page=57"
   publisher: "山形県教育センター"
   region: "山形県"
   published: null

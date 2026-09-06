@@ -487,7 +487,7 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
 | 1 | Astro雛形、スキーマ、トップ・一覧・詳細、`content-japanese-seed.md` の10件を投入、デプロイ。収集は未実装 |
 | 2 | Pagefind検索、scenes / domains / tools / school の絞り込み、`/updates/` |
 | 3 | `license-check.ts` と `discover.ts`。まず都道府県10件で試し、`sources.yml` を育てる |
-| 4 | `collect.ts` と週次ワークフロー、linkcheck。seed 10件の要約を作り直す |
+| 4 | `collect.ts` と週次ワークフロー、linkcheck。seed 10件の要約を作り直す（要約生成の経路は未実行） |
 | 5 | 「役に立った」ボタン、Cookieレスのアクセス解析、学習指導要領コードの付与、他教科への拡張 |
 
 フェーズ1を作ったら、国語の教員数名に見せて構成を見直す。フェーズ3以降を先に作らない。

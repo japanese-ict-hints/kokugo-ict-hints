@@ -48,18 +48,6 @@ sources:
   # 本文は失われている（2026-09-06 確認）。収集源にはしない。denylist に入れてある。
 
 # 収集源の発見に使う起点（CLAUDE.md §3.2）。いずれも 2026-09-05 時点で実在を確認済み。
-discovery:
-  - name: 全国教育研究所連盟（教育研究機関リンク集）
-    url: https://schit.net/zenkyou/
-  - name: 全国都道府県教育委員会連合会 リンク
-    url: http://www.kyoi-ren.gr.jp/link/
-  - name: 文部科学省 都道府県・政令市教育委員会リンク
-    url: https://www.mext.go.jp/b_menu/link/1294885.htm
-  - name: 国立特別支援教育総合研究所 センター一覧
-    url: https://www.nise.go.jp/nc/about_nise/link/center
-  - name: 文部科学省 教育データ標準（教育委員会コード一覧）
-    url: https://www.mext.go.jp/a_menu/other/data_00001.htm
-
   # ---- ここから S2（都道府県の教育センター）。discover.ts の初回実行、2026-09-06 ----
   # いずれも license は link-only。本文の引用はせず、リンクと自作要約だけを載せる。
   # entry は実際に取得して200を確認したURLのみ（§2.3）。
@@ -67,14 +55,16 @@ discovery:
   - id: yamagata-c-ict
     name: ICT活用・情報教育（山形県教育センター）
     host: www.yamagata-c.ed.jp
-    entry: https://www.yamagata-c.ed.jp/ICTutilization
+    entry: https://www.yamagata-c.ed.jp/ICT%E6%B4%BB%E7%94%A8%E3%83%BB%E6%83%85%E5%A0%B1%E6%95%99%E8%82%B2/%E7%9C%8C%E5%86%85ICT%E6%B4%BB%E7%94%A8%E8%B3%87%E6%96%99
     type: index
     license: link-only
     license_basis: https://www.yamagata-c.ed.jp/
     license_checked: 2026-09-06
     group: B
     status: active
-    note: トップに All Rights Reserved の記載。県内のICT活用資料をまとめた節がある。
+    note: >-
+      トップに All Rights Reserved の記載。entry は「県内ICT活用資料」のページ。
+      市町村がまとめた実践事例集のPDFがここにぶら下がっている。
 
   - id: tokyo-kensyu-kiyou
     name: 教育課題研究紀要等（東京都教職員研修センター）
@@ -149,6 +139,18 @@ discovery:
   #   cms2.chiba-c.ed.jp          千葉県子どもと親のサポートセンター。国語の事例は見当たらない
   #   www.ishikawa-c.ed.jp        石川県教員総合研修センター。事例の入口を特定できず
   #   www.akita-c.ed.jp           秋田県総合教育センター。robots.txt を取得できず停止（§2.2）
+
+discovery:
+  - name: 全国教育研究所連盟（教育研究機関リンク集）
+    url: https://schit.net/zenkyou/
+  - name: 全国都道府県教育委員会連合会 リンク
+    url: http://www.kyoi-ren.gr.jp/link/
+  - name: 文部科学省 都道府県・政令市教育委員会リンク
+    url: https://www.mext.go.jp/b_menu/link/1294885.htm
+  - name: 国立特別支援教育総合研究所 センター一覧
+    url: https://www.nise.go.jp/nc/about_nise/link/center
+  - name: 文部科学省 教育データ標準（教育委員会コード一覧）
+    url: https://www.mext.go.jp/a_menu/other/data_00001.htm
 
 denylist:
   - reason: 会員登録が必要

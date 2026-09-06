@@ -2,7 +2,7 @@
 title: "調べる途中でクラスにアンケートを取り、その場で結果を見て次に進む"
 summary: "小学5年の説明する文章を書く単元。身の回りの工夫を調べている途中で、児童から「クラスに聞きたい」と出たので、端末でカードをやり取りしてアンケートを取り、結果をその場で見て次の活動に移った。"
 source:
-  url: "https://www.yamagata-c.ed.jp/file/1650"
+  url: "https://www.yamagata-c.ed.jp/file/1650#page=25"
   publisher: "山形県教育センター"
   region: "山形県"
   published: null

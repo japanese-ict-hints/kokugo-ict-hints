@@ -19,6 +19,16 @@ export const stripTags = (html: string) =>
     .replace(/[ \t\u3000]+/g, ' ')
     .trim();
 
+/** ナビゲーションやフッターを落として本文だけにする。
+ *  一覧ページの見出しが混ざると、教科の判定を誤る（栃木で生活科の回を国語と誤判定した） */
+export const mainText = (html: string) => {
+  let h = html.replace(/<(script|style|noscript)[\s\S]*?<\/\1>/gi, ' ');
+  h = h.replace(/<(nav|header|footer|aside|form|select)\b[\s\S]*?<\/\1>/gi, ' ');
+  h = h.replace(/<(ul|div)\b[^>]*(?:class|id)="[^"]*(nav|menu|breadcrumb|sidebar|pankuzu|gnav|footer|header)[^"]*"[^>]*>[\s\S]*?<\/\1>/gi, ' ');
+  const main = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(h) ?? /<article\b[^>]*>([\s\S]*?)<\/article>/i.exec(h);
+  return stripTags(main ? main[1]! : h);
+};
+
 export const title = (html: string) => {
   const m = /<title[^>]*>([\s\S]*?)<\/title>/i.exec(html);
   return m ? stripTags(m[1]!).slice(0, 200) : '';

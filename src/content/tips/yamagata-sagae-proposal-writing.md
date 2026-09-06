@@ -2,7 +2,7 @@
 title: "同じテーマの仲間と調べたことを交換し、発表までを一本の流れにする"
 summary: "小学6年で国語と総合的な学習を合わせた実践。同じテーマに取り組む児童でグループを組み、調べたことや意見を端末上で交換して話し合う。まとめは別のアプリでつなぎ、総合の発表会に持っていく。"
 source:
-  url: "https://www.yamagata-c.ed.jp/file/1650"
+  url: "https://www.yamagata-c.ed.jp/file/1650#page=21"
   publisher: "山形県教育センター"
   region: "山形県"
   published: null

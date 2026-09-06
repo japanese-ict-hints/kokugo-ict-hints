@@ -223,6 +223,52 @@ async function decode(res: Response): Promise<string> {
   }
 }
 
+/** PDF など、テキストでないものを取りに行く。robots.txt と間隔の扱いは politeFetch と同じ */
+export async function politeFetchBinary(
+  url: string,
+): Promise<{ ok: true; url: string; bytes: Uint8Array; type: string } | { ok: false; reason: string; url: string }> {
+  const u = new URL(url);
+  const host = u.host;
+  if (pausedHosts.has(host)) {
+    return { ok: false, reason: `このホストは停止中: ${pausedHosts.get(host)}`, url };
+  }
+  const robots = await getRobots(u.origin);
+  if (robots === 'error') {
+    pausedHosts.set(host, 'robots.txt を取得できなかった');
+    return { ok: false, reason: 'robots.txt を取得できなかったため停止', url };
+  }
+  if (!isAllowed(robots, u.pathname + u.search)) {
+    return { ok: false, reason: 'robots.txt が許可していない', url };
+  }
+  const count = hostCount.get(host) ?? 0;
+  if (count >= MAX_PAGES_PER_HOST) {
+    return { ok: false, reason: `1ホストの取得上限 ${MAX_PAGES_PER_HOST} に達した`, url };
+  }
+  await throttle(host);
+  hostCount.set(host, count + 1);
+  try {
+    const res = await fetch(u, {
+      headers: { 'user-agent': UA },
+      redirect: 'follow',
+      signal: AbortSignal.timeout(120_000),
+    });
+    if (res.status === 403 || res.status === 429 || res.status >= 500) {
+      pausedHosts.set(host, `HTTP ${res.status}`);
+      return { ok: false, reason: `HTTP ${res.status} のため停止`, url };
+    }
+    if (!res.ok) return { ok: false, reason: `HTTP ${res.status}`, url };
+    const type = res.headers.get('content-type') ?? '';
+    const bytes = new Uint8Array(await res.arrayBuffer());
+    // 校内回線を考えて、大きすぎるものは扱わない
+    if (bytes.byteLength > 40 * 1024 * 1024) {
+      return { ok: false, reason: `大きすぎる ${Math.round(bytes.byteLength / 1e6)}MB`, url };
+    }
+    return { ok: true, url: res.url, bytes, type };
+  } catch (e) {
+    return { ok: false, reason: `取得に失敗: ${(e as Error).message}`, url };
+  }
+}
+
 export const stats = () => ({
   hosts: [...hostCount.entries()].map(([host, n]) => ({ host, fetched: n })),
   paused: [...pausedHosts.entries()].map(([host, reason]) => ({ host, reason })),
