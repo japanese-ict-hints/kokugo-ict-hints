@@ -17,7 +17,7 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小6"
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "出典は小学校6年の実践で、題材は教科書教材。ツールはオクリンクプラス。前半（教師の添削を見て直す）と後半（児童どうしのコメントで直す）の二段構えになっている。"
 ---

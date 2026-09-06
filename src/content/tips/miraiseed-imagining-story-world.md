@@ -17,7 +17,7 @@ scenes: [intro, individual, share, discuss, reflect]
 effort: 3
 grade: "小6"
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "出典は光村図書6年の教材を扱った実践。単元7時間ぶんの設計なので、1時間だけ取り出して真似るのは難しい。作者に関する別の教材とあわせて読ませている。"
 ---

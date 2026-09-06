@@ -17,7 +17,7 @@ scenes: [intro, individual, share, reflect]
 effort: 1
 grade: null
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "個別の事例ではなく事例集。中学校は各教科1事例なので、中学校国語は1事例のみ収録されている見込み。PDFの再配布はせず、必ずリンクで案内する。複数領域にまたがるため domains は未設定。"
 ---

@@ -17,7 +17,7 @@ scenes: [individual]
 effort: 1
 grade: null
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "出典は対象を小学校5学年以上とする。教室で一斉に行うと声が重なるため、出典では外付けマイクを使った例も紹介されている。"
 ---

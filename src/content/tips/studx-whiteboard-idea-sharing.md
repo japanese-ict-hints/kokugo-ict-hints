@@ -17,7 +17,7 @@ scenes: [share, discuss]
 effort: 2
 grade: null
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "出典は教科を特定していない汎用事例。国語では、叙述の根拠に線を引いて示す場面や、人物の心情を書き込む場面に転用できる（この読み替えはサイト側の補足）。"
 ---

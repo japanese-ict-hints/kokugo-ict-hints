@@ -17,7 +17,7 @@ scenes: [intro]
 effort: 1
 grade: null
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "文部科学省自身が、この資料は令和2年9月時点のもので最新版はStuDX Styleを見るよう案内している（https://www.mext.go.jp/a_menu/shotou/zyouhou/mext_00915.html で確認、2026-09-05）。校内研修の枠組みとしては今も使えるが、ツールの記述は古い。"
 ---

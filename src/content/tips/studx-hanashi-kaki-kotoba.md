@@ -17,7 +17,7 @@ scenes: [share, reflect]
 effort: 1
 grade: null
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "出典は対象を小学校5学年以上とし、ツール名は特定せず「コメント機能」と記載。佐倉市ではTeamsのチャネル投稿やオクリンクプラスのコメントで同じことができる（この対応づけはサイト側の補足）。"
 ---

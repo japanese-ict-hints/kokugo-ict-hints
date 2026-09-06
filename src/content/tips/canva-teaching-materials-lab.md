@@ -17,7 +17,7 @@ scenes: [intro, individual, share]
 effort: 1
 grade: null
 curriculum: []
-status: draft
+status: published
 added: 2026-09-05
 note: "教科横断のテンプレート集で、国語専用ではない。国語では、二つの説明文の比較にベン図、物語の出来事の整理に年表が使える（この対応づけはサイト側の補足）。無料の範囲と教育版の範囲は出典に明示がないため、所属校で確認すること。"
 ---
