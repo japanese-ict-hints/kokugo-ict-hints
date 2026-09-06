@@ -9,30 +9,21 @@ export const SITE = {
 } as const;
 
 /**
- * 「役に立った」の受け口（CLAUDE.md フェーズ5、§11）。
+ * 「役に立った」ボタン（CLAUDE.md フェーズ5、§11）。
  *
  * このサイトは GitHub Pages の静的サイトなので、押した数を自分で数えることはできない。
- * 外部のフォームへ送る形にしてある。`urlTemplate` を空のままにすると、ボタンは出ない。
+ * `countUrl` を空のままにすると、押した記録は**その端末の中だけ**に残る。
+ * 運営者は数を見られないが、読み手には「押した」状態が残り、外部へは何も送らない。
  *
- * 使い方：Microsoft Forms などで「どの事例か」を受け取る項目をひとつ持つフォームを作り、
- * そのURLをここに書く。`{slug}` と `{title}` はページごとに置き換わる。
- *   例) 'https://forms.office.com/r/XXXXXXXX?ref={slug}'
- *
- * 送るのは事例の識別子と題名だけ。閲覧者の情報は送らない（§ プライバシー）。
+ * 集計したくなったら、事例の識別子だけを受け取る受け口のURLをここに書く。
+ * 送るのは事例の識別子だけで、閲覧者を識別する情報は送らない。
  */
-export const FEEDBACK = {
-  urlTemplate: '',
+export const HELPFUL = {
+  countUrl: '',
   label: 'この事例は役に立ちましたか',
-  linkText: '感想を送る（外部フォーム）',
+  button: '役に立った',
+  thanks: 'ありがとうございました',
 } as const;
-
-export const feedbackUrl = (slug: string, title: string) =>
-  FEEDBACK.urlTemplate
-    ? FEEDBACK.urlTemplate.replace('{slug}', encodeURIComponent(slug)).replace(
-        '{title}',
-        encodeURIComponent(title),
-      )
-    : null;
 
 // base（GitHub Pages のサブディレクトリ）を吸収する。リンクは必ずこれを通す。
 export const url = (path: string) => {

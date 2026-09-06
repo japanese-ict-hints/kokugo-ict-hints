@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import TipList from '../../components/TipList.astro';
 import SceneFlow from '../../components/SceneFlow.astro';
 import { loadTips, relatedTips, type Tip } from '../../lib/tips';
-import { FEEDBACK, feedbackUrl, url, formatDate } from '../../lib/site';
+import { HELPFUL, url, formatDate } from '../../lib/site';
 import { CURRICULUM } from '../../lib/curriculum';
 import {
   DOMAINS,
@@ -37,8 +37,6 @@ const color = domainColor(d.domains);
 const domainLabel = d.domains.map((id) => DOMAINS[id].short).join('、');
 
 // gov-open で本文を翻案した場合の出典表記（CLAUDE.md §7.4）。
-const feedback = feedbackUrl(tip.id, d.title);
-
 const attribution =
   d.source.license === 'gov-open'
     ? `出典：「${d.source.publisher}」（${d.source.url}）（${formatDate(d.source.retrieved)}に利用）を加工して作成`
@@ -202,18 +200,65 @@ const attribution =
 
     {attribution && <p class="attribution">{attribution}</p>}
 
-    {
-      feedback && (
-        <aside class="feedback">
-          <p class="feedback-label">{FEEDBACK.label}</p>
-          <a class="chip chip-lead" href={feedback} rel="noopener nofollow" target="_blank">
-            {FEEDBACK.linkText}
-          </a>
-          <p class="feedback-note">送るのはこの事例の識別子と題名だけです。</p>
-        </aside>
-      )
-    }
+    <aside class="helpful" hidden id="helpful" data-slug={tip.id} data-count-url={HELPFUL.countUrl}>
+      <p class="helpful-label">{HELPFUL.label}</p>
+      <button type="button" class="chip chip-lead" id="helpful-button">
+        {HELPFUL.button}
+      </button>
+      <p class="helpful-note" id="helpful-note" role="status" aria-live="polite"></p>
+    </aside>
   </article>
+
+<script is:inline>
+  // 「役に立った」。押した記録は端末の中に残す。受け口のURLが設定されているときだけ、
+  // 事例の識別子を送る。閲覧者を識別する情報は送らない。
+  // JSが無い環境ではボタン自体を出さない（押せないボタンを置かない）。
+  (function () {
+    var box = document.getElementById('helpful');
+    var btn = document.getElementById('helpful-button');
+    var note = document.getElementById('helpful-note');
+    if (!box || !btn || !note) return;
+
+    var slug = box.getAttribute('data-slug') || '';
+    var countUrl = box.getAttribute('data-count-url') || '';
+    var key = 'helpful:' + slug;
+
+    function read() {
+      try {
+        return window.localStorage.getItem(key) === '1';
+      } catch (e) {
+        return false;
+      }
+    }
+    function write() {
+      try {
+        window.localStorage.setItem(key, '1');
+      } catch (e) {
+        /* 保存できない設定でも動きは変えない */
+      }
+    }
+    function done() {
+      btn.disabled = true;
+      btn.setAttribute('aria-pressed', 'true');
+      note.textContent = '\u3042\u308a\u304c\u3068\u3046\u3054\u3056\u3044\u307e\u3057\u305f';
+    }
+
+    box.hidden = false;
+    if (read()) done();
+
+    btn.addEventListener('click', function () {
+      write();
+      done();
+      if (countUrl && navigator.sendBeacon) {
+        try {
+          navigator.sendBeacon(countUrl, new Blob([JSON.stringify({ slug: slug })], { type: 'text/plain' }));
+        } catch (e) {
+          /* 送れなくても表示は変えない */
+        }
+      }
+    });
+  })();
+</script>
 
   {
     related.length > 0 && (
