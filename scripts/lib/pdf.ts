@@ -6,7 +6,16 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 export type PdfPage = { page: number; text: string };
 
 export async function pdfPages(data: Uint8Array): Promise<PdfPage[]> {
-  const doc = await getDocument({ data, useSystemFonts: true, isEvalSupported: false }).promise;
+  // 保護のかかったPDFや壊れたPDFで例外が飛ぶ。呼び出し側が扱えるよう言葉にして投げ直す
+  let doc;
+  try {
+    doc = await getDocument({ data, useSystemFonts: true, isEvalSupported: false }).promise;
+  } catch (e) {
+    const err = e as { name?: string; message?: string };
+    if (err.name === 'PasswordException') throw new Error('PDFに保護がかかっていて読めない');
+    if (err.name === 'InvalidPDFException') throw new Error('PDFとして読めない（空か壊れている）');
+    throw new Error(`PDFを開けない: ${err.message ?? String(e)}`);
+  }
   const out: PdfPage[] = [];
   for (let i = 1; i <= doc.numPages; i++) {
     const page = await doc.getPage(i);

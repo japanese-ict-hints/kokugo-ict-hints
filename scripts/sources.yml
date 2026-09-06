@@ -164,9 +164,65 @@ sources:
       3件とも Google Jamboard / Meet を使っているが、オクリンクプラスとTeamsに
       置き換えて掲載した（§4.2 の置き換えの規則。置き換えた旨は各事例の note に記載）。
 
+  - id: aomori-edu-c-ict-kokugo
+    name: ＩＣＴ活用 中学校国語（青森県総合学校教育センター）
+    host: www.edu-c.pref.aomori.jp
+    entry: https://www.edu-c.pref.aomori.jp/ict/r3_chu_jap
+    type: index
+    license: link-only
+    license_basis: https://www.edu-c.pref.aomori.jp/contents
+    license_checked: 2026-09-06
+    group: D
+    status: active
+    note: >-
+      中学校国語だけをまとめたページ。アウトライン指導案がA・B・Cの3本ぶら下がる。
+      AとCは取得できたがBは中身が空で返る。無断複製・転載の禁止が明記されているため
+      リンクと自作要約のみ。ほかの校種・教科のページも同じ形で並んでいる見込み。
+
+  - id: fukui-manabiweb-junior-kokugo
+    name: ふくいわくわく学びWeb 事例集 中学校国語（福井県 義務教育課）
+    host: www.pref.fukui.lg.jp
+    entry: https://www.pref.fukui.lg.jp/doc/gimu/manabiweb/cyukoku.html
+    type: index
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-06
+    group: C
+    status: active
+    note: >-
+      中1から中3まで、領域別に21本の事例PDFが並ぶ。一覧のHTMLからは題名と学年と領域が読める。
+      ただし**PDFにはパスワード保護がかかっており、機械では中身を読めない**（空パスワードでも開かない）。
+      自動収集の対象にはならない。一覧そのものを1件の事例として掲載している。
+
+  - id: tagawa-city-jirei
+    name: 授業でのＩＣＴ活用 実践事例集３（田川市教育委員会）
+    host: www.joho.tagawa.fukuoka.jp
+    entry: https://www.joho.tagawa.fukuoka.jp/kiji0038085/3_8085_27469_up_zmytmooq.pdf
+    type: page
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-06
+    group: D
+    status: active
+    note: 令和4年3月の33ページのPDF。中学校国語は1件（文法の学び合い）。市町村の事例集の一例。
+
+  - id: sanseido-ict-junior-kokugo
+    name: ICT実践事例紹介 中学校国語（三省堂）
+    host: tb.sanseido-publ.co.jp
+    entry: https://tb.sanseido-publ.co.jp/ict_practicalexample/js-kokugo/
+    type: index
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-06
+    group: D
+    status: active
+    note: >-
+      教科書会社の事例紹介。中学校国語だけで12本ほど並ぶ。一覧はJavaScriptで描画されるが、
+      個別ページのURLはHTMLから取れる。佐倉市の採択は教育出版なので教材は異なるが、
+      方法は転用できるものが多い。
+
   # 調べたが登録を見送ったホスト（2026-09-06）
   #   www.doken.hokkaido-c.ed.jp  北海道立教育研究所。事例の入口を特定できず
-  #   www.edu-c.pref.aomori.jp    青森県総合学校教育センター。無断複製・転載の禁止が明記
   #   cms2.chiba-c.ed.jp          千葉県子どもと親のサポートセンター。国語の事例は見当たらない
   #   www.ishikawa-c.ed.jp        石川県教員総合研修センター。事例の入口を特定できず
   #   www.akita-c.ed.jp           秋田県総合教育センター。robots.txt を取得できず停止（§2.2）
