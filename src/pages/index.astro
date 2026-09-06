@@ -56,7 +56,7 @@ const toolItems = TOOL_IDS.map((id) => ({
     <p class="home-tagline">小中学校の国語　有志運営・非公式</p>
   </div>
 
-  <div class="search" hidden id="search-box">
+  <div class="search" hidden id="search-box" data-base={url('/')}>
     <label for="q">やりたいことを入力</label>
     <input
       type="search"
@@ -98,8 +98,13 @@ const toolItems = TOOL_IDS.map((id) => ({
 </Base>
 
 <script is:inline>
-  // フェーズ1の暫定検索。10件を絞るだけの素のフィルタで、フェーズ2で Pagefind に置き換える。
-  // JS が無い環境では入力欄自体を出さず、一覧はそのまま全件読める。
+  // 検索は Pagefind（ビルド時に作る静的索引）。最初の入力があってから読み込むので、
+  // トップページの初回転送量には乗らない。
+  // Pagefind が無い場所（astro dev や索引の作成前）では、その場の文字合わせに落とす。
+  //
+  // いま一覧は全件を書き出しているので、Pagefind には「どれをどの順で出すか」だけを
+  // 決めさせ、行そのものは既にあるDOMを並べ替えて使う。件数が増えて全件を書き出さなく
+  // なったら、ここは結果から行を組み立てる作りに変える必要がある。
   (function () {
     var box = document.getElementById('search-box');
     var input = document.getElementById('q');
@@ -109,31 +114,115 @@ const toolItems = TOOL_IDS.map((id) => ({
     if (!box || !input || !list || !status || !empty) return;
     box.hidden = false;
 
+    var base = box.getAttribute('data-base') || '/';
+
+    // 校務PCでは全角で打つ人がいる。「提出ＢＯＸ」と「提出BOX」を同じ扱いにする
+    function norm(s) {
+      return String(s)
+        .replace(/[\uff01-\uff5e]/g, function (c) {
+          return String.fromCharCode(c.charCodeAt(0) - 0xfee0);
+        })
+        .replace(/\u3000/g, ' ')
+        .toLowerCase();
+    }
     var rows = Array.prototype.slice.call(list.children);
-    var indexed = rows.map(function (row) {
-      return ((row.getAttribute('data-index') || '') + ' ' + (row.textContent || '')).toLowerCase();
+    var original = rows.slice();
+    var byPath = {};
+    var indexed = rows.map(function (row, i) {
+      var a = row.querySelector('a.tip-title');
+      if (a) byPath[new URL(a.getAttribute('href'), location.origin).pathname] = row;
+      return norm((row.getAttribute('data-index') || '') + ' ' + (row.textContent || ''));
     });
 
-    var timer = 0;
-    function apply() {
-      var q = input.value.trim().toLowerCase();
-      var terms = q ? q.split(/\s+/) : [];
-      var hit = 0;
-      rows.forEach(function (row, i) {
-        var text = indexed[i];
-        var match = terms.every(function (t) {
-          return text.indexOf(t) !== -1;
+    var pagefind = null;
+    var pagefindTried = false;
+
+    function loadPagefind() {
+      if (pagefindTried) return Promise.resolve(pagefind);
+      pagefindTried = true;
+      return import(base + 'pagefind/pagefind.js')
+        .then(function (m) {
+          pagefind = m;
+          return m.options ? m.options({ baseUrl: base }).then(function () { return m; }) : m;
+        })
+        .catch(function () {
+          pagefind = null;
+          return null;
         });
-        row.hidden = !match;
-        if (match) hit++;
-      });
-      empty.hidden = hit !== 0;
-      status.textContent = terms.length === 0 ? '' : hit + '件';
     }
 
+    function show(order, hit) {
+      var frag = document.createDocumentFragment();
+      order.forEach(function (row) {
+        row.hidden = false;
+        frag.appendChild(row);
+      });
+      list.appendChild(frag);
+      rows.forEach(function (row) {
+        if (order.indexOf(row) === -1) row.hidden = true;
+      });
+      empty.hidden = hit !== 0;
+      status.textContent = hit === null ? '' : hit + '件';
+    }
+
+    // 素の文字合わせ。Pagefind の取りこぼしを埋めるのに使う
+    function substringMatches(q) {
+      var terms = q.split(/\s+/);
+      return rows.filter(function (row, i) {
+        return terms.every(function (t) {
+          return indexed[i].indexOf(t) !== -1;
+        });
+      });
+    }
+
+    var seq = 0;
+    function run() {
+      var q = norm(input.value.trim());
+      if (!q) {
+        show(original, null);
+        return;
+      }
+      var mine = ++seq;
+      loadPagefind().then(function (pf) {
+        if (mine !== seq) return;
+        if (!pf) {
+          var only = substringMatches(q);
+          show(only, only.length);
+          return;
+        }
+        pf.search(q).then(function (search) {
+          if (mine !== seq) return;
+          Promise.all(search.results.slice(0, 50).map(function (r) { return r.data(); })).then(
+            function (items) {
+              if (mine !== seq) return;
+              // Pagefind の日本語の扱いには癖が2つある。
+              //  - 取りこぼす（「中学校」で13件中1件しか返さない）
+              //  - 拾いすぎる（「存在しない語」で全件返す。細かく分割して当たってしまう）
+              // そこで、並び順だけ Pagefind に任せ、採否は本文に語が含まれるかで決める。
+              // Pagefind の本文は詳細ページ全体なので、一覧の行より広く当たる。
+              var terms = q.split(/\s+/);
+              var order = [];
+              items.forEach(function (it) {
+                var body = norm(it.content || '');
+                if (!terms.every(function (t) { return body.indexOf(t) !== -1; })) return;
+                var path = new URL(it.url, location.origin).pathname;
+                var row = byPath[path] || byPath[path.replace(/index\.html$/, '')];
+                if (row && order.indexOf(row) === -1) order.push(row);
+              });
+              substringMatches(q).forEach(function (row) {
+                if (order.indexOf(row) === -1) order.push(row);
+              });
+              show(order, order.length);
+            },
+          );
+        });
+      });
+    }
+
+    var timer = 0;
     input.addEventListener('input', function () {
       window.clearTimeout(timer);
-      timer = window.setTimeout(apply, 120);
+      timer = window.setTimeout(run, 150);
     });
   })();
 </script>
