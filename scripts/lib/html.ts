@@ -26,7 +26,11 @@ export const mainText = (html: string) => {
   h = h.replace(/<(nav|header|footer|aside|form|select)\b[\s\S]*?<\/\1>/gi, ' ');
   h = h.replace(/<(ul|div)\b[^>]*(?:class|id)="[^"]*(nav|menu|breadcrumb|sidebar|pankuzu|gnav|footer|header)[^"]*"[^>]*>[\s\S]*?<\/\1>/gi, ' ');
   const main = /<main\b[^>]*>([\s\S]*?)<\/main>/i.exec(h) ?? /<article\b[^>]*>([\s\S]*?)<\/article>/i.exec(h);
-  return stripTags(main ? main[1]! : h);
+  const picked = stripTags(main ? main[1]! : h);
+  // <main> の中身が実質空のサイトがある（見出しだけ、本文は別の要素）。
+  // 極端に短いときは全体から取り直す。
+  const whole = stripTags(h);
+  return picked.length < 400 && whole.length > picked.length ? whole : picked;
 };
 
 export const title = (html: string) => {
