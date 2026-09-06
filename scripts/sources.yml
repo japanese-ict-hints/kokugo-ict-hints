@@ -127,6 +127,22 @@ discovery:
     group: B
     status: active
 
+  - id: chiba-cgec
+    name: 調査・研究／刊行物（千葉県総合教育センター）
+    host: www.cgec.ed.jp
+    entry: https://www.cgec.ed.jp/nc/investigation
+    type: index
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-06
+    group: A
+    status: active
+    note: >-
+      佐倉市の県。千葉県教育委員会（https://www.pref.chiba.lg.jp/kyouiku/）のリンクから辿った。
+      入口は www.ice.or.jp/nc/ だが、中身は www.cgec.ed.jp に置かれている。
+      調査・研究報告書の一覧はファイル名が JavaScript で描画され、リンク文字は「研究報告 第438号」の
+      ような番号だけで教科が分からない。自動収集は難しく、手作業での確認が要る。
+
   # 調べたが登録を見送ったホスト（2026-09-06）
   #   www.doken.hokkaido-c.ed.jp  北海道立教育研究所。事例の入口を特定できず
   #   www.edu-c.pref.aomori.jp    青森県総合学校教育センター。無断複製・転載の禁止が明記
