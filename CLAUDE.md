@@ -236,6 +236,7 @@ UIに表示する。`social` `math` `science` `life` `music` `art` `craft` `home
 /                        トップ（検索が主役）
 /tips/{slug}/            事例詳細
 /scenes/{scene}/         場面別
+/grades/{grade}/         学年別（e1〜e6 / j1〜j3）
 /domains/{domain}/       領域別
 /tools/{tool}/           ツール別
 /school/{school}/        校種別

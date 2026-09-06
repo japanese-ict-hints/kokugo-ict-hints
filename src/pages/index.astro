@@ -4,6 +4,7 @@ import Chips from '../components/Chips.astro';
 import TipList from '../components/TipList.astro';
 import { loadTips, lastUpdated } from '../lib/tips';
 import { SITE, formatDate, url } from '../lib/site';
+import { GRADE_IDS, GRADES, matchesGrade } from '../lib/grades';
 import {
   DOMAIN_IDS,
   DOMAINS,
@@ -20,6 +21,12 @@ const updated = lastUpdated(tips);
 
 const countBy = (key: 'domains' | 'scenes' | 'school' | 'tools', id: string) =>
   tips.filter((t) => (t.data[key] as readonly string[]).includes(id)).length;
+
+const gradeItems = GRADE_IDS.map((id) => ({
+  href: `/grades/${id}/`,
+  label: GRADES[id].short,
+  count: tips.filter((t) => matchesGrade(t.data.grade, id)).length,
+}));
 
 const schoolItems = SCHOOL_IDS.map((id) => ({
   href: `/school/${id}/`,
@@ -71,6 +78,11 @@ const toolItems = TOOL_IDS.map((id) => ({
   <section class="section" aria-labelledby="h-school">
     <h2 id="h-school">校種</h2>
     <Chips items={schoolItems} label="校種から探す" lead={true} />
+  </section>
+
+  <section class="section" aria-labelledby="h-grade">
+    <h2 id="h-grade">学年</h2>
+    <Chips items={gradeItems} label="学年から探す" />
   </section>
 
   <section class="section" aria-labelledby="h-scene">

@@ -6,6 +6,7 @@ import SceneFlow from '../../components/SceneFlow.astro';
 import { loadTips, relatedTips, type Tip } from '../../lib/tips';
 import { HELPFUL, url, formatDate } from '../../lib/site';
 import { CURRICULUM } from '../../lib/curriculum';
+import { GRADE_IDS, GRADES, matchesGrade } from '../../lib/grades';
 import {
   DOMAINS,
   SCENES,
@@ -135,7 +136,16 @@ const attribution =
         d.grade && (
           <div>
             <dt>学年</dt>
-            <dd>{d.grade}</dd>
+            <dd>
+              {GRADE_IDS.filter((g) => matchesGrade(d.grade, g)).length > 0
+                ? GRADE_IDS.filter((g) => matchesGrade(d.grade, g)).map((g, i) => (
+                    <>
+                      {i > 0 && '、'}
+                      <a href={url(`/grades/${g}/`)}>{GRADES[g].short}</a>
+                    </>
+                  ))
+                : d.grade}
+            </dd>
           </div>
         )
       }

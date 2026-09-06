@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import Chips from '../../components/Chips.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips, type Tip } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { GRADE_IDS, GRADES, matchesGrade, isUnspecified, type GradeId } from '../../lib/grades';
+import { DOMAIN_IDS, DOMAINS } from '../../lib/vocab';
+
+export async function getStaticPaths() {
+  const tips = await loadTips();
+  return GRADE_IDS.map((grade) => ({
+    params: { grade },
+    props: {
+      grade,
+      exact: tips.filter((t) => matchesGrade(t.data.grade, grade)),
+      loose: tips.filter((t) => isUnspecified(t.data.grade, t.data.school, grade)),
+    },
+  }));
+}
+
+interface Props {
+  grade: GradeId;
+  exact: Tip[];
+  loose: Tip[];
+}
+
+const { grade, exact, loose } = Astro.props;
+const meta = GRADES[grade];
+const all = await loadTips();
+
+const gradeItems = GRADE_IDS.map((id) => ({
+  href: `/grades/${id}/`,
+  label: GRADES[id].short,
+  count: all.filter((t) => matchesGrade(t.data.grade, id)).length,
+  current: id === grade,
+}));
+
+// この学年の中で、どの領域に事例があるか
+const domainItems = DOMAIN_IDS.map((id) => ({
+  href: `/domains/${id}/`,
+  label: DOMAINS[id].short,
+  count: exact.filter((t) => (t.data.domains as readonly string[]).includes(id)).length,
+})).filter((i) => i.count > 0);
+---
+
+<Base title={meta.label} description={`${meta.label}の国語で使えるICT活用事例。`}>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　学年から探す</p>
+  <h1>{meta.label}の国語</h1>
+  <p class="lede">学年が分かっている事例 {exact.length}件</p>
+
+  <section class="section" aria-labelledby="h-grade">
+    <h2 id="h-grade">学年</h2>
+    <Chips items={gradeItems} label="学年から探す" />
+  </section>
+
+  {
+    domainItems.length > 0 && (
+      <section class="section" aria-labelledby="h-domain">
+        <h2 id="h-domain">この学年にある領域</h2>
+        <Chips items={domainItems} label="領域から探す" />
+      </section>
+    )
+  }
+
+  {
+    exact.length > 0 ? (
+      <TipList tips={exact} id="grade-list" />
+    ) : (
+      <p class="empty">この学年に絞れる事例はまだありません。下の「学年の指定がない事例」を見てください。</p>
+    )
+  }
+
+  {
+    loose.length > 0 && (
+      <section class="section" aria-labelledby="h-loose">
+        <h2 id="h-loose">学年の指定がない事例</h2>
+        <p class="lede">
+          出典が学年を特定していないもの。{meta.school === 'elementary' ? '小学校' : '中学校'}で使える前提のものを並べています。
+        </p>
+        <TipList tips={loose} id="loose-list" />
+      </section>
+    )
+  }
+</Base>
