@@ -283,6 +283,15 @@ main { display: block; padding-bottom: 3.5rem; }
 }
 .notice p:last-child { margin-bottom: 0; }
 
+.feedback {
+  margin: 2rem 0 0;
+  padding: 1.15rem;
+  background: var(--paper-sunk);
+  border-radius: var(--radius);
+}
+.feedback-label { font-weight: 700; margin: 0 0 0.7rem; }
+.feedback-note { font-size: 0.75rem; color: var(--ink-mute); margin: 0.7rem 0 0; }
+
 .attribution {
   font-size: 0.75rem;
   color: var(--ink-mute);

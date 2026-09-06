@@ -499,7 +499,7 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
 | 2 | Pagefind検索、scenes / domains / tools / school の絞り込み、`/updates/` |
 | 3 | `license-check.ts` と `discover.ts`。まず都道府県10件で試し、`sources.yml` を育てる |
 | 4 | `collect.ts` と週次ワークフロー、linkcheck。seed 10件の要約を作り直す（要約生成の経路は未実行） |
-| 5 | 「役に立った」ボタン、Cookieレスのアクセス解析、学習指導要領コードの付与（**済**。領域の単位まで）、他教科への拡張 |
+| 5 | 「役に立った」ボタン（**済**。受け口のURLは未設定）、Cookieレスのアクセス解析、学習指導要領コードの付与（**済**。領域の単位まで）、他教科への拡張 |
 
 ~~フェーズ1を作ったら、国語の教員数名に見せて構成を見直す。~~
 **運営者の判断により、教員に見せる工程は行わない（2026-09-06）。** 構成の見直しは
@@ -521,5 +521,6 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
   つまり S2 は当面すべて `link-only` として扱う前提で設計する。本文の引用はできない
 - PDFからのテキスト抽出は pypdf で可能なことを確認した（2026-09-06、文科省の20ページPDFで検証）
 - 独自ドメインを取るか、`github.io` のままか
-- 「役に立った」の集計方法（Microsoft Forms で足りるか）
+- 「役に立った」の受け口をどこにするか。ボタンとリンクの組み立ては実装済みで、
+  `src/lib/site.ts` の `FEEDBACK.urlTemplate` にURLを書けば出る。フォームは未作成
 - 全国から集めると佐倉市で使えないツールの事例も入る。除外するか、注記して載せるか
