@@ -1,0 +1,51 @@
+---
+import Base from '../../layouts/Base.astro';
+import Chips from '../../components/Chips.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips, type Tip } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { SCENE_IDS, SCENES, type SceneId } from '../../lib/vocab';
+
+export async function getStaticPaths() {
+  const tips = await loadTips();
+  return SCENE_IDS.map((scene) => ({
+    params: { scene },
+    props: { scene, tips: tips.filter((t) => (t.data.scenes as readonly string[]).includes(scene)) },
+  }));
+}
+
+interface Props {
+  scene: SceneId;
+  tips: Tip[];
+}
+
+const { scene, tips } = Astro.props;
+const meta = SCENES[scene];
+const all = await loadTips();
+
+const items = SCENE_IDS.map((id) => ({
+  href: `/scenes/${id}/`,
+  label: SCENES[id].label,
+  count: all.filter((t) => (t.data.scenes as readonly string[]).includes(id)).length,
+  current: id === scene,
+})).filter((i) => i.count > 0 || i.current);
+---
+
+<Base title={`${meta.label}の場面`} description={`${meta.label}（${meta.hint}）で使える国語のICT活用事例。`}>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　場面から探す</p>
+  <h1>{meta.label}</h1>
+  <p class="lede">{meta.hint}　{tips.length}件</p>
+
+  <section class="section" aria-labelledby="h-scenes">
+    <h2 id="h-scenes">ほかの場面</h2>
+    <Chips items={items} label="場面から探す" />
+  </section>
+
+  {
+    tips.length > 0 ? (
+      <TipList tips={tips} />
+    ) : (
+      <p class="empty">この場面の事例はまだありません。</p>
+    )
+  }
+</Base>

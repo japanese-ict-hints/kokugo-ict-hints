@@ -1,0 +1,72 @@
+---
+import Base from '../../layouts/Base.astro';
+import { loadTips } from '../../lib/tips';
+import { url, formatDate } from '../../lib/site';
+import { LICENSES } from '../../lib/vocab';
+
+const tips = await loadTips();
+
+type Row = { region: string; count: number; publishers: Set<string>; licenses: Set<string> };
+const map = new Map<string, Row>();
+for (const t of tips) {
+  const r = t.data.source.region;
+  const row = map.get(r) ?? { region: r, count: 0, publishers: new Set(), licenses: new Set() };
+  row.count += 1;
+  row.publishers.add(t.data.source.publisher);
+  row.licenses.add(t.data.source.license);
+  map.set(r, row);
+}
+// 「国」を先に、あとは件数順
+const rows = [...map.values()].sort(
+  (a, b) => (b.region === '国' ? 1 : 0) - (a.region === '国' ? 1 : 0) || b.count - a.count,
+);
+---
+
+<Base
+  title="収集源"
+  description="どの発行元から何件の事例を集めているかの一覧。"
+>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　収集源</p>
+  <h1>収集源</h1>
+  <p class="lede">いまは全 {tips.length} 件です。都道府県の教育センターからの収集はまだ始めていないため、国と民間に偏っています。</p>
+
+  <div class="table-scroll">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">区分</th>
+          <th scope="col">発行元</th>
+          <th scope="col" class="num">件数</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((row) => (
+            <tr>
+              <th scope="row">{row.region}</th>
+              <td>{[...row.publishers].join('／')}</td>
+              <td class="num">{row.count}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <section class="section" aria-labelledby="h-license">
+    <h2 id="h-license">本文の扱い</h2>
+    <dl class="meta-table">
+      {
+        Object.entries(LICENSES).map(([key, label]) => (
+          <div>
+            <dt>{key}</dt>
+            <dd>{label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+    <p>判定できない収集源は link-only として扱い、本文を引用せずリンクと自作の要約だけを載せています。外部サイトの画像は、どの区分であっても配信しません。</p>
+  </section>
+
+  <p class="lede">最終更新 {formatDate(tips[0]?.data.added ?? null)}</p>
+</Base>

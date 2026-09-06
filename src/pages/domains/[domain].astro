@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Chips from '../../components/Chips.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips, type Tip } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { DOMAIN_IDS, DOMAINS, type DomainId } from '../../lib/vocab';
+
+export async function getStaticPaths() {
+  const tips = await loadTips();
+  return DOMAIN_IDS.map((domain) => ({
+    params: { domain },
+    props: {
+      domain,
+      tips: tips.filter((t) => (t.data.domains as readonly string[]).includes(domain)),
+    },
+  }));
+}
+
+interface Props {
+  domain: DomainId;
+  tips: Tip[];
+}
+
+const { domain, tips } = Astro.props;
+const meta = DOMAINS[domain];
+const all = await loadTips();
+
+const items = DOMAIN_IDS.map((id) => ({
+  href: `/domains/${id}/`,
+  label: DOMAINS[id].short,
+  count: all.filter((t) => (t.data.domains as readonly string[]).includes(id)).length,
+  current: id === domain,
+})).filter((i) => i.count > 0 || i.current);
+---
+
+<Base title={meta.label} description={`国語の「${meta.label}」で使えるICT活用事例。`}>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　領域から探す</p>
+  <h1 style={`border-left: 3px solid ${meta.color}; padding-left: 0.6rem;`}>{meta.label}</h1>
+  <p class="lede">{tips.length}件</p>
+
+  <section class="section" aria-labelledby="h-domains">
+    <h2 id="h-domains">ほかの領域</h2>
+    <Chips items={items} label="領域から探す" />
+  </section>
+
+  {
+    tips.length > 0 ? (
+      <TipList tips={tips} />
+    ) : (
+      <p class="empty">この領域の事例はまだありません。</p>
+    )
+  }
+</Base>

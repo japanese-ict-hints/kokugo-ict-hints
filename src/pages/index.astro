@@ -1,0 +1,114 @@
+---
+import Base from '../layouts/Base.astro';
+import Chips from '../components/Chips.astro';
+import TipList from '../components/TipList.astro';
+import { loadTips, lastUpdated } from '../lib/tips';
+import { SITE, formatDate, url } from '../lib/site';
+import { DOMAIN_IDS, DOMAINS, SCENE_IDS, SCENES, SCHOOL_IDS, SCHOOLS } from '../lib/vocab';
+
+const tips = await loadTips();
+const updated = lastUpdated(tips);
+
+const countBy = (key: 'domains' | 'scenes' | 'school', id: string) =>
+  tips.filter((t) => (t.data[key] as readonly string[]).includes(id)).length;
+
+const schoolItems = SCHOOL_IDS.map((id) => ({
+  href: `/school/${id}/`,
+  label: SCHOOLS[id],
+  count: countBy('school', id),
+}));
+
+// 件数が0の入口は出さない。空振りさせない。
+const sceneItems = SCENE_IDS.map((id) => ({
+  href: `/scenes/${id}/`,
+  label: SCENES[id].label,
+  count: countBy('scenes', id),
+})).filter((i) => i.count > 0);
+
+const domainItems = DOMAIN_IDS.map((id) => ({
+  href: `/domains/${id}/`,
+  label: DOMAINS[id].short,
+  count: countBy('domains', id),
+})).filter((i) => i.count > 0);
+---
+
+<Base home={true}>
+  <h1 class="home-title">{SITE.title}</h1>
+  <p class="home-tagline">{SITE.tagline}　小中学校の国語で使えるICT活用事例を集めています</p>
+
+  <div class="search" hidden id="search-box">
+    <label for="q">やりたいことを入力</label>
+    <input
+      type="search"
+      id="q"
+      autocomplete="off"
+      placeholder="話し合い、推敲、音声入力…"
+      aria-describedby="search-status"
+    />
+    <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <section class="section" aria-labelledby="h-school">
+    <h2 id="h-school">校種から探す</h2>
+    <Chips items={schoolItems} label="校種から探す" lead={true} />
+  </section>
+
+  <section class="section" aria-labelledby="h-scene">
+    <h2 id="h-scene">場面から探す</h2>
+    <Chips items={sceneItems} label="場面から探す" />
+  </section>
+
+  <section class="section" aria-labelledby="h-domain">
+    <h2 id="h-domain">領域から探す</h2>
+    <Chips items={domainItems} label="領域から探す" />
+  </section>
+
+  <section class="section" aria-labelledby="h-list">
+    <h2 id="h-list">事例一覧　{tips.length}件</h2>
+    <TipList tips={tips} searchable={true} id="tip-list" />
+    <p class="empty" id="no-hit" hidden>あてはまる事例がありません。言葉を短くするか、上の場面・領域から探してください。</p>
+  </section>
+
+  <p class="lede">最終更新 {formatDate(updated)}　<a href={url('/updates/')}>更新履歴</a></p>
+</Base>
+
+<script is:inline>
+  // フェーズ1の暫定検索。10件を絞るだけの素のフィルタで、フェーズ2で Pagefind に置き換える。
+  // JS が無い環境では入力欄自体を出さず、一覧はそのまま全件読める。
+  (function () {
+    var box = document.getElementById('search-box');
+    var input = document.getElementById('q');
+    var list = document.getElementById('tip-list');
+    var status = document.getElementById('search-status');
+    var empty = document.getElementById('no-hit');
+    if (!box || !input || !list || !status || !empty) return;
+    box.hidden = false;
+
+    var rows = Array.prototype.slice.call(list.children);
+    var indexed = rows.map(function (row) {
+      return ((row.getAttribute('data-index') || '') + ' ' + (row.textContent || '')).toLowerCase();
+    });
+
+    var timer = 0;
+    function apply() {
+      var q = input.value.trim().toLowerCase();
+      var terms = q ? q.split(/\s+/) : [];
+      var hit = 0;
+      rows.forEach(function (row, i) {
+        var text = indexed[i];
+        var match = terms.every(function (t) {
+          return text.indexOf(t) !== -1;
+        });
+        row.hidden = !match;
+        if (match) hit++;
+      });
+      empty.hidden = hit !== 0;
+      status.textContent = terms.length === 0 ? '' : hit + '件';
+    }
+
+    input.addEventListener('input', function () {
+      window.clearTimeout(timer);
+      timer = window.setTimeout(apply, 120);
+    });
+  })();
+</script>

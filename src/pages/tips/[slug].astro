@@ -1,0 +1,169 @@
+---
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips, relatedTips, type Tip } from '../../lib/tips';
+import { url, formatDate } from '../../lib/site';
+import {
+  DOMAINS,
+  SCENES,
+  SCHOOLS,
+  TOOLS,
+  SUBJECTS,
+  EFFORTS,
+  LICENSES,
+  domainColor,
+} from '../../lib/vocab';
+
+export async function getStaticPaths() {
+  const tips = await loadTips();
+  return tips.map((tip) => ({ params: { slug: tip.id }, props: { tip } }));
+}
+
+interface Props {
+  tip: Tip;
+}
+
+const { tip } = Astro.props;
+const d = tip.data;
+const all = await loadTips();
+const related = relatedTips(tip, all);
+const { Content } = await render(tip);
+
+const effort = EFFORTS[d.effort]!;
+const color = domainColor(d.domains);
+
+// gov-open で本文を翻案した場合の出典表記（CLAUDE.md §7.4）。
+const attribution =
+  d.source.license === 'gov-open'
+    ? `出典：「${d.source.publisher}」（${d.source.url}）（${formatDate(d.source.retrieved)}に利用）を加工して作成`
+    : null;
+---
+
+<Base title={d.title} description={d.summary}>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　事例</p>
+
+  <article>
+    <header class="tip-header" style={`border-left-color: ${color}`}>
+      <h1>{d.title}</h1>
+      <p class="tip-meta">
+        <span>{d.school.map((s) => SCHOOLS[s]).join('・')}</span>
+        <span class="sep" aria-hidden="true">/</span>
+        <span>{d.subjects.map((s) => SUBJECTS[s]).join('・')}</span>
+        <span class="sep" aria-hidden="true">/</span>
+        <span>準備 {effort.stars} {effort.label}</span>
+        {d.source.verified === 'listed' && <span class="flag">本文未確認</span>}
+        {d.status === 'draft' && <span class="flag">下書き</span>}
+      </p>
+    </header>
+
+    <p class="prose">{d.summary}</p>
+
+    {
+      d.source.verified === 'listed' && (
+        <aside class="notice">
+          <p>この事例は、出典ページの見出しと抜粋だけを見て書いています。本文をまだ確認していないため、細部が実際と異なる場合があります。使う前に出典を開いて確かめてください。</p>
+        </aside>
+      )
+    }
+
+    <p><a class="button" href={d.source.url} rel="noopener nofollow" target="_blank">出典を開く（外部サイト）</a></p>
+    <p class="button-note">{d.source.publisher}　{d.source.url}</p>
+
+    <h2 class="h-sub">この事例の見どころ</h2>
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      d.note && (
+        <aside class="notice">
+          <p>{d.note}</p>
+        </aside>
+      )
+    }
+
+    <h2 class="h-sub">この事例の情報</h2>
+    <dl class="meta-table">
+      <div>
+        <dt>出典</dt>
+        <dd>{d.source.publisher}（{d.source.region}）</dd>
+      </div>
+      {
+        d.source.published && (
+          <div>
+            <dt>公開日</dt>
+            <dd>{formatDate(d.source.published)}</dd>
+          </div>
+        )
+      }
+      <div>
+        <dt>取得日</dt>
+        <dd>{formatDate(d.source.retrieved)}</dd>
+      </div>
+      <div>
+        <dt>扱い</dt>
+        <dd>{LICENSES[d.source.license]}</dd>
+      </div>
+      {
+        d.grade && (
+          <div>
+            <dt>学年</dt>
+            <dd>{d.grade}</dd>
+          </div>
+        )
+      }
+      {
+        d.domains.length > 0 && (
+          <div>
+            <dt>領域</dt>
+            <dd>
+              {d.domains.map((id, i) => (<>{i > 0 && '、'}<a href={url(`/domains/${id}/`)}>{DOMAINS[id].label}</a></>))}
+            </dd>
+          </div>
+        )
+      }
+      {
+        d.scenes.length > 0 && (
+          <div>
+            <dt>場面</dt>
+            <dd>
+              {d.scenes.map((id, i) => (<>{i > 0 && '、'}<a href={url(`/scenes/${id}/`)}>{SCENES[id].label}</a></>))}
+            </dd>
+          </div>
+        )
+      }
+      {
+        d.tools.length > 0 && (
+          <div>
+            <dt>ツール</dt>
+            <dd>
+              {d.tools.map((id, i) => (<>{i > 0 && '、'}<a href={url(`/tools/${id}/`)}>{TOOLS[id]}</a></>))}
+            </dd>
+          </div>
+        )
+      }
+      <div>
+        <dt>校種</dt>
+        <dd>
+          {d.school.map((id, i) => (<>{i > 0 && '、'}<a href={url(`/school/${id}/`)}>{SCHOOLS[id]}</a></>))}
+        </dd>
+      </div>
+      <div>
+        <dt>掲載日</dt>
+        <dd>{formatDate(d.added)}</dd>
+      </div>
+    </dl>
+
+    {attribution && <p class="attribution">{attribution}</p>}
+  </article>
+
+  {
+    related.length > 0 && (
+      <section class="section" aria-labelledby="h-related">
+        <h2 id="h-related">近い事例</h2>
+        <TipList tips={related} id="related-list" />
+      </section>
+    )
+  }
+</Base>

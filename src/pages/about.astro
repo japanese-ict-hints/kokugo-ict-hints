@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, url } from '../lib/site';
+---
+
+<Base title="このサイトについて" description={SITE.description}>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　このサイトについて</p>
+  <h1>このサイトについて</h1>
+
+  <section class="section" aria-labelledby="h-what">
+    <h2 id="h-what">何のためのサイトか</h2>
+    <div class="prose">
+      <p>小中学校の国語の授業で使えるICT活用の事例を、公的機関と事業者が公開している情報から集めて、探しやすい形に並べています。読んだあとは出典のページへ移ってもらうことを想定していて、このサイトの中で完結させるつもりはありません。</p>
+      <p>当面は国語だけを扱います。ほかの教科は、国語での出来栄えを見てから考えます。</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-unofficial">
+    <h2 id="h-unofficial">運営</h2>
+    <div class="prose">
+      <p>{SITE.disclaimer}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-copyright">
+    <h2 id="h-copyright">引用と著作権の扱い</h2>
+    <div class="prose">
+      <p>収集元ごとに本文の扱いを判定し、記録しています。出典明示を条件に複製や翻案が認められているものだけ、出典表記を添えて内容を要約・翻案しています。判定できないものはリンクと自作の要約だけにとどめ、本文の引用はしません。</p>
+      <p>区分ごとの扱いは<a href={url('/regions/')}>収集源のページ</a>にまとめています。外部サイトの画像・写真・図版は、どの区分であっても一切配信していません。児童生徒や教職員が特定できる情報も載せません。</p>
+      <p>掲載内容について、権利者の方から削除や訂正のご依頼があれば速やかに対応します。</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-collect">
+    <h2 id="h-collect">集め方</h2>
+    <div class="prose">
+      <p>いまは手作業で集めています。今後は自動収集に切り替えますが、公開はどちらの場合も人が確認してから行います。自動収集では robots.txt を尊重し、同じサイトへの取得間隔をあけ、1回の実行で取得するページ数にも上限を設けます。</p>
+      <p>「本文未確認」と表示している事例は、出典ページの見出しと抜粋だけを見て書いたものです。本文を読んで確認したものと区別できるようにしています。</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="h-contact">
+    <h2 id="h-contact">連絡先</h2>
+    <div class="prose">
+      <p>準備中です。</p>
+    </div>
+  </section>
+</Base>

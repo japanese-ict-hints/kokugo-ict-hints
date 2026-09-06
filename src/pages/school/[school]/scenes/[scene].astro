@@ -1,0 +1,78 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import Chips from '../../../../components/Chips.astro';
+import TipList from '../../../../components/TipList.astro';
+import { loadTips, type Tip } from '../../../../lib/tips';
+import { url } from '../../../../lib/site';
+import { SCHOOL_IDS, SCHOOLS, SCENE_IDS, SCENES, type SchoolId, type SceneId } from '../../../../lib/vocab';
+
+// 校種で絞ったうえで場面を選べるようにする。トップ→校種→場面の3タップで候補に着く。
+export async function getStaticPaths() {
+  const tips = await loadTips();
+  return SCHOOL_IDS.flatMap((school) => {
+    const ofSchool = tips.filter((t) => (t.data.school as readonly string[]).includes(school));
+    return SCENE_IDS.map((scene) => ({
+      params: { school, scene },
+      props: {
+        school,
+        scene,
+        ofSchool,
+        tips: ofSchool.filter((t) => (t.data.scenes as readonly string[]).includes(scene)),
+      },
+    }));
+  });
+}
+
+interface Props {
+  school: SchoolId;
+  scene: SceneId;
+  ofSchool: Tip[];
+  tips: Tip[];
+}
+
+const { school, scene, ofSchool, tips } = Astro.props;
+const meta = SCENES[scene];
+
+const sceneItems = SCENE_IDS.map((id) => ({
+  href: `/school/${school}/scenes/${id}/`,
+  label: SCENES[id].label,
+  count: ofSchool.filter((t) => (t.data.scenes as readonly string[]).includes(id)).length,
+  current: id === scene,
+})).filter((i) => i.count > 0 || i.current);
+
+const schoolItems = SCHOOL_IDS.map((id) => ({
+  href: `/school/${id}/scenes/${scene}/`,
+  label: SCHOOLS[id],
+  count: 0,
+  current: id === school,
+})).map(({ count: _count, ...rest }) => rest);
+---
+
+<Base
+  title={`${SCHOOLS[school]}　${meta.label}の場面`}
+  description={`${SCHOOLS[school]}の国語で、${meta.label}（${meta.hint}）に使えるICT活用事例。`}
+>
+  <p class="breadcrumb">
+    <a href={url('/')}>トップ</a>　<a href={url(`/school/${school}/`)}>{SCHOOLS[school]}</a>　{meta.label}
+  </p>
+  <h1>{SCHOOLS[school]}の国語　{meta.label}</h1>
+  <p class="lede">{meta.hint}　{tips.length}件</p>
+
+  <section class="section" aria-labelledby="h-school">
+    <h2 id="h-school">校種</h2>
+    <Chips items={schoolItems} label="校種を変える" lead={true} />
+  </section>
+
+  <section class="section" aria-labelledby="h-scene">
+    <h2 id="h-scene">場面</h2>
+    <Chips items={sceneItems} label="場面から探す" />
+  </section>
+
+  {
+    tips.length > 0 ? (
+      <TipList tips={tips} />
+    ) : (
+      <p class="empty">この組み合わせの事例はまだありません。上の場面を選び直してください。</p>
+    )
+  }
+</Base>

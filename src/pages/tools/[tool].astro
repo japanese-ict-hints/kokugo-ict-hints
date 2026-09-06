@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import Chips from '../../components/Chips.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips, type Tip } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { TOOL_IDS, TOOLS, type ToolId } from '../../lib/vocab';
+
+export async function getStaticPaths() {
+  const tips = await loadTips();
+  return TOOL_IDS.map((tool) => ({
+    params: { tool },
+    props: { tool, tips: tips.filter((t) => (t.data.tools as readonly string[]).includes(tool)) },
+  }));
+}
+
+interface Props {
+  tool: ToolId;
+  tips: Tip[];
+}
+
+const { tool, tips } = Astro.props;
+const all = await loadTips();
+
+const items = TOOL_IDS.map((id) => ({
+  href: `/tools/${id}/`,
+  label: TOOLS[id],
+  count: all.filter((t) => (t.data.tools as readonly string[]).includes(id)).length,
+  current: id === tool,
+})).filter((i) => i.count > 0 || i.current);
+---
+
+<Base title={TOOLS[tool]} description={`${TOOLS[tool]}を使う、小中学校の国語のICT活用事例。`}>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　ツールから探す</p>
+  <h1>{TOOLS[tool]}</h1>
+  <p class="lede">{tips.length}件　所属校で使えるかどうかは、必ず最新の規程を確認してください。</p>
+
+  <section class="section" aria-labelledby="h-tools">
+    <h2 id="h-tools">ほかのツール</h2>
+    <Chips items={items} label="ツールから探す" />
+  </section>
+
+  {
+    tips.length > 0 ? (
+      <TipList tips={tips} />
+    ) : (
+      <p class="empty">このツールの事例はまだありません。</p>
+    )
+  }
+</Base>

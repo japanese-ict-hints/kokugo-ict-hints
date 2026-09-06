@@ -1,0 +1,67 @@
+# 収集源の台帳（CLAUDE.md §3.3）。
+#
+# ルール:
+#  - 訪問していないURLは書かない（§2.3）。一覧ページから辿って実在を確認したものだけ。
+#  - license は収集元ごとに判定する。判定できなければ link-only（§2.1）。
+#  - license_checked が180日を超えたら判定をやり直す。
+#
+# 現状: フェーズ1。収集スクリプトは未実装で、この台帳はまだ人手で書いている。
+#       都道府県の教育センター（S2）はこれから discover.ts で追加する。
+
+sources:
+  - id: mext-studx
+    name: StuDX Style（文部科学省）
+    host: www.mext.go.jp
+    entry: https://www.mext.go.jp/studxstyle/index2.html
+    type: index
+    license: gov-open
+    license_basis: https://www.mext.go.jp/b_menu/1351168.htm
+    license_checked: 2026-09-05
+    group: A
+    status: active
+    note: 文部科学省ウェブサイト利用規約は出典記載を条件に複製・公衆送信・翻案を認め、CC BY 4.0 と互換。
+
+  - id: benesse-miraiseed
+    name: ミライシード ファンサイト（ベネッセ）
+    host: bso.benesse.ne.jp
+    entry: https://bso.benesse.ne.jp/miraiseed/fansite/usecase/index.html
+    type: index
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-05
+    group: C
+    status: active
+
+  - id: canva-learn
+    name: Canva 学習教材テンプレート
+    host: www.canva.com
+    entry: https://www.canva.com/ja_jp/learn-grid/
+    type: page
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-05
+    group: D
+    status: active
+    note: 一覧としての更新頻度は未確認。事例1件の出典として登録しているだけ。
+
+  # EdTechZine（翔泳社）— 記事1件（https://edtechzine.jp/article/detail/8632）を出典に使っているが、
+  # 国語の実践記事だけを辿れる一覧ページを未確認のため entry を書けない。手作業で探してから追加する。
+
+# 収集源の発見に使う起点（CLAUDE.md §3.2）。いずれも 2026-09-05 時点で実在を確認済み。
+discovery:
+  - name: 全国教育研究所連盟（教育研究機関リンク集）
+    url: https://schit.net/zenkyou/
+  - name: 全国都道府県教育委員会連合会 リンク
+    url: http://www.kyoi-ren.gr.jp/link/
+  - name: 文部科学省 都道府県・政令市教育委員会リンク
+    url: https://www.mext.go.jp/b_menu/link/1294885.htm
+  - name: 国立特別支援教育総合研究所 センター一覧
+    url: https://www.nise.go.jp/nc/about_nise/link/center
+  - name: 文部科学省 教育データ標準（教育委員会コード一覧）
+    url: https://www.mext.go.jp/a_menu/other/data_00001.htm
+
+denylist:
+  - reason: 会員登録が必要
+    hosts: []
+  - reason: 無断転載禁止の明記あり
+    hosts: []
