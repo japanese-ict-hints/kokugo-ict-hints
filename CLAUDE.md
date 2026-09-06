@@ -499,7 +499,7 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
 | 2 | Pagefind検索、scenes / domains / tools / school の絞り込み、`/updates/` |
 | 3 | `license-check.ts` と `discover.ts`。まず都道府県10件で試し、`sources.yml` を育てる |
 | 4 | `collect.ts` と週次ワークフロー、linkcheck。seed 10件の要約を作り直す（要約生成の経路は未実行） |
-| 5 | 「役に立った」ボタン（**済**。数を出す受け口は scripts/helpful-worker/ に用意、未設置）、Cookieレスのアクセス解析、学習指導要領コードの付与（**済**。領域の単位まで）、他教科への拡張 |
+| 5 | 「役に立った」ボタン（**済**。数の受け口も稼働）、Cookieレスのアクセス解析、学習指導要領コードの付与（**済**。領域の単位まで）、他教科への拡張 |
 
 ~~フェーズ1を作ったら、国語の教員数名に見せて構成を見直す。~~
 **運営者の判断により、教員に見せる工程は行わない（2026-09-06）。** 構成の見直しは
@@ -521,7 +521,6 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
   つまり S2 は当面すべて `link-only` として扱う前提で設計する。本文の引用はできない
 - PDFからのテキスト抽出は pypdf で可能なことを確認した（2026-09-06、文科省の20ページPDFで検証）
 - 独自ドメインを取るか、`github.io` のままか
-- 「役に立った」の数を出すかどうか。ボタンは実装済み。数を出すには受け口が要り、
-  `scripts/helpful-worker/`（Cloudflare Workers + KV）を置いて `HELPFUL.countUrl` に
-  URLを書く。**受け口を置く＝経路に第三者が1つ増える**ので、そこは運営者の判断
+- ~~「役に立った」の数を出すかどうか~~ → 2026-09-06 に受け口（Cloudflare Workers + KV）を
+  置いて稼働。経路に Cloudflare が入ることは `/privacy` に明記した
 - 全国から集めると佐倉市で使えないツールの事例も入る。除外するか、注記して載せるか

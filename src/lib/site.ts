@@ -19,7 +19,7 @@ export const SITE = {
  * 送るのは事例の識別子だけで、閲覧者を識別する情報は送らない。
  */
 export const HELPFUL = {
-  countUrl: '',
+  countUrl: 'https://kokugo-helpful.japanese-ict-hints.workers.dev',
   label: 'この事例は役に立ちましたか',
   button: '役に立った',
   thanks: 'ありがとうございました',

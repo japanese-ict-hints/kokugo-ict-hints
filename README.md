@@ -128,11 +128,15 @@ npm run curriculum   # 文科省のコード表を取り込み src/lib/curriculu
 - **「役に立った」ボタン** — 実装済み。「この事例の情報」の下に置いてある。
   押すと押済みの表示に変わり、記録が端末に残る。JSが無い環境ではボタンを出さない。
 
-  **押された数を出すには受け口が要る。** 静的サイトなので数を自分では持てない。
-  `scripts/helpful-worker/` に、そのまま置ける Cloudflare Worker を入れてある（無料の範囲）。
-  置いたら `src/lib/site.ts` の `HELPFUL.countUrl` にURLを書く。書くと、ページを開いたときに
-  現在の数を取りに行き、押したときに1つ増やして数を出す。書かないあいだは数を出さず、
-  外部へも何も送らない。手順は `scripts/helpful-worker/README.md`
+  **数を数える受け口は稼働中**（2026-09-06〜）。
+  `https://kokugo-helpful.japanese-ict-hints.workers.dev`（Cloudflare Workers + KV）。
+  中身は `scripts/helpful-worker/`。設定は `src/lib/site.ts` の `HELPFUL.countUrl`。
+  空にすれば数の表示も送信も止まる。数の確認や消去は wrangler から行う。
+
+  ```bash
+  npx wrangler kv key list --namespace-id 00858680edec449480f058b1d9876634 --remote
+  npx wrangler kv key get --namespace-id 00858680edec449480f058b1d9876634 --remote <slug>
+  ```
 - **Cookieレスのアクセス解析** — 外部サービスを入れると `/privacy/` の記述を
   書き換えることになる。どこまで許容するかは運営者の判断
 - **他教科への拡張** — CLAUDE.md §1 が「国語での出来栄えを見てから」としている。
