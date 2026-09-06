@@ -20,6 +20,7 @@
     "@anthropic-ai/sdk": "^0.124.0",
     "pagefind": "^1.5.2",
     "pdfjs-dist": "^6.3.289",
+    "wrangler": "^4.129.0",
     "yaml": "^2.9.0",
     "zod": "^3.25.76"
   }
