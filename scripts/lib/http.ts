@@ -195,8 +195,8 @@ export async function politeFetch(url: string): Promise<FetchResult> {
 
     // RSS/RDF を octet-stream で返すサーバーがあるので、拡張子でも判断する
     const type = res.headers.get('content-type') ?? '';
-    const looksFeed = /\.(rdf|xml|rss|atom)$/i.test(new URL(res.url).pathname);
-    if (!/text\/html|text\/plain|xml|json/i.test(type) && !looksFeed) {
+    const looksFeed = /\.(rdf|xml|rss|atom|csv)$/i.test(new URL(res.url).pathname);
+    if (!/text\/html|text\/plain|text\/csv|xml|json/i.test(type) && !looksFeed) {
       return { ok: false, reason: `扱わない種類 ${type}`, url };
     }
     const body = await decode(res);

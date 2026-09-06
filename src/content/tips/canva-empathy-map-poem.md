@@ -16,7 +16,7 @@ domains: [write]
 scenes: [intro, individual]
 effort: 2
 grade: "小3"
-curriculum: []
+curriculum: ["82102C3220000000"]
 status: archived
 added: 2026-09-05
 note: "出典のEdTechZineは2026年5月13日でサービスを終了し、記事本文は失われた。URLは応答するが終了告知が返るだけで、内容を確認できず、読者を送り出す先としても成立しないため archived にした。"

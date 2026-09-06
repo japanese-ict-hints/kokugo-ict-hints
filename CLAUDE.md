@@ -189,7 +189,7 @@ scenes: [share, reflect]          # §4.2
 effort: 1                         # 1=5分以内 2=事前準備30分 3=単元設計が必要
 grade: null                       # 明記があれば "小5" 等。推測しない
 howto: []                         # 使い方。1行60字以内、6行まで。§7.4
-curriculum: []                    # 学習指導要領コード。フェーズ4
+curriculum: []                    # 学習指導要領コード（文字列）。scripts/curriculum.ts の表にある値のみ
 status: draft                     # draft / published / archived
 added: 2026-09-05
 note: ""                          # 原典が教科や学年を特定していない等の但し書き
@@ -488,7 +488,7 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
 | 2 | Pagefind検索、scenes / domains / tools / school の絞り込み、`/updates/` |
 | 3 | `license-check.ts` と `discover.ts`。まず都道府県10件で試し、`sources.yml` を育てる |
 | 4 | `collect.ts` と週次ワークフロー、linkcheck。seed 10件の要約を作り直す（要約生成の経路は未実行） |
-| 5 | 「役に立った」ボタン、Cookieレスのアクセス解析、学習指導要領コードの付与、他教科への拡張 |
+| 5 | 「役に立った」ボタン、Cookieレスのアクセス解析、学習指導要領コードの付与（**済**。領域の単位まで）、他教科への拡張 |
 
 フェーズ1を作ったら、国語の教員数名に見せて構成を見直す。フェーズ3以降を先に作らない。
 **フェーズ3は都道府県10件で一度止めて、集まった事例の質を確認してから全国に広げる。**

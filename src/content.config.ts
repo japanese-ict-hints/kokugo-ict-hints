@@ -7,6 +7,7 @@ import {
   SUBJECT_IDS,
   TOOL_IDS,
 } from './lib/vocab';
+import { CURRICULUM_CODES } from './lib/curriculum';
 
 // YAML は素の日付を Date で返すが、引用符つきで書かれても壊れないようにしておく。
 const toDate = (v: unknown) => (v instanceof Date ? v : new Date(String(v)));
@@ -43,7 +44,12 @@ const tips = defineCollection({
     grade: z.string().nullable().default(null),
     // 自作の手順。出典の表現をなぞらず、事実としての流れだけを書く（CLAUDE.md §7.4）
     howto: z.array(z.string().max(60, { message: 'howto の各行は60字以内' })).max(6).default([]),
-    curriculum: z.array(z.string()).default([]),
+    curriculum: z
+      .array(z.string())
+      .default([])
+      .refine((codes) => codes.every((c) => CURRICULUM_CODES.includes(c)), {
+        message: '学習指導要領コードが表にない。scripts/curriculum.ts で作った一覧から選ぶ',
+      }),
     status: z.enum(['draft', 'published', 'archived']).default('draft'),
     added: requiredDate,
     note: z.string().default(''),

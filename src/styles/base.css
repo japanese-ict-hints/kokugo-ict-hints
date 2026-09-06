@@ -214,6 +214,7 @@ main { display: block; padding-bottom: 3.5rem; }
 }
 .meta-table dt { flex: 0 0 5.5em; color: var(--ink-mute); margin: 0; font-size: 0.8125rem; }
 .meta-table dd { margin: 0; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.meta-table .code-note { display: block; font-size: 0.75rem; color: var(--ink-mute); }
 
 .scene-flow { margin: 0 0 1.5rem; }
 .scene-flow-extra { font-size: 0.8125rem; color: var(--ink-mute); margin: 0.5rem 0 0; }

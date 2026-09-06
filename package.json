@@ -10,7 +10,8 @@
     "discover": "node scripts/discover.ts",
     "license-check": "node scripts/license-check.ts",
     "collect": "node scripts/collect.ts",
-    "linkcheck": "node scripts/linkcheck.ts"
+    "linkcheck": "node scripts/linkcheck.ts",
+    "curriculum": "node scripts/curriculum.ts"
   },
   "dependencies": {
     "astro": "^5.6.0"

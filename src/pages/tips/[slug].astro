@@ -5,6 +5,7 @@ import TipList from '../../components/TipList.astro';
 import SceneFlow from '../../components/SceneFlow.astro';
 import { loadTips, relatedTips, type Tip } from '../../lib/tips';
 import { url, formatDate } from '../../lib/site';
+import { CURRICULUM } from '../../lib/curriculum';
 import {
   DOMAINS,
   SCENES,
@@ -174,6 +175,23 @@ const attribution =
           {d.school.map((id, i) => (<>{i > 0 && '、'}<a href={url(`/school/${id}/`)} data-pagefind-filter="校種">{SCHOOLS[id]}</a></>))}
         </dd>
       </div>
+      {
+        d.curriculum.length > 0 && (
+          <div>
+            <dt>学習指導要領</dt>
+            <dd>
+              {d.curriculum
+                .map((code) =>
+                  CURRICULUM[code]
+                    ? `${CURRICULUM[code].school} ${CURRICULUM[code].segmentLabel} ${CURRICULUM[code].label}`
+                    : code,
+                )
+                .join('、')}
+              <span class="code-note">サイト側で領域まで当てたもの</span>
+            </dd>
+          </div>
+        )
+      }
       <div>
         <dt>掲載日</dt>
         <dd>{formatDate(d.added)}</dd>
