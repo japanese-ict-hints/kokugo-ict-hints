@@ -1,0 +1,189 @@
+# discover.ts の出力。運営者が確認して sources.yml へ移す。
+# 実在を確認したURLだけが入っている（推測したURLは書かない。§2.3）。
+# 実行日: 2026-09-06
+
+discovered:
+  - id: www-doken-hokkaido-c-ed-jp
+    name: "トップページ - 北海道立教育研究所"
+    prefecture: 北海道
+    host: www.doken.hokkaido-c.ed.jp
+    top: http://www.doken.hokkaido-c.ed.jp/
+    license: link-only
+    license_basis: "判定不能のため既定値"
+    license_checked: 2026-09-06
+    license_evidence: "利用規約に相当する記述を見つけられなかった"
+    # 事例・指導資料の入口を、トップページからは見つけられなかった
+
+  - id: www-edu-c-pref-aomori-jp
+    name: "センター ホーム - 青森県総合学校教育センター TOP"
+    prefecture: 青森
+    host: www.edu-c.pref.aomori.jp
+    top: http://www.edu-c.pref.aomori.jp/
+    license: link-only
+    license_basis: "https://www.edu-c.pref.aomori.jp/contents"
+    license_checked: 2026-09-06
+    license_evidence: "無断転載の禁止: ます。 ○「私的使用のための複製」や「引用」など著作権法上認められた場合を除き、無断複製・転載・改変等をすることはできません。 【学校などの教育機関での利用について】 センターWebサイトは、学校教育全般にわたって先生方や学校を支援するサイトとして構築していますので、校内研究や研修会、教材開発など学校教育の範囲内に限り"
+    # 事例・指導資料の入口を、トップページからは見つけられなかった
+
+  - id: www-yamagata-c-ed-jp
+    name: "トップページ | 山形県教育センター ホームページ"
+    prefecture: 山形
+    host: www.yamagata-c.ed.jp
+    top: http://www.yamagata-c.ed.jp/
+    license: link-only
+    license_basis: "https://www.yamagata-c.ed.jp/"
+    license_checked: 2026-09-06
+    license_evidence: "All Rights Reserved の記載: amagata Prefectural Education Institute ALL Rights Reserved."
+    entry_candidates:
+      - url: https://www.yamagata-c.ed.jp/%E6%95%99%E8%82%B2%E7%9B%B8%E8%AB%87/%E7%9B%B8%E8%AB%87%E4%BA%8B%E4%BE%8B
+        text: "相談事例"
+      - url: https://www.yamagata-c.ed.jp/ICTutilization
+        text: "ICT活用・情報教育"
+      - url: https://www.yamagata-c.ed.jp/ICT%E6%B4%BB%E7%94%A8%E3%83%BB%E6%83%85%E5%A0%B1%E6%95%99%E8%82%B2/%E7%9C%8C%E5%86%85ICT%E6%B4%BB%E7%94%A8%E8%B3%87%E6%96%99
+        text: "県内ICT活用資料"
+      - url: https://www.yamagata-c.ed.jp/%E6%95%99%E8%82%B2%E6%83%85%E5%A0%B1%E8%AA%8C%E3%80%8C%E5%B1%B1%E5%BD%A2%E6%95%99%E8%82%B2%E3%80%8D
+        text: "教育情報誌「山形教育」"
+      - url: https://www.yamagata-c.ed.jp/%E6%8E%88%E6%A5%AD%E3%81%A5%E3%81%8F%E3%82%8A%E3%83%AA%E3%83%B3%E3%82%AF%E9%9B%86
+        text: "授業づくりリンク集"
+      - url: https://www.yamagata-c.ed.jp/ICTutilization
+        text: "ＩＣＴ活用・情報教育（ICT指導実線報告や研修動画、ガイドライン等）"
+
+  - id: www-tochigi-edu-ed-jp
+    name: "栃木県総合教育センター ～とちぎ学びの杜～｜トップページ"
+    prefecture: 栃木
+    host: www.tochigi-edu.ed.jp
+    top: http://www.tochigi-edu.ed.jp/center/
+    license: link-only
+    license_basis: "https://www.tochigi-edu.ed.jp/center/"
+    license_checked: 2026-09-06
+    license_evidence: "All Rights Reserved の記載: 護方針 ｜ Copyright(c) 栃木県総合教育センター All Rights Reserved."
+    feeds:
+      - https://www.tochigi-edu.ed.jp/center/rss/center.rdf
+    # 事例・指導資料の入口を、トップページからは見つけられなかった
+
+  - id: cms2-chiba-c-ed-jp
+    name: "トップページ - 子どもと親のサポートセンター"
+    prefecture: 千葉
+    host: cms2.chiba-c.ed.jp
+    top: http://cms2.chiba-c.ed.jp/kosapo/
+    license: link-only
+    license_basis: "https://cms2.chiba-c.ed.jp/kosapo/%E3%83%AA%E3%83%B3%E3%82%AF%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6%E3%83%BB%E5%85%8D%E8%B2%AC%E4%BA%8B%E9%A0%85-1"
+    license_checked: 2026-09-06
+    license_evidence: "無断転載の禁止: ます。 「私的使用のための複製」や「引用」など、著作権法上認められた場合を除き、無断で複製・転用することはできません。学校その他の教育機関（営利目的を除く）で教育目的の複製を行う場合は、出典の明示をお願いします。 免責事項 「千葉県子どもと親のサポートセンター（以下、当"
+    entry_candidates:
+      - url: https://cms2.chiba-c.ed.jp/kosapo/eb612d20961e76e1853a2b8584122567/page_20260303064956
+        text: "研究報告書"
+
+  - id: www-kyoiku-kensyu-metro-tokyo-lg-jp
+    name: "東京都教職員研修センター"
+    prefecture: 東京
+    host: www.kyoiku-kensyu.metro.tokyo.lg.jp
+    top: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/
+    license: link-only
+    license_basis: "https://www.kyoiku-kensyu.metro.tokyo.lg.jp/"
+    license_checked: 2026-09-06
+    license_evidence: "All Rights Reserved の記載: 代表） Copyright (C) 2006- 東京都教職員研修センター All Rights Reserved."
+    entry_candidates:
+      - url: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/staff/04leader/index.html
+        text: "令和７年度教員研究生カリキュラム開発研究報告書等について更新しました。"
+      - url: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/10jidai/yosei/download_23.html
+        text: "第23期東京教師養成塾の「第３回講座資料」及び「授業づくりを考える」をアップロードしました。"
+      - url: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/09seika/reports/bulletin/r6.html
+        text: "令和６年度教育課題研究紀要等をアップロードしました。"
+      - url: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/staff/movie_casestudy/index.html
+        text: "専門教育向上課一人１台端末活用事例ポータルサイトを再開しました。"
+      - url: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/08ojt/helpdesk/plans/index.html
+        text: "学習指導案のページを更新しました。"
+
+  - id: www-pen-kanagawa-ed-jp
+    name: "神奈川県立総合教育センターホーム"
+    prefecture: 神奈川
+    host: www.pen-kanagawa.ed.jp
+    top: https://www.pen-kanagawa.ed.jp/edu-ctr/
+    license: link-only
+    license_basis: "https://www.pen-kanagawa.ed.jp/edu-ctr/"
+    license_checked: 2026-09-06
+    license_evidence: "All Rights Reserved の記載: Prefectural Integrated Education Center All Rights Reserved"
+    feeds:
+      - https://www.pen-kanagawa.ed.jp/edu-ctr/shinchaku/shinchaku.xml
+    # 事例・指導資料の入口を、トップページからは見つけられなかった
+
+  - id: www-ishikawa-c-ed-jp
+    name: "石川県教員総合研修センター・いしかわ師範塾"
+    prefecture: 石川
+    host: www.ishikawa-c.ed.jp
+    top: http://www.ishikawa-c.ed.jp/
+    license: link-only
+    license_basis: "判定不能のため既定値"
+    license_checked: 2026-09-06
+    license_evidence: "利用規約に相当する記述を見つけられなかった"
+    # 事例・指導資料の入口を、トップページからは見つけられなかった
+
+  - id: www-fukui-c-ed-jp
+    name: "福井県教育総合研究所"
+    prefecture: 福井
+    host: www.fukui-c.ed.jp
+    top: http://www.fukui-c.ed.jp/~fec/
+    license: link-only
+    license_basis: "判定不能のため既定値"
+    license_checked: 2026-09-06
+    license_evidence: "利用規約に相当する記述を見つけられなかった"
+    feeds:
+      - https://www.fukui-c.ed.jp/~fec/feed/
+      - https://www.fukui-c.ed.jp/~fec/comments/feed/
+      - https://www.fukui-c.ed.jp/~fec/home/feed/
+    entry_candidates:
+      - url: https://www.fukui-c.ed.jp/~fec/category/bulletin/
+        text: "紀要"
+
+# 今回たどり着けなかった都道府県（後で手作業で探す）
+#   岩手
+#   宮城
+#   秋田
+#   福島
+#   茨城
+#   群馬
+#   埼玉
+#   新潟
+#   富山
+#   山梨
+#   長野
+#   岐阜
+#   静岡
+#   愛知
+#   三重
+#   滋賀
+#   京都
+#   大阪
+#   兵庫
+#   奈良
+#   和歌山
+#   鳥取
+#   島根
+#   岡山
+#   広島
+#   山口
+#   徳島
+#   香川
+#   愛媛
+#   高知
+#   福岡
+#   佐賀
+#   長崎
+#   熊本
+#   大分
+#   宮崎
+#   鹿児島
+#   沖縄
+
+# 取得の記録
+#   www.doken.hokkaido-c.ed.jp: 4 ページ
+#   www.edu-c.pref.aomori.jp: 3 ページ
+#   www.yamagata-c.ed.jp: 6 ページ
+#   www.tochigi-edu.ed.jp: 7 ページ
+#   cms2.chiba-c.ed.jp: 3 ページ
+#   www.kyoiku-kensyu.metro.tokyo.lg.jp: 8 ページ
+#   www.pen-kanagawa.ed.jp: 1 ページ
+#   www.ishikawa-c.ed.jp: 2 ページ
+#   www.fukui-c.ed.jp: 2 ページ
+#   停止 www.akita-c.ed.jp: robots.txt を取得できなかった

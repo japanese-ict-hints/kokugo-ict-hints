@@ -14,8 +14,11 @@
 - `content-japanese-seed.md` の国語10件を `src/content/tips/` に投入
 - GitHub Pages へのデプロイ用ワークフロー
 
-まだ無いもの：Pagefind の検索（フェーズ2）、`discover.ts` / `license-check.ts`（フェーズ3）、
-`collect.ts` と週次ワークフローと `linkcheck.ts`（フェーズ4）。
+フェーズ3の前半（`license-check.ts` と `discover.ts`）も動く。都道府県10ホストで試し、
+`sources.yml` に5件を追加したところで §10 の指示どおり止めている。
+
+まだ無いもの：Pagefind の検索（フェーズ2）、`collect.ts` と週次ワークフローと
+`linkcheck.ts`（フェーズ4）。
 トップの入力欄は、10件を絞るだけの暫定フィルタ（`src/pages/index.astro` 末尾のインラインスクリプト）。
 フェーズ2で Pagefind に置き換える。
 
@@ -48,6 +51,24 @@ python3 scripts/preview.py && open .preview/index.html
    `url()` を通しているので、リポジトリ名を変えるときは `base` だけ直せば全ページ追従する
 2. GitHub の Settings → Pages で Source を GitHub Actions にする
 3. `main` に push すると `.github/workflows/deploy.yml` がビルドして公開する
+
+## 収集源を探す（フェーズ3）
+
+```bash
+npm run discover                     # 10ホストまで調べて scripts/discovered.yml に書き出す
+npm run discover -- --limit 3        # ホスト数を絞る
+npm run license-check https://例.jp/ # 1ホストだけ判定する
+```
+
+`discover.ts` は `sources.yml` を書き換えない。`discovered.yml` を人が見て、
+**入口URLを実際に開いて200を確認してから** `sources.yml` に移す（§2.3）。
+
+取得は `scripts/lib/http.ts` を必ず通す。robots.txt の尊重、同一ホストへ2.5秒以上の間隔、
+1ホスト30ページの上限、403/429/5xx での自動停止、`.cache/fetch/` への保存はここに入っている。
+
+初回（2026-09-06）の結果：候補103ホストから10件を調査し、9件を判定。**gov-open は0件**で、
+すべて `link-only`。秋田は robots.txt を取得できず停止。東京の事例ポータルは401でログインが要る
+ため除外。
 
 ## 事例を足す・直す
 

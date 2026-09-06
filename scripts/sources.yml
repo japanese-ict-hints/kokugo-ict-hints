@@ -60,6 +60,80 @@ discovery:
   - name: 文部科学省 教育データ標準（教育委員会コード一覧）
     url: https://www.mext.go.jp/a_menu/other/data_00001.htm
 
+  # ---- ここから S2（都道府県の教育センター）。discover.ts の初回実行、2026-09-06 ----
+  # いずれも license は link-only。本文の引用はせず、リンクと自作要約だけを載せる。
+  # entry は実際に取得して200を確認したURLのみ（§2.3）。
+
+  - id: yamagata-c-ict
+    name: ICT活用・情報教育（山形県教育センター）
+    host: www.yamagata-c.ed.jp
+    entry: https://www.yamagata-c.ed.jp/ICTutilization
+    type: index
+    license: link-only
+    license_basis: https://www.yamagata-c.ed.jp/
+    license_checked: 2026-09-06
+    group: B
+    status: active
+    note: トップに All Rights Reserved の記載。県内のICT活用資料をまとめた節がある。
+
+  - id: tokyo-kensyu-kiyou
+    name: 教育課題研究紀要等（東京都教職員研修センター）
+    host: www.kyoiku-kensyu.metro.tokyo.lg.jp
+    entry: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/09seika/reports/bulletin/r6.html
+    type: index
+    license: link-only
+    license_basis: https://www.kyoiku-kensyu.metro.tokyo.lg.jp/
+    license_checked: 2026-09-06
+    group: B
+    status: active
+    note: >-
+      同センターの「一人1台端末活用事例ポータル」は HTTP 401 でログインが要るため扱わない（§2.1）。
+      紀要のページは公開されている。
+
+  - id: fukui-fec-kiyou
+    name: 紀要（福井県教育総合研究所）
+    host: www.fukui-c.ed.jp
+    entry: https://www.fukui-c.ed.jp/~fec/category/bulletin/
+    type: index
+    feed: https://www.fukui-c.ed.jp/~fec/feed/
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-06
+    group: B
+    status: active
+
+  - id: tochigi-edu-center
+    name: 栃木県総合教育センター
+    host: www.tochigi-edu.ed.jp
+    entry: http://www.tochigi-edu.ed.jp/center/
+    type: index
+    feed: https://www.tochigi-edu.ed.jp/center/rss/center.rdf
+    license: link-only
+    license_basis: https://www.tochigi-edu.ed.jp/center/
+    license_checked: 2026-09-06
+    group: B
+    status: active
+    note: RSS あり。トップからは事例の入口を特定できていないので、RSS から拾う。
+
+  - id: kanagawa-edu-ctr
+    name: 神奈川県立総合教育センター
+    host: www.pen-kanagawa.ed.jp
+    entry: https://www.pen-kanagawa.ed.jp/edu-ctr/
+    type: index
+    feed: https://www.pen-kanagawa.ed.jp/edu-ctr/shinchaku/shinchaku.xml
+    license: link-only
+    license_basis: https://www.pen-kanagawa.ed.jp/edu-ctr/
+    license_checked: 2026-09-06
+    group: B
+    status: active
+
+  # 調べたが登録を見送ったホスト（2026-09-06）
+  #   www.doken.hokkaido-c.ed.jp  北海道立教育研究所。事例の入口を特定できず
+  #   www.edu-c.pref.aomori.jp    青森県総合学校教育センター。無断複製・転載の禁止が明記
+  #   cms2.chiba-c.ed.jp          千葉県子どもと親のサポートセンター。国語の事例は見当たらない
+  #   www.ishikawa-c.ed.jp        石川県教員総合研修センター。事例の入口を特定できず
+  #   www.akita-c.ed.jp           秋田県総合教育センター。robots.txt を取得できず停止（§2.2）
+
 denylist:
   - reason: 会員登録が必要
     hosts: []

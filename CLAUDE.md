@@ -496,8 +496,10 @@ font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic Medium", "Noto Sans JP",
 **解決済み**：校務PCから GitHub Pages に到達できることを確認した（2026-09-06）。
 公開先は https://japanese-ict-hints.github.io/kokugo-ict-hints/ 。
 
-- 各教育センターのライセンス表記は団体ごとに異なる。**未確認**。§2.1 で1件ずつ判定する
-- 教育センターの事例はPDFが多い見込み。PDFからのテキスト抽出が必要（**未検証**）
+- 各教育センターのライセンス表記は団体ごとに異なる。初回10ホストの判定結果（2026-09-06）：
+  **9ホスト中 gov-open は0件**。All Rights Reserved の記載か、無断転載の禁止か、記載なし。
+  つまり S2 は当面すべて `link-only` として扱う前提で設計する。本文の引用はできない
+- PDFからのテキスト抽出は pypdf で可能なことを確認した（2026-09-06、文科省の20ページPDFで検証）
 - 独自ドメインを取るか、`github.io` のままか
 - 「役に立った」の集計方法（Microsoft Forms で足りるか）
 - 全国から集めると佐倉市で使えないツールの事例も入る。除外するか、注記して載せるか
