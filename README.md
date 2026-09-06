@@ -59,10 +59,11 @@ python3 scripts/preview.py && open .preview/index.html
 
 ### 公開前の確認（省略しない）
 
-- `status` は `draft` のまま投入してある。運営者が要約と著作権上の安全性を確認してから
-  `published` に変える
-- seed 10件のうち6件は `verified: listed`（本文未確認）。出典を開いて中身を確かめ、
-  要約を書き直してから `fetched` にする。サイト上ではこの6件に「本文未確認」と表示している
+- 出典の本文確認は 2026-09-06 に完了した。掲載中の8件はすべて `verified: fetched`。
+  範囲外・出典消滅の2件は `archived`（`miraiseed-drill-and-collaboration` は本文が理科の事例、
+  `canva-empathy-map-poem` は出典サイトがサービス終了）
+- `status` は `draft` のまま。運営者が要約と著作権上の安全性を確認してから `published` に変える
+  （CLAUDE.md §5.1 の品質ゲート）。詳細ページには `draft` のあいだ「下書き」と出る
 - `license` が `gov-open` の事例だけ、詳細ページ末尾に出典表記が出る。
   `link-only` の事例は本文を引用しない
 

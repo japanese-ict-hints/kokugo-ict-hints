@@ -1,6 +1,6 @@
 ---
 title: "文部科学省の資料で、国語科がICTを使う場面の枠組みをそろえる"
-summary: "教科ごとにICT活用の考え方をまとめた文部科学省の参考資料のうち、国語科の分冊。個々の便利な使い方ではなく、国語科の目標に照らしてどの場面でICTが効くのかという枠組みが示されている。"
+summary: "国語科のICT活用をまとめた文科省の20ページの資料。学習指導要領上の位置づけ、話すこと聞くこと・書くこと・読むことの学習過程とICTが効く場面の整理、一人一台端末の授業事例が載っている。"
 source:
   url: "https://www.mext.go.jp/content/20200911-mxt_jogai01-000009772_01.pdf"
   publisher: "文部科学省"
@@ -8,7 +8,7 @@ source:
   published: 2020-09-11
   retrieved: 2026-09-05
   license: gov-open
-  verified: listed
+  verified: fetched
 tools: [other]
 school: [elementary, junior]
 subjects: [japanese]

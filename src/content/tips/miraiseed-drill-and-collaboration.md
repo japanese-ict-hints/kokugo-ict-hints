@@ -1,6 +1,6 @@
 ---
 title: "授業の前後にドリル、授業中に協働学習を置いて単元を組み立てる"
-summary: "小学5年国語で、デジタルドリルと協働学習アプリを組み合わせた単元設計。個別の習熟と、話し合いで考えを深める活動を分けて配置し、子供が自分で進度を決めながら単元を進められるようにしている。"
+summary: "小学5年の理科での単元設計。授業の冒頭と最後にデジタルドリルを置き、その間に調べて伝え合う協働学習をはさむ。正答率の変化で理解の伸びを確かめる。国語の事例ではない。"
 source:
   url: "https://bso.benesse.ne.jp/miraiseed/fansite/usecase/1189182_1503.html"
   publisher: "ミライシード ファンサイト（ベネッセ）"
@@ -8,18 +8,18 @@ source:
   published: null
   retrieved: 2026-09-05
   license: link-only
-  verified: listed
+  verified: fetched
 tools: [miraiseed]
 school: [elementary]
-subjects: [japanese]
+subjects: [science]
 domains: []
 scenes: [individual, discuss]
 effort: 3
 grade: "小5"
 curriculum: []
-status: draft
+status: archived
 added: 2026-09-05
-note: "検索結果の抜粋で確認。本文は未読のため、公開前に要確認。単元全体の設計を伴うため、1時間だけ真似るのは難しい。領域は抜粋からは特定できないため domains は未設定。"
+note: "本文を確認したところ、小学5年の理科（台風の単元）の事例だった。国語ではないため範囲外として archived にした。同じ組み立て（授業の前後にドリル、間に協働学習）は国語でも使えるが、それは出典が述べていることではない。"
 ---
 
-1時間の工夫ではなく単元の組み替えなので、準備は重い。校内研究のテーマとして扱うか、学年で足並みをそろえて試すのに向く。
+本文を確認したところ理科の事例だったため、このサイトの範囲からは外した。組み立て自体（ドリルで穴を見つけ、調べて伝え合い、もう一度ドリルで確かめる）は国語にも転用できそうだが、それは出典が示していることではないので、事例としては扱わない。

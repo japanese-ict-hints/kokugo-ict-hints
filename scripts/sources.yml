@@ -44,8 +44,8 @@ sources:
     status: active
     note: 一覧としての更新頻度は未確認。事例1件の出典として登録しているだけ。
 
-  # EdTechZine（翔泳社）— 記事1件（https://edtechzine.jp/article/detail/8632）を出典に使っているが、
-  # 国語の実践記事だけを辿れる一覧ページを未確認のため entry を書けない。手作業で探してから追加する。
+  # EdTechZine（翔泳社）は 2026年5月13日でサービス終了。記事URLは応答するが終了告知が返るだけで、
+  # 本文は失われている（2026-09-06 確認）。収集源にはしない。denylist に入れてある。
 
 # 収集源の発見に使う起点（CLAUDE.md §3.2）。いずれも 2026-09-05 時点で実在を確認済み。
 discovery:
@@ -65,3 +65,12 @@ denylist:
     hosts: []
   - reason: 無断転載禁止の明記あり
     hosts: []
+  - reason: サービス終了（2026-05-13）。本文が失われている
+    hosts: [edtechzine.jp]
+
+# robots.txt の確認記録（2026-09-06）
+robots_checked:
+  bso.benesse.ne.jp: 200。対象パス（/miraiseed/fansite/usecase/ と /info/）は Disallow に該当しない
+  www.canva.com: 200。/ja_jp/learn-grid/ に該当する Disallow なし
+  www.mext.go.jp: 404（robots.txt なし）。RFC 9309 により制限なしとして扱う
+  edtechzine.jp: サービス終了ページが返る。収集しない
