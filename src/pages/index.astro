@@ -33,8 +33,10 @@ const domainItems = DOMAIN_IDS.map((id) => ({
 ---
 
 <Base home={true}>
-  <h1 class="home-title">{SITE.title}</h1>
-  <p class="home-tagline">{SITE.tagline}　小中学校の国語で使えるICT活用事例を集めています</p>
+  <div class="home-head">
+    <h1 class="home-title">国語の<span class="mark">ICT</span>活用ヒント</h1>
+    <p class="home-tagline">小中学校の国語　有志運営・非公式</p>
+  </div>
 
   <div class="search" hidden id="search-box">
     <label for="q">やりたいことを入力</label>
@@ -49,24 +51,24 @@ const domainItems = DOMAIN_IDS.map((id) => ({
   </div>
 
   <section class="section" aria-labelledby="h-school">
-    <h2 id="h-school">校種から探す</h2>
+    <h2 id="h-school">校種</h2>
     <Chips items={schoolItems} label="校種から探す" lead={true} />
   </section>
 
   <section class="section" aria-labelledby="h-scene">
-    <h2 id="h-scene">場面から探す</h2>
+    <h2 id="h-scene">場面</h2>
     <Chips items={sceneItems} label="場面から探す" />
   </section>
 
   <section class="section" aria-labelledby="h-domain">
-    <h2 id="h-domain">領域から探す</h2>
+    <h2 id="h-domain">領域</h2>
     <Chips items={domainItems} label="領域から探す" />
   </section>
 
   <section class="section" aria-labelledby="h-list">
-    <h2 id="h-list">事例一覧　{tips.length}件</h2>
+    <h2 id="h-list">事例 {tips.length}</h2>
     <TipList tips={tips} searchable={true} id="tip-list" />
-    <p class="empty" id="no-hit" hidden>あてはまる事例がありません。言葉を短くするか、上の場面・領域から探してください。</p>
+    <p class="empty" id="no-hit" hidden>見つかりません。言葉を短くするか、上の場面・領域から探してください。</p>
   </section>
 
   <p class="lede">最終更新 {formatDate(updated)}　<a href={url('/updates/')}>更新履歴</a></p>

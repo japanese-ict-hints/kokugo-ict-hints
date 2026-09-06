@@ -36,11 +36,11 @@ const items = DOMAIN_IDS.map((id) => ({
 
 <Base title={meta.label} description={`国語の「${meta.label}」で使えるICT活用事例。`}>
   <p class="breadcrumb"><a href={url('/')}>トップ</a>　領域から探す</p>
-  <h1 style={`border-left: 3px solid ${meta.color}; padding-left: 0.6rem;`}>{meta.label}</h1>
+  <h1 style={`border-left: 3px solid ${meta.color}; padding-left: 0.7rem;`}>{meta.label}</h1>
   <p class="lede">{tips.length}件</p>
 
   <section class="section" aria-labelledby="h-domains">
-    <h2 id="h-domains">ほかの領域</h2>
+    <h2 id="h-domains">領域</h2>
     <Chips items={items} label="領域から探す" />
   </section>
 

@@ -1,8 +1,8 @@
 ---
 import type { Tip } from '../lib/tips';
 import { searchText } from '../lib/tips';
-import { url, formatShort } from '../lib/site';
-import { DOMAINS, effortText, domainColor } from '../lib/vocab';
+import { url } from '../lib/site';
+import { DOMAINS, EFFORTS, domainColor } from '../lib/vocab';
 
 interface Props {
   tips: Tip[];
@@ -16,34 +16,27 @@ const rows = tips.map((tip) => ({
   tip,
   href: url(`/tips/${tip.id}/`),
   color: domainColor(tip.data.domains),
+  // 領域名そのものに「・」が入る（話す・聞く）ので読点でつなぎ、3つで打ち切る
   domainLabel: (() => {
     const labels = tip.data.domains.map((d) => DOMAINS[d].short);
     return labels.length > 3 ? `${labels.slice(0, 3).join('、')}ほか` : labels.join('、');
   })(),
-  // 検索用。JS が無い環境では使われない。
+  effort: EFFORTS[tip.data.effort]!,
   index: searchable ? searchText(tip).replace(/\s+/g, ' ') : undefined,
 }));
 ---
 
 <ul class="tip-list" id={id}>
   {
-    rows.map(({ tip, href, color, domainLabel, index }) => (
-      <li style={`border-left-color: ${color}`} data-index={index}>
+    rows.map(({ tip, href, color, domainLabel, effort, index }) => (
+      <li style={`--row-accent: ${color}`} data-index={index}>
         <a class="tip-title" href={href}>
           {tip.data.title}
         </a>
         <p class="tip-meta">
           {domainLabel && <span>{domainLabel}</span>}
-          {domainLabel && (
-            <span class="sep" aria-hidden="true">
-              /
-            </span>
-          )}
-          <span>{effortText(tip.data.effort)}</span>
-          <span class="sep" aria-hidden="true">/</span>
+          <span title={`準備 ${effort.label}`}>{effort.stars}</span>
           <span>{tip.data.source.publisher}</span>
-          <span class="sep" aria-hidden="true">/</span>
-          <span>{formatShort(tip.data.added)}</span>
           {tip.data.source.verified === 'listed' && <span class="flag">本文未確認</span>}
         </p>
       </li>

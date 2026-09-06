@@ -44,14 +44,12 @@ const attribution =
   <p class="breadcrumb"><a href={url('/')}>トップ</a>　事例</p>
 
   <article>
-    <header class="tip-header" style={`border-left-color: ${color}`}>
+    <header class="tip-header" style={`--row-accent: ${color}`}>
       <h1>{d.title}</h1>
       <p class="tip-meta">
         <span>{d.school.map((s) => SCHOOLS[s]).join('・')}</span>
-        <span class="sep" aria-hidden="true">/</span>
         <span>{d.subjects.map((s) => SUBJECTS[s]).join('・')}</span>
-        <span class="sep" aria-hidden="true">/</span>
-        <span>準備 {effort.stars} {effort.label}</span>
+        <span>{effort.stars} {effort.label}</span>
         {d.source.verified === 'listed' && <span class="flag">本文未確認</span>}
         {d.status === 'draft' && <span class="flag">下書き</span>}
       </p>
