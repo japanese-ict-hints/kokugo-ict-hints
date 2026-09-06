@@ -133,6 +133,21 @@ sources:
       調査・研究報告書の一覧はファイル名が JavaScript で描画され、リンク文字は「研究報告 第438号」の
       ような番号だけで教科が分からない。自動収集は難しく、手作業での確認が要る。
 
+  - id: fukui-pref-tablet-jirei
+    name: タブレット端末活用事例集（福井県 義務教育課）
+    host: www.pref.fukui.lg.jp
+    entry: https://www.pref.fukui.lg.jp/doc/gimu/mokuji_d/fil/0-0jirei.pdf
+    type: page
+    license: link-only
+    license_basis: 判定不能のため既定値
+    license_checked: 2026-09-06
+    group: C
+    status: active
+    note: >-
+      令和4年10月の21ページのPDF。教科ごとに事例をまとめてあり、小学校国語で3件、
+      中学校国語で3件。学校名も授業者名も載っていない。検索で見つけて実在を確認した。
+      教科別の個別PDFも別にあるが未確認。
+
   # 調べたが登録を見送ったホスト（2026-09-06）
   #   www.doken.hokkaido-c.ed.jp  北海道立教育研究所。事例の入口を特定できず
   #   www.edu-c.pref.aomori.jp    青森県総合学校教育センター。無断複製・転載の禁止が明記
