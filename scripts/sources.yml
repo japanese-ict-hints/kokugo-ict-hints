@@ -281,3 +281,4 @@ robots_checked:
   www.kyoiku-shuppan.co.jp: 404（robots.txt なし）。RFC 9309 により制限なしとして扱う
   kyoiku.sho.jp: 200。Disallow は /wp-admin/ /wp-includes/ /wp-content/plugins/ /cgi-bin/ /?s= /feed/ /comments/ など。記事ページ（/数字/）と /tag/ は対象外
   www.mitsumura-tosho.co.jp: 200。Disallow は /application/ 配下など内部パスのみ。/webmaga/ は対象外
+  tb.sanseido-publ.co.jp: 200。Disallow の記載なし（Sitemap のみ）。制限なしとして扱う
