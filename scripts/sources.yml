@@ -227,6 +227,19 @@ sources:
   #   www.ishikawa-c.ed.jp        石川県教員総合研修センター。事例の入口を特定できず
   #   www.akita-c.ed.jp           秋田県総合教育センター。robots.txt を取得できず停止（§2.2）
 
+  - id: kyoiku-shuppan-digital-plans
+    name: 授業展開例（指導者用デジタル教科書・教材／教育出版）
+    host: www.kyoiku-shuppan.co.jp
+    entry: https://www.kyoiku-shuppan.co.jp/digital/plan/r7chuu/d-index.html
+    # 小学校版の入口: https://www.kyoiku-shuppan.co.jp/r6shou/digital/plans.html
+    type: index
+    license: link-only
+    license_basis: https://www.kyoiku-shuppan.co.jp/   # All Rights Reserved の記載
+    license_checked: 2026-09-06
+    group: C
+    status: active
+    note: 佐倉市の採択教科書と同じ発行者。単元名が教科書のものと一致する。PDFに学校名と授業者名が載るため §2.1 で落とす
+
 discovery:
   - name: 全国教育研究所連盟（教育研究機関リンク集）
     url: https://schit.net/zenkyou/
@@ -253,3 +266,5 @@ robots_checked:
   www.canva.com: 200。/ja_jp/learn-grid/ に該当する Disallow なし
   www.mext.go.jp: 404（robots.txt なし）。RFC 9309 により制限なしとして扱う
   edtechzine.jp: サービス終了ページが返る。収集しない
+  www.kyoiku-shuppan.co.jp: 404（robots.txt なし）。RFC 9309 により制限なしとして扱う
+  kyoiku.sho.jp: 200。Disallow は /wp-admin/ /wp-includes/ /wp-content/plugins/ /cgi-bin/ /?s= /feed/ /comments/ など。記事ページ（/数字/）と /tag/ は対象外

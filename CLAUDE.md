@@ -209,6 +209,8 @@ note: ""                          # 原典が教科や学年を特定してい�
 
 **tools**：`okulink-plus`（オクリンクプラス） `drillpark`（ドリルパーク）
 `miraiseed`（製品を特定できないとき、または製品をまたぐ資料のときだけ）
+`digital-textbook`（指導者用デジタル教科書。教科書会社が出すもので、採択と導入状況に依存する。
+2026-09-06 に教育出版の授業展開例を収集したため追加）
 `canva` `kahoot` `padlet` `teams` `word` `excel` `powerpoint` `forms` `onenote` `ai` `other`
 
 **扱わないツール**：Google Workspace for Education、ロイロノート・スクール。

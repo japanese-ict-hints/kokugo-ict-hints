@@ -27,6 +27,7 @@ export const TOOL_IDS = [
   'okulink-plus',
   'drillpark',
   'miraiseed',
+  'digital-textbook',
   'canva',
   'kahoot',
   'padlet',
@@ -91,6 +92,8 @@ export const TOOLS: Record<ToolId, string> = {
   drillpark: 'ドリルパーク',
   // 製品を特定できないとき、または製品をまたぐ資料のときだけ使う
   miraiseed: 'ミライシード',
+  // 教科書会社が出す指導者用デジタル教科書（教材）。教科書の採択に依存する
+  'digital-textbook': '指導者用デジタル教科書',
   canva: 'Canva',
   kahoot: 'Kahoot!',
   padlet: 'Padlet',
