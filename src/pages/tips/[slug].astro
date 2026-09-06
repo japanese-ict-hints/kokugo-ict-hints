@@ -58,6 +58,19 @@ const attribution =
     <p class="prose">{d.summary}</p>
 
     {
+      d.howto.length > 0 && (
+        <>
+          <h2 class="h-sub">使い方</h2>
+          <ol class="howto">
+            {d.howto.map((step) => (
+              <li>{step}</li>
+            ))}
+          </ol>
+        </>
+      )
+    }
+
+    {
       d.source.verified === 'listed' && (
         <aside class="notice">
           <p>この事例は、出典ページの見出しと抜粋だけを見て書いています。本文をまだ確認していないため、細部が実際と異なる場合があります。使う前に出典を開いて確かめてください。</p>

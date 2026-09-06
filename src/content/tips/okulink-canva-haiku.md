@@ -16,6 +16,12 @@ domains: [write, language]
 scenes: [individual, share, discuss, reflect]
 effort: 2
 grade: null
+howto:
+  - "事前に教育委員会側で、Canva連携の利用設定を済ませてもらう"
+  - "オクリンクプラスのCanvaボタンから、各自のCanvaアカウントを接続する"
+  - "季節の言葉から俳句を作り、オクリンクプラスで見せ合って直す"
+  - "仕上がった句をCanvaで作品カードにする"
+  - "カードをオクリンクプラスに取り込み、鑑賞会を開く"
 curriculum: []
 status: published
 added: 2026-09-06

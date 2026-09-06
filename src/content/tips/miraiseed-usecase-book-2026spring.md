@@ -16,6 +16,11 @@ domains: []
 scenes: [intro, individual, share, reflect]
 effort: 1
 grade: null
+howto:
+  - "リンク先のページからPDFをダウンロードする"
+  - "小3から小6の国語事例から、いま扱う単元に近いものを探す"
+  - "掲載されているカードは、教材ライブラリーから取り込んで使う"
+  - "検索して出てこない場合は、活用別教材の中を探す"
 curriculum: []
 status: published
 added: 2026-09-05

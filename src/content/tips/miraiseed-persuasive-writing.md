@@ -16,6 +16,12 @@ domains: [write]
 scenes: [individual, share, discuss]
 effort: 2
 grade: "小6"
+howto:
+  - "前の時間までに、作文を提出BOXへ出させる"
+  - "教師が本時までに添削コメントを入れ、全員分を公開設定にする"
+  - "本時は、自分の指摘と友達の指摘を見比べながら直させる"
+  - "直した文章を、班ごとの共有ボードへ送らせる"
+  - "友達の文章にコメントを入れ合い、やり取りしながらもう一度推敲する"
 curriculum: []
 status: published
 added: 2026-09-05

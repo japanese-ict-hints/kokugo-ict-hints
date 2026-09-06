@@ -16,6 +16,12 @@ domains: [speak-listen]
 scenes: [individual]
 effort: 1
 grade: null
+howto:
+  - "文書作成ソフトの音声認識をオンにする"
+  - "自分のスピーチを話し、その場で文字に起こさせる"
+  - "認識されなかった箇所と言い直しを、本人に確認させる"
+  - "一斉にやると声が重なるので、外付けマイクを使うか場所を分ける"
+  - "原稿ができる前でも、話そうとしていることを認識させて口癖に気づかせる"
 curriculum: []
 status: published
 added: 2026-09-05

@@ -16,6 +16,11 @@ domains: [language, write]
 scenes: [share, reflect]
 effort: 1
 grade: null
+howto:
+  - "オンラインの一言日記やコメント欄を、しばらくそのまま続けさせる"
+  - "言葉が崩れた書き込みが出てきたら、書き手が分からない形で教材にする"
+  - "国語の時間に「誰が読んでも分かる書き方」をクラスで話し合う"
+  - "話し言葉と書き言葉の違いとして整理し、もとの投稿の場に戻す"
 curriculum: []
 status: published
 added: 2026-09-05

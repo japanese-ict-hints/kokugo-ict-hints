@@ -16,6 +16,11 @@ domains: [speak-listen, write, read, language, handwriting, reading-life]
 scenes: [intro]
 effort: 1
 grade: null
+howto:
+  - "PDFを開き、国語科の学習過程を整理した図を見る"
+  - "扱う単元が、どの学習過程にあたるかを確かめる"
+  - "その場面に挙がっているICTの使い方を、候補として拾う"
+  - "校内研修では、個別の事例を見る前にこの枠組みを共有する"
 curriculum: []
 status: published
 added: 2026-09-05

@@ -16,6 +16,12 @@ domains: [read]
 scenes: [share, discuss]
 effort: 2
 grade: null
+howto:
+  - "デジタルホワイトボードで、一人一枚のワークシートを配る"
+  - "互いのシートを見られる設定にしておく"
+  - "手が止まった子には、友達の書き込みを見るよう促す"
+  - "慣れてきたら、付箋に短い説明を書き添えさせる"
+  - "教師用端末で投影し、代表の考えを全体で共有する"
 curriculum: []
 status: published
 added: 2026-09-05

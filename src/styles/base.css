@@ -212,6 +212,38 @@ main { display: block; padding-bottom: 3.5rem; }
 .meta-table dt { flex: 0 0 5.5em; color: var(--ink-mute); margin: 0; font-size: 0.8125rem; }
 .meta-table dd { margin: 0; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
 
+.howto {
+  list-style: none;
+  counter-reset: step;
+  max-width: var(--measure);
+  margin: 0 0 1.5rem;
+}
+.howto li {
+  counter-increment: step;
+  position: relative;
+  padding: 0.35rem 0 0.35rem 2.2rem;
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  border-bottom: 1px solid var(--rule);
+}
+.howto li:last-child { border-bottom: 0; }
+.howto li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .prose { max-width: var(--measure); }
 .prose p:last-child { margin-bottom: 0; }
 .h-sub {

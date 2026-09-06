@@ -16,6 +16,11 @@ domains: [read]
 scenes: [intro, individual, share]
 effort: 1
 grade: null
+howto:
+  - "教材ラボで「ベン図」「年表」など、欲しい枠の名前で検索する"
+  - "使う枠を選び、扱う教材に合わせて文言を書き換える"
+  - "編集したものを配り、子どもに書き込ませる"
+  - "近い枠が見つからないときは、AIに指示して作らせる"
 curriculum: []
 status: published
 added: 2026-09-05
