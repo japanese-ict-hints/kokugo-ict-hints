@@ -16,6 +16,7 @@ domains: [speak-listen]
 scenes: [individual, share]
 effort: 2
 grade: "中1"
+unit: "魅力的な提案をしよう"
 howto:
   - "学習課題に関わる情報を調べさせ、内容ごとに整理させる"
   - "集めた情報は後から探せるようにまとめて置かせる"

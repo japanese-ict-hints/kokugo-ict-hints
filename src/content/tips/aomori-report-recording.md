@@ -16,6 +16,7 @@ domains: [speak-listen]
 scenes: [individual, share, discuss]
 effort: 2
 grade: "中1"
+unit: "職場体験の内容を報告する"
 howto:
   - "構成メモから読み原稿を仕上げさせ、話すことの評価の観点を配っておく"
   - "2人一組にし、報告の練習の様子を端末で録画させる"

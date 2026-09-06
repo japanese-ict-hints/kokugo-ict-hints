@@ -16,6 +16,7 @@ domains: [speak-listen, write, read, language, handwriting, reading-life]
 scenes: [intro]
 effort: 1
 grade: null
+unit: ""
 howto:
   - "PDFを開き、国語科の学習過程を整理した図を見る"
   - "扱う単元が、どの学習過程にあたるかを確かめる"

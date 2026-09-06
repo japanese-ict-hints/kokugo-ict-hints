@@ -16,6 +16,7 @@ domains: [speak-listen]
 scenes: [individual]
 effort: 1
 grade: null
+unit: ""
 howto:
   - "文書作成ソフトの音声認識をオンにする"
   - "自分のスピーチを話し、その場で文字に起こさせる"

@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { GRADE_IDS, GRADES, matchesGrade } from '../../lib/grades';
+
+const tips = await loadTips();
+const withUnit = tips.filter((t) => t.data.unit);
+
+// 学年ごとに、単元名でまとめる。学年が分からないものは最後にまとめる。
+const byGrade = GRADE_IDS.map((id) => {
+  const inGrade = withUnit.filter((t) => matchesGrade(t.data.grade, id));
+  const units = new Map<string, typeof tips>();
+  for (const t of inGrade) units.set(t.data.unit, [...(units.get(t.data.unit) ?? []), t]);
+  return { id, label: GRADES[id].label, units: [...units.entries()] };
+}).filter((g) => g.units.length > 0);
+
+const noGrade = withUnit.filter((t) => !GRADE_IDS.some((id) => matchesGrade(t.data.grade, id)));
+const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
+---
+
+<Base
+  title="単元から探す"
+  description="事例が扱っている単元名・教材名の一覧。学年ごとに並べています。"
+>
+  <p class="breadcrumb"><a href={url('/')}>トップ</a>　単元から探す</p>
+  <h1>単元から探す</h1>
+  <p class="lede">
+    出典が単元名や教材名を示している事例を、学年ごとに並べています。{unitCount}の単元、{withUnit.length}件。
+  </p>
+
+  <aside class="notice">
+    <p>
+      ここに並ぶのは、集めた事例が扱っていた単元です。教科書の目次ではありません。
+      発行者が異なれば同じ教材が別の学年に置かれていることもあるので、
+      所属校の教科書で確かめてください。
+    </p>
+  </aside>
+
+  {
+    byGrade.map((g) => (
+      <section class="section" aria-labelledby={`h-${g.id}`}>
+        <h2 id={`h-${g.id}`}>
+          <a href={url(`/grades/${g.id}/`)}>{g.label}</a>
+        </h2>
+        {g.units.map(([unit, list]) => (
+          <div class="unit-block">
+            <h3 class="unit-name">{unit}</h3>
+            <TipList tips={list} id={`unit-${g.id}-${unit}`} />
+          </div>
+        ))}
+      </section>
+    ))
+  }
+
+  {
+    noGrade.length > 0 && (
+      <section class="section" aria-labelledby="h-nograde">
+        <h2 id="h-nograde">学年の指定がないもの</h2>
+        <TipList tips={noGrade} id="unit-nograde" />
+      </section>
+    )
+  }
+</Base>

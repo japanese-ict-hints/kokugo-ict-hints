@@ -16,6 +16,7 @@ domains: [language, write]
 scenes: [share, reflect]
 effort: 1
 grade: null
+unit: ""
 howto:
   - "オンラインの一言日記やコメント欄を、しばらくそのまま続けさせる"
   - "言葉が崩れた書き込みが出てきたら、書き手が分からない形で教材にする"

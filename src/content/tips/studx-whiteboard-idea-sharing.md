@@ -16,6 +16,7 @@ domains: [read]
 scenes: [share, discuss]
 effort: 2
 grade: null
+unit: ""
 howto:
   - "デジタルホワイトボードで、一人一枚のワークシートを配る"
   - "互いのシートを見られる設定にしておく"

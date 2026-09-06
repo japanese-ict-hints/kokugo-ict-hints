@@ -16,6 +16,7 @@ domains: [write]
 scenes: [individual, share, discuss]
 effort: 2
 grade: "小6"
+unit: "デジタル機器と私たち"
 howto:
   - "前の時間までに、作文を提出BOXへ出させる"
   - "教師が本時までに添削コメントを入れ、全員分を公開設定にする"

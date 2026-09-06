@@ -16,6 +16,7 @@ domains: [speak-listen, reading-life]
 scenes: [share, reflect]
 effort: 1
 grade: "小2"
+unit: "お気に入りの本を紹介しよう"
 howto:
   - "紹介したい本の、見せたい場面を児童に選ばせる"
   - "端末で映しながら、聞き手に向けて話させる"

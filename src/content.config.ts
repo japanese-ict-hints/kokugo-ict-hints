@@ -42,6 +42,8 @@ const tips = defineCollection({
     scenes: z.array(z.enum(SCENE_IDS)).default([]),
     effort: z.number().int().min(1).max(3),
     grade: z.string().nullable().default(null),
+    // 出典が単元名・教材名を示している場合だけ書く。推測しない（CLAUDE.md §4.1）
+    unit: z.string().max(40).default(''),
     // 自作の手順。出典の表現をなぞらず、事実としての流れだけを書く（CLAUDE.md §7.4）
     howto: z.array(z.string().max(60, { message: 'howto の各行は60字以内' })).max(6).default([]),
     curriculum: z

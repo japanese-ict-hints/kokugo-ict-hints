@@ -16,6 +16,7 @@ domains: [read]
 scenes: [intro, individual, share, discuss, reflect]
 effort: 3
 grade: "小6"
+unit: "やまなし"
 howto:
   - "1時間目 全員で読み、感想を共有して単元計画を一緒に立てる"
   - "2時間目 作者に関する資料を読み、生き方と作品の特徴をまとめて共有する"

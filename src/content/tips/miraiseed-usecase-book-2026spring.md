@@ -16,6 +16,7 @@ domains: []
 scenes: [intro, individual, share, reflect]
 effort: 1
 grade: null
+unit: ""
 howto:
   - "リンク先のページからPDFをダウンロードする"
   - "小3から小6の国語事例から、いま扱う単元に近いものを探す"

@@ -16,6 +16,7 @@ domains: []
 scenes: [intro]
 effort: 1
 grade: null
+unit: ""
 howto:
   - "リンク先を開き、扱う学年の欄を見る"
   - "話すこと・書くこと・読むこと・書写・読書などの区分から選ぶ"

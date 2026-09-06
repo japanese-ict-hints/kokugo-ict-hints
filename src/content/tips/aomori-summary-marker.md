@@ -16,6 +16,7 @@ domains: [read]
 scenes: [individual, share]
 effort: 2
 grade: "中2"
+unit: "説明的な文章の内容を要約する"
 howto:
   - "説明的な文章のテキストを、事前に端末へ配っておく"
   - "黙読させ、何について書かれた文章かをペアで確かめさせる"

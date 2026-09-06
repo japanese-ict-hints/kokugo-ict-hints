@@ -133,6 +133,16 @@ const attribution =
         <dd>{LICENSES[d.source.license]}</dd>
       </div>
       {
+        d.unit && (
+          <div>
+            <dt>単元</dt>
+            <dd>
+              <a href={url('/units/')}>{d.unit}</a>
+            </dd>
+          </div>
+        )
+      }
+      {
         d.grade && (
           <div>
             <dt>学年</dt>

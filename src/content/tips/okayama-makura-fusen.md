@@ -16,6 +16,7 @@ domains: [read]
 scenes: [share, discuss, individual]
 effort: 2
 grade: "中2"
+unit: "枕草子"
 howto:
   - "前時までに本文を読み、表現の特徴や魅力をワークシートに書かせておく"
   - "本時のはじめに、書いたものを見て前時を振り返らせる"

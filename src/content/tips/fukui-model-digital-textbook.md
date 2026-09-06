@@ -16,6 +16,7 @@ domains: [read]
 scenes: [individual, share, discuss]
 effort: 2
 grade: "中1"
+unit: "星の花が降るころに"
 howto:
   - "作品全体を読ませ、着目する描写を決めておく"
   - "描写を本文から抜き出す作業を、書き写しではなく端末上で行わせる"

@@ -16,6 +16,7 @@ domains: [speak-listen]
 scenes: [share]
 effort: 1
 grade: "中1"
+unit: "話の構成を工夫しよう"
 howto:
   - "スピーチで見せたい物を、事前に写真か動画に撮らせる"
   - "端末で全員に配り、聞き手の手元で見られる状態にする"

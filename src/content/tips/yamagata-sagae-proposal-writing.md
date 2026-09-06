@@ -16,6 +16,7 @@ domains: [write]
 scenes: [share, discuss, reflect]
 effort: 2
 grade: "小6"
+unit: "私たちにできること"
 howto:
   - "同じテーマに取り組む児童どうしでグループを組ませる"
   - "調べたことと意見を端末上で交換し、グループで話し合わせる"

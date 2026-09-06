@@ -16,6 +16,7 @@ domains: [speak-listen]
 scenes: [share, discuss, reflect]
 effort: 3
 grade: "中1"
+unit: "話の構成を工夫しよう"
 howto:
   - "前時までに相手校とつないで自己紹介をさせ、話す間柄を作っておく"
   - "各校でスピーチのテーマと構成を決め、メモにまとめさせる"

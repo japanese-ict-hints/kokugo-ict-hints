@@ -191,6 +191,15 @@ main { display: block; padding-bottom: 3.5rem; }
   white-space: nowrap;
 }
 
+.unit-block { margin: 0 0 1.5rem; }
+.unit-name {
+  font-size: var(--step-0);
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--accent);
+}
+
 .empty {
   color: var(--ink-mute);
   background: var(--paper-sunk);

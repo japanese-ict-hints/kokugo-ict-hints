@@ -16,6 +16,7 @@ domains: [speak-listen]
 scenes: [individual, share]
 effort: 1
 grade: "小4"
+unit: "聞き取りメモの工夫"
 howto:
   - "インタビューをしている様子を端末で撮影させる"
   - "自分が取ったメモと、撮った動画を見比べさせる"

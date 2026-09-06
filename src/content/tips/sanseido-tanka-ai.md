@@ -16,6 +16,7 @@ domains: [write, language]
 scenes: [individual, share, discuss, reflect]
 effort: 2
 grade: null
+unit: "短歌の創作"
 howto:
   - "短歌を読むときの視点（心情・情景・表現の工夫）を振り返らせる"
   - "短歌を作らせ、創作の意図と工夫した点もあわせて書かせる"

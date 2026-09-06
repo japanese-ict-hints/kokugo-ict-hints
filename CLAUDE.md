@@ -188,6 +188,7 @@ domains: [speak-listen]           # §4.2
 scenes: [share, reflect]          # §4.2
 effort: 1                         # 1=5分以内 2=事前準備30分 3=単元設計が必要
 grade: null                       # 明記があれば "小5" 等。推測しない
+unit: ""                          # 単元名・教材名。出典が示している場合だけ。40字以内
 howto: []                         # 使い方。1行60字以内、6行まで。§7.4
 curriculum: []                    # 学習指導要領コード（文字列）。scripts/curriculum.ts の表にある値のみ
 status: draft                     # draft / published / archived
@@ -237,6 +238,7 @@ UIに表示する。`social` `math` `science` `life` `music` `art` `craft` `home
 /tips/{slug}/            事例詳細
 /scenes/{scene}/         場面別
 /grades/{grade}/         学年別（e1〜e6 / j1〜j3）
+/units/                  単元別（集めた事例が扱っていた単元。教科書の目次ではない）
 /domains/{domain}/       領域別
 /tools/{tool}/           ツール別
 /school/{school}/        校種別

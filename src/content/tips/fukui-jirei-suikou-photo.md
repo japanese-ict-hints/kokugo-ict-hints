@@ -16,6 +16,7 @@ domains: [write]
 scenes: [individual]
 effort: 1
 grade: "小6"
+unit: "文の組み立て"
 howto:
   - "文の組み立ての学習のあとに、自分の文章の推敲に入る"
   - "手書きの原稿を端末で写真に撮らせる"

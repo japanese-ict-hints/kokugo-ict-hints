@@ -16,6 +16,7 @@ domains: [read]
 scenes: [individual, share, discuss]
 effort: 2
 grade: "小1・小2"
+unit: ""
 howto:
   - "教科書の挿絵か写真を順不同に並べたシートを、児童の端末に配る"
   - "本文の時間や出来事の順に、児童が画面上で並べ替える"

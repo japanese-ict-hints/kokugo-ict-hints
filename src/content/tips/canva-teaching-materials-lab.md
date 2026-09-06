@@ -16,6 +16,7 @@ domains: [read]
 scenes: [intro, individual, share]
 effort: 1
 grade: null
+unit: ""
 howto:
   - "教材ラボで「ベン図」「年表」など、欲しい枠の名前で検索する"
   - "使う枠を選び、扱う教材に合わせて文言を書き換える"

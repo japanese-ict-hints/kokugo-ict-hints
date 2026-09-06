@@ -16,6 +16,7 @@ domains: [write]
 scenes: [individual]
 effort: 1
 grade: "小5"
+unit: "みんなが過ごしやすい町へ"
 howto:
   - "調べる活動の途中で、クラスに聞きたいことが出たら止めずに拾う"
   - "質問のカードを配り、児童どうしでやり取りさせる"

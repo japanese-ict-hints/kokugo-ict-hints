@@ -16,6 +16,7 @@ domains: [read]
 scenes: [individual, share, discuss, reflect]
 effort: 3
 grade: "中2"
+unit: "枕草子"
 howto:
   - "前時までに、4つの資料から1つを選ばせ、読み取りを根拠とともに共有ボードへ書かせる"
   - "共有ボードは全体に開いておき、友達の書き込みを随時見られるようにする"

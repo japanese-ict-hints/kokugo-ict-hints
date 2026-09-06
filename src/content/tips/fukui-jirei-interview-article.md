@@ -16,6 +16,7 @@ domains: [read, write]
 scenes: [individual, share]
 effort: 2
 grade: "中1"
+unit: "少年の日の思い出"
 howto:
   - "登場人物の気持ちを想像させ、自分の考えとしてまとめさせる"
   - "心情の動きを図にするなど、整理の仕方を選ばせる"

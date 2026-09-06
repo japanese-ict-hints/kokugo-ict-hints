@@ -16,6 +16,7 @@ domains: [write, language]
 scenes: [individual, share, discuss, reflect]
 effort: 2
 grade: null
+unit: ""
 howto:
   - "事前に教育委員会側で、Canva連携の利用設定を済ませてもらう"
   - "オクリンクプラスのCanvaボタンから、各自のCanvaアカウントを接続する"

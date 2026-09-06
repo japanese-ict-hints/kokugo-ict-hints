@@ -16,6 +16,7 @@ domains: [write]
 scenes: [individual]
 effort: 3
 grade: "中3"
+unit: "編集して伝えよう／情報を読み取って文章を書こう"
 howto:
   - "主張したい内容を決めさせ、題材を選ばせる"
   - "必要な情報を集めさせる"

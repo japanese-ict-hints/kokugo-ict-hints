@@ -16,6 +16,7 @@ domains: [language]
 scenes: [individual, share]
 effort: 2
 grade: "中1"
+unit: "文の組み立て"
 howto:
   - "自立語と付属語をスライドで確認し、文節分けを一度例示する"
   - "基礎・応用・復習の課題を段階別に用意し、端末に置いておく"

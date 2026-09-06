@@ -16,6 +16,7 @@ domains: []
 scenes: [individual, discuss]
 effort: 3
 grade: "小5"
+unit: ""
 curriculum: []
 status: archived
 added: 2026-09-05
