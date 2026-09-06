@@ -1,0 +1,39 @@
+name: Weekly linkcheck
+
+# 毎週月曜 06:00 JST（前日 21:00 UTC）。
+# 公的機関のPDFはURLが変わりやすいので、これは省略しない（CLAUDE.md §5.4）。
+on:
+  schedule:
+    - cron: '0 21 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: リンク切れ検査
+        id: check
+        run: node scripts/linkcheck.ts --md linkcheck.md || echo "broken=1" >> "$GITHUB_OUTPUT"
+      - name: 切れていたら Issue を1本にまとめて起票
+        if: steps.check.outputs.broken == '1'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="出典のリンク切れ $(date -u +%Y-%m-%d)"
+          EXISTING=$(gh issue list --state open --search "リンク切れ in:title" --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file linkcheck.md
+          else
+            gh issue create --title "$TITLE" --body-file linkcheck.md --label "" || \
+              gh issue create --title "$TITLE" --body-file linkcheck.md
+          fi

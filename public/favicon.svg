@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="国語のICT活用ヒント">
+  <rect width="32" height="32" rx="7" fill="#B3245C"/>
+  <!-- 原稿用紙のマス目に見立てた枠と、書く線 -->
+  <rect x="7.5" y="7.5" width="17" height="17" rx="2" fill="none" stroke="#FFFAFC" stroke-width="1.6"/>
+  <path d="M16 7.5v17M7.5 16h17" stroke="#FFFAFC" stroke-width="0.9" opacity=".55"/>
+  <path d="M11 21 L21 10.5" stroke="#FFFAFC" stroke-width="2.6" stroke-linecap="round"/>
+</svg>
