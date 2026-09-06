@@ -41,6 +41,7 @@ const rows = tips.map((tip) => ({
           {domainLabel && <span>{domainLabel}</span>}
           <span title={`準備 ${effort.label}`}>{effort.stars}</span>
           <span>{tip.data.source.publisher}</span>
+          {tip.data.origin === 'original' && <span class="flag flag-original">自作</span>}
           {tip.data.source.verified === 'listed' && <span class="flag">本文未確認</span>}
           </p>
         </div>

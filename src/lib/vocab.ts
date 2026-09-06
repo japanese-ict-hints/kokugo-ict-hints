@@ -138,6 +138,7 @@ export const LICENSES: Record<string, string> = {
   'gov-open': '出典明示で複製・翻案が可',
   'link-only': 'リンクと自作要約のみ',
   permitted: '個別許諾の範囲内',
+  original: 'このサイトが考えたもの',
 };
 
 export const effortText = (n: number) => {

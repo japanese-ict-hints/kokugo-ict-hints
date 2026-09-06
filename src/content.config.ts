@@ -23,17 +23,21 @@ const nullableDate = z
 
 const tips = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/tips' }),
-  schema: z.object({
+  schema: z
+    .object({
+    // source = 出典のある事例。original = このサイトが考えたもの（CLAUDE.md §4.3）
+    origin: z.enum(['source', 'original']).default('source'),
     title: z.string().max(40, { message: 'title は40字以内' }),
     summary: z.string().max(120, { message: 'summary は120字以内' }),
     source: z.object({
-      url: z.string().url(),
+      // original の事例は出典URLを持たない
+      url: z.union([z.string().url(), z.literal('')]),
       publisher: z.string(),
       region: z.string(),
       published: nullableDate,
       retrieved: requiredDate,
-      license: z.enum(['gov-open', 'link-only', 'permitted']),
-      verified: z.enum(['fetched', 'listed']),
+      license: z.enum(['gov-open', 'link-only', 'permitted', 'original']),
+      verified: z.enum(['fetched', 'listed', 'original']),
     }),
     tools: z.array(z.enum(TOOL_IDS)).default([]),
     school: z.array(z.enum(SCHOOL_IDS)).min(1),
@@ -55,7 +59,28 @@ const tips = defineCollection({
     status: z.enum(['draft', 'published', 'archived']).default('draft'),
     added: requiredDate,
     note: z.string().default(''),
-  }),
+    })
+    .superRefine((d, ctx) => {
+      // 自作の事例に出典があるように見せない。逆に、出典のある事例のURLは必須
+      if (d.origin === 'original') {
+        if (d.source.url !== '') {
+          ctx.addIssue({ code: 'custom', message: 'origin: original の事例に出典URLは書けない' });
+        }
+        if (d.source.publisher !== 'このサイト') {
+          ctx.addIssue({ code: 'custom', message: 'origin: original の publisher は「このサイト」にする' });
+        }
+        if (d.source.license !== 'original') {
+          ctx.addIssue({ code: 'custom', message: 'origin: original の license は original にする' });
+        }
+      } else {
+        if (d.source.url === '') {
+          ctx.addIssue({ code: 'custom', message: '出典のある事例には url が要る' });
+        }
+        if (d.source.license === 'original') {
+          ctx.addIssue({ code: 'custom', message: 'license: original は自作の事例だけ' });
+        }
+      }
+    }),
 });
 
 export const collections = { tips };

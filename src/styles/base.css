@@ -200,6 +200,13 @@ main { display: block; padding-bottom: 3.5rem; }
   border-left: 3px solid var(--accent);
 }
 
+.flag-original {
+  background: var(--accent);
+  color: var(--paper);
+  font-weight: 700;
+}
+.notice-original { border-left: 3px solid var(--accent); }
+
 .empty {
   color: var(--ink-mute);
   background: var(--paper-sunk);

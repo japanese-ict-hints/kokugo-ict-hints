@@ -39,7 +39,7 @@ const domainLabel = d.domains.map((id) => DOMAINS[id].short).join('、');
 
 // gov-open で本文を翻案した場合の出典表記（CLAUDE.md §7.4）。
 const attribution =
-  d.source.license === 'gov-open'
+  d.origin !== 'original' && d.source.license === 'gov-open'
     ? `出典：「${d.source.publisher}」（${d.source.url}）（${formatDate(d.source.retrieved)}に利用）を加工して作成`
     : null;
 ---
@@ -57,6 +57,7 @@ const attribution =
         <span>{d.school.map((s) => SCHOOLS[s]).join('・')}</span>
         <span>{d.subjects.map((s) => SUBJECTS[s]).join('・')}</span>
         <span>{effort.stars} {effort.label}</span>
+        {d.origin === 'original' && <span class="flag flag-original">自作</span>}
         {d.source.verified === 'listed' && <span class="flag">本文未確認</span>}
         {d.status === 'draft' && <span class="flag">下書き</span>}
       </p>
@@ -94,8 +95,27 @@ const attribution =
       )
     }
 
-    <p><a class="button" href={d.source.url} rel="noopener nofollow" target="_blank">出典を開く（外部サイト）</a></p>
-    <p class="button-note">{d.source.publisher}　{d.source.url}</p>
+    {
+      d.origin === 'original' ? (
+        <aside class="notice notice-original">
+          <p>
+            <strong>この事例は、このサイトが考えたものです。</strong>
+            どこかの学校で実際に行われた記録ではありません。学習指導要領の内容と、
+            ほかの事例で確かめられた進め方をもとに組み立てています。試すときは、
+            目の前の子どもに合うかどうかをご自分で判断してください。
+          </p>
+        </aside>
+      ) : (
+        <>
+          <p>
+            <a class="button" href={d.source.url} rel="noopener nofollow" target="_blank">
+              出典を開く（外部サイト）
+            </a>
+          </p>
+          <p class="button-note">{d.source.publisher}　{d.source.url}</p>
+        </>
+      )
+    }
 
     <h2 class="h-sub">この事例の見どころ</h2>
     <div class="prose">
@@ -113,8 +133,8 @@ const attribution =
     <h2 class="h-sub">この事例の情報</h2>
     <dl class="meta-table">
       <div>
-        <dt>出典</dt>
-        <dd>{d.source.publisher}（{d.source.region}）</dd>
+        <dt>{d.origin === 'original' ? '作成' : '出典'}</dt>
+        <dd>{d.origin === 'original' ? 'このサイト（自作）' : `${d.source.publisher}（${d.source.region}）`}</dd>
       </div>
       {
         d.source.published && (
