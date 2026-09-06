@@ -1,0 +1,8 @@
+name = "kokugo-helpful"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# KV の名前空間。作成後に id を書き込む（README.md 参照）
+[[kv_namespaces]]
+binding = "HELPFUL"
+id = "ここにKV名前空間のIDを書く"

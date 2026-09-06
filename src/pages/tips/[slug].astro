@@ -198,64 +198,89 @@ const attribution =
       </div>
     </dl>
 
-    {attribution && <p class="attribution">{attribution}</p>}
-
     <aside class="helpful" hidden id="helpful" data-slug={tip.id} data-count-url={HELPFUL.countUrl}>
       <p class="helpful-label">{HELPFUL.label}</p>
-      <button type="button" class="chip chip-lead" id="helpful-button">
+      <button type="button" class="button button-quiet" id="helpful-button">
         {HELPFUL.button}
       </button>
-      <p class="helpful-note" id="helpful-note" role="status" aria-live="polite"></p>
+      <p class="helpful-count" id="helpful-count" role="status" aria-live="polite"></p>
     </aside>
+    {attribution && <p class="attribution">{attribution}</p>}
+
   </article>
 
 <script is:inline>
-  // 「役に立った」。押した記録は端末の中に残す。受け口のURLが設定されているときだけ、
-  // 事例の識別子を送る。閲覧者を識別する情報は送らない。
+  // 「役に立った」。押した数は受け口（HELPFUL.countUrl）で数える。
+  // 受け口が未設定なら、押した記録は端末の中だけに残り、数は出さない。
   // JSが無い環境ではボタン自体を出さない（押せないボタンを置かない）。
   (function () {
     var box = document.getElementById('helpful');
     var btn = document.getElementById('helpful-button');
-    var note = document.getElementById('helpful-note');
-    if (!box || !btn || !note) return;
+    var out = document.getElementById('helpful-count');
+    if (!box || !btn || !out) return;
 
     var slug = box.getAttribute('data-slug') || '';
     var countUrl = box.getAttribute('data-count-url') || '';
     var key = 'helpful:' + slug;
 
-    function read() {
+    function pressed() {
       try {
         return window.localStorage.getItem(key) === '1';
       } catch (e) {
         return false;
       }
     }
-    function write() {
+    function remember() {
       try {
         window.localStorage.setItem(key, '1');
       } catch (e) {
         /* 保存できない設定でも動きは変えない */
       }
     }
-    function done() {
+    function showCount(n) {
+      if (typeof n !== 'number' || !isFinite(n) || n < 0) return;
+      out.textContent = n === 0 ? 'まだ押されていません' : n + '人が役に立ったと答えています';
+    }
+    function markPressed() {
       btn.disabled = true;
       btn.setAttribute('aria-pressed', 'true');
-      note.textContent = '\u3042\u308a\u304c\u3068\u3046\u3054\u3056\u3044\u307e\u3057\u305f';
+      btn.textContent = '\u3042\u308a\u304c\u3068\u3046\u3054\u3056\u3044\u307e\u3057\u305f';
     }
 
     box.hidden = false;
-    if (read()) done();
+    if (pressed()) markPressed();
+
+    if (countUrl) {
+      fetch(countUrl + '?slug=' + encodeURIComponent(slug), { method: 'GET' })
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (d) {
+          if (d) showCount(d.count);
+        })
+        .catch(function () {
+          /* 数が取れなくてもボタンは使える */
+        });
+    }
 
     btn.addEventListener('click', function () {
-      write();
-      done();
-      if (countUrl && navigator.sendBeacon) {
-        try {
-          navigator.sendBeacon(countUrl, new Blob([JSON.stringify({ slug: slug })], { type: 'text/plain' }));
-        } catch (e) {
+      remember();
+      markPressed();
+      if (!countUrl) return;
+      fetch(countUrl, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ slug: slug }),
+      })
+        .then(function (r) {
+          return r.ok ? r.json() : null;
+        })
+        .then(function (d) {
+          if (d) showCount(d.count);
+        })
+        .catch(function () {
           /* 送れなくても表示は変えない */
-        }
-      }
+        });
     });
   })();
 </script>

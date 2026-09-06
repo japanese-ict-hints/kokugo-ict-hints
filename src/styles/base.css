@@ -290,14 +290,24 @@ main { display: block; padding-bottom: 3.5rem; }
   border-radius: var(--radius);
 }
 .helpful-label { font-weight: 700; margin: 0 0 0.7rem; }
-.helpful-note { font-size: 0.8125rem; color: var(--accent); margin: 0.7rem 0 0; min-height: 1.4em; }
+.helpful-count { font-size: 0.875rem; color: var(--ink-mute); margin: 0.8rem 0 0; min-height: 1.4em; }
 .helpful button { font: inherit; cursor: pointer; }
-.helpful button[disabled] {
+
+/* 出典を開くボタンと競わせないための、控えめなボタン */
+.button-quiet {
+  background: var(--paper);
+  color: var(--accent);
+  border: 2px solid var(--accent);
+  padding: 0.8em 2em;
+}
+.button-quiet:hover { background: var(--accent-soft); color: var(--accent-hover); border-color: var(--accent-hover); }
+.button-quiet[disabled] {
   cursor: default;
   background: var(--paper);
   border-color: var(--rule);
   color: var(--ink-mute);
 }
+.button-quiet[disabled]:hover { background: var(--paper); border-color: var(--rule); color: var(--ink-mute); }
 
 .attribution {
   font-size: 0.75rem;
