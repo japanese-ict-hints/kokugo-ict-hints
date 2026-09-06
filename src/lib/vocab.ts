@@ -24,8 +24,11 @@ export const SCENE_IDS = [
 export type SceneId = (typeof SCENE_IDS)[number];
 
 export const TOOL_IDS = [
+  'okulink-plus',
+  'drillpark',
   'miraiseed',
   'canva',
+  'kahoot',
   'padlet',
   'teams',
   'word',
@@ -84,8 +87,12 @@ export const SCENES: Record<SceneId, { label: string; hint: string }> = {
 };
 
 export const TOOLS: Record<ToolId, string> = {
+  'okulink-plus': 'オクリンクプラス',
+  drillpark: 'ドリルパーク',
+  // 製品を特定できないとき、または製品をまたぐ資料のときだけ使う
   miraiseed: 'ミライシード',
   canva: 'Canva',
+  kahoot: 'Kahoot!',
   padlet: 'Padlet',
   teams: 'Teams',
   word: 'Word',

@@ -9,7 +9,7 @@ source:
   retrieved: 2026-09-05
   license: link-only
   verified: fetched
-tools: [miraiseed]
+tools: [okulink-plus]
 school: [elementary]
 subjects: [japanese]
 domains: [write]

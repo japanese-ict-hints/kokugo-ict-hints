@@ -4,12 +4,21 @@ import Chips from '../components/Chips.astro';
 import TipList from '../components/TipList.astro';
 import { loadTips, lastUpdated } from '../lib/tips';
 import { SITE, formatDate, url } from '../lib/site';
-import { DOMAIN_IDS, DOMAINS, SCENE_IDS, SCENES, SCHOOL_IDS, SCHOOLS } from '../lib/vocab';
+import {
+  DOMAIN_IDS,
+  DOMAINS,
+  SCENE_IDS,
+  SCENES,
+  SCHOOL_IDS,
+  SCHOOLS,
+  TOOL_IDS,
+  TOOLS,
+} from '../lib/vocab';
 
 const tips = await loadTips();
 const updated = lastUpdated(tips);
 
-const countBy = (key: 'domains' | 'scenes' | 'school', id: string) =>
+const countBy = (key: 'domains' | 'scenes' | 'school' | 'tools', id: string) =>
   tips.filter((t) => (t.data[key] as readonly string[]).includes(id)).length;
 
 const schoolItems = SCHOOL_IDS.map((id) => ({
@@ -30,6 +39,15 @@ const domainItems = DOMAIN_IDS.map((id) => ({
   label: DOMAINS[id].short,
   count: countBy('domains', id),
 })).filter((i) => i.count > 0);
+
+// 件数の多い順。教員は「使えるツール」から入ることが多い
+const toolItems = TOOL_IDS.map((id) => ({
+  href: `/tools/${id}/`,
+  label: TOOLS[id],
+  count: countBy('tools', id),
+}))
+  .filter((i) => i.count > 0)
+  .sort((a, b) => b.count - a.count);
 ---
 
 <Base home={true}>
@@ -63,6 +81,11 @@ const domainItems = DOMAIN_IDS.map((id) => ({
   <section class="section" aria-labelledby="h-domain">
     <h2 id="h-domain">領域</h2>
     <Chips items={domainItems} label="領域から探す" />
+  </section>
+
+  <section class="section" aria-labelledby="h-tool">
+    <h2 id="h-tool">ツール</h2>
+    <Chips items={toolItems} label="ツールから探す" />
   </section>
 
   <section class="section" aria-labelledby="h-list">

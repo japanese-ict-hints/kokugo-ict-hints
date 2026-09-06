@@ -9,7 +9,7 @@ source:
   retrieved: 2026-09-05
   license: gov-open
   verified: fetched
-tools: [teams, miraiseed]
+tools: [teams, okulink-plus]
 school: [elementary, junior]
 subjects: [japanese]
 domains: [language, write]

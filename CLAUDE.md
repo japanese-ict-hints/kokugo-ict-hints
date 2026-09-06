@@ -198,8 +198,13 @@ note: ""                          # 原典が教科や学年を特定してい�
 
 **scenes**（授業の場面）：`intro` `individual` `share` `discuss` `reflect` `assess` `home` `admin`
 
-**tools**：`miraiseed` `canva` `padlet` `teams` `word` `excel` `powerpoint` `forms`
-`onenote` `ai` `other`
+**tools**：`okulink-plus`（オクリンクプラス） `drillpark`（ドリルパーク）
+`miraiseed`（製品を特定できないとき、または製品をまたぐ資料のときだけ）
+`canva` `kahoot` `padlet` `teams` `word` `excel` `powerpoint` `forms` `onenote` `ai` `other`
+
+**扱わないツール**：Google Workspace for Education、ロイロノート・スクール。
+佐倉市で採用していないため、語彙に入れない。これらだけを使う事例は収集しない。
+（採用状況が変われば見直す）
 
 **subjects**：`japanese` のみ（他教科は語彙だけ先に定義しておき、事例が1件以上ある教科だけを
 UIに表示する。`social` `math` `science` `life` `music` `art` `craft` `home` `pe` `english`
