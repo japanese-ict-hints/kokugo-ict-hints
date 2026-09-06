@@ -18,6 +18,8 @@ scenes: [intro, share, discuss, reflect]
 effort: 2
 grade: "小4"
 unit: "一つの花"
+ict_use: "初読の感想を端末に書かせ、全員分を並べて読めるようにする"
+ict_effect: "紙では難しい全員分の共有ができ、課題づくりに全員の疑問が入る"
 howto:
   - "初読の後、感想を端末に書かせる"
   - "全員の感想を並べて読めるようにする"

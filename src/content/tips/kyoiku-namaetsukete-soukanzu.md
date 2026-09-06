@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小5"
 unit: "なまえつけてよ"
+ict_use: "人物相関図を端末で作り、全員分を読める状態にする"
+ict_effect: "一覧や拡大ができ、交流したい相手を自分で見つけられる"
 howto:
   - "叙述をもとに人物相関図を作らせる"
   - "全員の図を読める状態にする"

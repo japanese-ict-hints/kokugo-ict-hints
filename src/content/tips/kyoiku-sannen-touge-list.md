@@ -18,6 +18,8 @@ scenes: [intro, individual, share]
 effort: 2
 grade: "小3"
 unit: "三年とうげ"
+ict_use: "民話や昔話の図書リストを端末で配り、選書に使わせる"
+ict_effect: "手元に一覧があるので、図書室で迷わずに一冊を選べる"
 howto:
   - "民話や昔話の図書リストを作って配る"
   - "教材文で、話の組み立てをつかませる"

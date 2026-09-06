@@ -48,6 +48,9 @@ const tips = defineCollection({
     grade: z.string().nullable().default(null),
     // 出典が単元名・教材名を示している場合だけ書く。推測しない（CLAUDE.md §4.1）
     unit: z.string().max(40).default(''),
+    // ICT活用サイトなので、どこで何を使い、何が変わるかを必ず1文ずつ書く
+    ict_use: z.string().max(60, { message: 'ict_use は60字以内' }).default(''),
+    ict_effect: z.string().max(60, { message: 'ict_effect は60字以内' }).default(''),
     // 自作の手順。出典の表現をなぞらず、事実としての流れだけを書く（CLAUDE.md §7.4）
     howto: z.array(z.string().max(60, { message: 'howto の各行は60字以内' })).max(6).default([]),
     curriculum: z

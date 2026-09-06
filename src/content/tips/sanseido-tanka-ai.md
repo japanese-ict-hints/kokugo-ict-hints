@@ -17,6 +17,8 @@ scenes: [individual, share, discuss, reflect]
 effort: 2
 grade: null
 unit: "短歌の創作"
+ict_use: "生徒どうしの推敲の後、同じ短歌を生成AIに入れて改善案を出させる"
+ict_effect: "採否を理由つきで残すので、言葉の選択が自分のものになる"
 howto:
   - "短歌を読むときの視点（心情・情景・表現の工夫）を振り返らせる"
   - "短歌を作らせ、創作の意図と工夫した点もあわせて書かせる"

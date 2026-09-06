@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 3
 grade: "小6"
 unit: "津田梅子"
+ict_use: "西暦と出来事を抜き出し、色を分けながら年表に並べる"
+ict_effect: "出来事のつながりが見え、生き方を考える材料になる"
 howto:
   - "本文の西暦を四角で囲ませる"
   - "その年の行動や出来事が分かる箇所に線を引かせる"

@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "中2"
 unit: "タオル"
+ict_use: "方言の部分を朗読機能で聞かせ、人物ごとにマーカーの色を分ける"
+ict_effect: "範読では出せない音を補え、根拠にした箇所を全員で共有できる"
 howto:
   - "該当箇所の朗読を聞かせる"
   - "人物像が分かる箇所を探させ、教科書に線を引かせる"

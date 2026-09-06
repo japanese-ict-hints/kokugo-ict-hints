@@ -18,6 +18,8 @@ scenes: [intro, individual, share, discuss]
 effort: 3
 grade: "小4"
 unit: "プラタナスの木"
+ict_use: "ブックレビューを端末で書き、全員分を読み合わせる"
+ict_effect: "読み手の反応が返るので、魅力が伝わるかを確かめられる"
 howto:
   - "導入で既習作品のレビューを比べて読ませる"
   - "魅力が伝わるかを星の数で評価させ、理由を話し合わせる"

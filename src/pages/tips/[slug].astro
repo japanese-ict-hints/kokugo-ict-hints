@@ -66,6 +66,28 @@ const attribution =
     <p class="prose">{d.summary}</p>
 
     {
+      (d.ict_use || d.ict_effect) && (
+        <div class="ict">
+          <h2 class="h-sub">ICTの使いどころ</h2>
+          <dl class="ict-dl">
+            {d.ict_use && (
+              <>
+                <dt>どこで使うか</dt>
+                <dd>{d.ict_use}</dd>
+              </>
+            )}
+            {d.ict_effect && (
+              <>
+                <dt>何が変わるか</dt>
+                <dd>{d.ict_effect}</dd>
+              </>
+            )}
+          </dl>
+        </div>
+      )
+    }
+
+    {
       d.scenes.length > 0 && (
         <>
           <h2 class="h-sub">使う場面</h2>

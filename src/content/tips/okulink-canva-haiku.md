@@ -17,6 +17,8 @@ scenes: [individual, share, discuss, reflect]
 effort: 2
 grade: null
 unit: ""
+ict_use: "俳句をオクリンクプラスで直し合い、Canva連携で作品カードにする"
+ict_effect: "考える場と仕上げる場を分けられ、鑑賞会まで一続きになる"
 howto:
   - "事前に教育委員会側で、Canva連携の利用設定を済ませてもらう"
   - "オクリンクプラスのCanvaボタンから、各自のCanvaアカウントを接続する"

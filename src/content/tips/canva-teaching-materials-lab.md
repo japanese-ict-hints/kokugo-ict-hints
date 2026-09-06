@@ -17,6 +17,8 @@ scenes: [intro, individual, share]
 effort: 1
 grade: null
 unit: ""
+ict_use: "ワークシートを用意する場面で、Canvaの既成の枠を探して書き換える"
+ict_effect: "枠を一から作らずに済み、学級に合わせた文言だけを直せる"
 howto:
   - "教材ラボで「ベン図」「年表」など、欲しい枠の名前で検索する"
   - "使う枠を選び、扱う教材に合わせて文言を書き換える"

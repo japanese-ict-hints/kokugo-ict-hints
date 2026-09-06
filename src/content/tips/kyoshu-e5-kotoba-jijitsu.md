@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小5"
 unit: "言葉と事実"
+ict_use: "事例に赤、解説に青のマーカーを引き、全体で共有する"
+ict_effect: "どこが事例でどこが解説かがそろい、構成の検討に入れる"
 howto:
   - "本文を写したワークシートを配る"
   - "事例に赤線、解説に青線を引かせる"

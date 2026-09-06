@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小6"
 unit: "帰り道"
+ict_use: "人物像の捉え方ごとに付箋の色を変え、画面上に出し合わせる"
+ict_effect: "立場の分かれ方が一目で見え、話し合う相手を自分で選べる"
 howto:
   - "人物像が読み取れる叙述に線を引かせる"
   - "どんな人物だと思ったかを書き出させる"

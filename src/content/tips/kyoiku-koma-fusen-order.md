@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小3"
 unit: "こまを楽しむ"
+ict_use: "段落のキーワードを付箋にし、画面上で並べ替えて構成図を作る"
+ict_effect: "貼り直しの手間が消えるので、事例の順序を何度も試せる"
 howto:
   - "段落ごとのキーワードを表にまとめさせる"
   - "キーワードを付箋に書き起こさせる"

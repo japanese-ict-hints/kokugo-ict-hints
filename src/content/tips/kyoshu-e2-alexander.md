@@ -18,6 +18,8 @@ scenes: [individual, share, discuss, reflect]
 effort: 2
 grade: "小2"
 unit: "アレクサンダとぜんまいねずみ"
+ict_use: "離れた二つの場面と挿絵を、同じ画面に並べて示す"
+ict_effect: "長い物語でも比べる対象が固定され、話し合いがそれない"
 howto:
   - "離れた二つの場面を並べて示す"
   - "変わっているところに線を引かせる"

@@ -18,6 +18,8 @@ scenes: [intro, individual, share]
 effort: 2
 grade: "中3"
 unit: "初恋"
+ict_use: "題名からの連想を思考ツールで出し、本文をマーカーと線で示す"
+ict_effect: "全員が同じ言葉を見て考えられ、着目する場所がそろう"
 howto:
   - "題名から連想する言葉をウェビングで出させる"
   - "朗読を聞き、作品の概要をつかませる"

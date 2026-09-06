@@ -235,6 +235,28 @@ main { display: block; padding-bottom: 3.5rem; }
 .scene-flow { margin: 0 0 1.5rem; }
 .scene-flow-extra { font-size: 0.8125rem; color: var(--ink-mute); margin: 0.5rem 0 0; }
 
+.ict {
+  max-width: var(--measure);
+  margin: 0 0 1.5rem;
+  padding: 0.9rem 1rem 1rem;
+  background: var(--accent-soft);
+  border-radius: var(--radius);
+}
+.ict .h-sub { margin-top: 0; }
+.ict-dl { margin: 0; }
+.ict-dl dt {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-hover);
+  margin: 0.6rem 0 0.1rem;
+}
+.ict-dl dt:first-of-type { margin-top: 0; }
+.ict-dl dd {
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+}
+
 .howto {
   list-style: none;
   counter-reset: step;

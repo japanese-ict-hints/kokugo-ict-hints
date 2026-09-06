@@ -18,6 +18,8 @@ scenes: [individual, share, reflect]
 effort: 2
 grade: "小2"
 unit: "たんぽぽのちえ"
+ict_use: "本文を六つに分けたカードを順不同で配り、並べ替えさせる"
+ict_effect: "並べる作業が速く済み、なぜその順かを説明する時間を取れる"
 howto:
   - "本文を六つのまとまりに分けたカードを作る"
   - "順不同で全員の端末に配る"

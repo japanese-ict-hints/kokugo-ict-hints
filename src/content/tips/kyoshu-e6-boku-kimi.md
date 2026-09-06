@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小6"
 unit: "ぼくの世界、君の世界"
+ict_use: "事例と筆者の考えを、デジタルメモに対にして抜き出す"
+ict_effect: "抜き出しが速く、板書を写す時間を考える時間に回せる"
 howto:
   - "全文を音読し、筆者が挙げた問題を確かめさせる"
   - "事例を一つずつ取り上げる"

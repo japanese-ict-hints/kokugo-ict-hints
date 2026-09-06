@@ -17,6 +17,8 @@ scenes: [intro, individual]
 effort: 2
 grade: "小3"
 unit: ""
+ict_use: "詩を書く前に、Canvaの共感マップの枠へ見たものと感じたことを書く"
+ict_effect: "枠を埋めるうちに材料がそろい、書き出しで止まらずに済む"
 curriculum: ["82102C3220000000"]
 status: archived
 added: 2026-09-05

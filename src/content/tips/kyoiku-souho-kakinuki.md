@@ -18,6 +18,8 @@ scenes: [individual, share, discuss]
 effort: 2
 grade: "小2"
 unit: "スーホの白い馬"
+ict_use: "書き抜いたノートを写真に撮って共有させる"
+ict_effect: "入力の手間なく誰がどこを選んだかが見え、相手を選んで話せる"
 howto:
   - "心を動かされたところを選ばせる"
   - "その言葉と一文をノートに書き抜かせ、理由も書かせる"

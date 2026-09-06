@@ -18,6 +18,8 @@ scenes: [individual, share, reflect]
 effort: 2
 grade: "小3"
 unit: "めだか"
+ict_use: "中心となる文と説明する文を色分けし、言葉を抜き出して並べる"
+ict_effect: "分類がすっきり見え、ページと行数の説明が要らなくなる"
 howto:
   - "分からない言葉を辞書機能で確かめさせる"
   - "一つの段落を全体で扱い、まとめ方の型を示す"

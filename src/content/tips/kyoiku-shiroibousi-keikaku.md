@@ -18,6 +18,8 @@ scenes: [intro, individual, share, reflect]
 effort: 2
 grade: "小4"
 unit: "白いぼうし"
+ict_use: "学習計画を端末に置き、前の時間の記録をその場で開かせる"
+ict_effect: "毎時間の読みがつながり、積み重ねが途切れない"
 howto:
   - "初読で出た疑問を集める"
   - "疑問を並べて学習計画を作り、端末に置く"

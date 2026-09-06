@@ -18,6 +18,8 @@ scenes: [intro, individual, share]
 effort: 2
 grade: "小3"
 unit: "モチモチの木"
+ict_use: "挿絵をばらばらの順で配り、画面上で並べ替えて書き加えさせる"
+ict_effect: "何度でもやり直せるので、迷いながら物語の展開をつかめる"
 howto:
   - "挿絵をばらばらの順で全員の端末に配る"
   - "物語の順に並べ替えさせる"

@@ -17,6 +17,8 @@ scenes: [individual, discuss]
 effort: 3
 grade: "小5"
 unit: ""
+ict_use: "単元の冒頭と最後にデジタルドリルを置き、間に協働学習をはさむ"
+ict_effect: "正答率の変化で、理解がどれだけ伸びたかを確かめられる"
 curriculum: []
 status: archived
 added: 2026-09-05

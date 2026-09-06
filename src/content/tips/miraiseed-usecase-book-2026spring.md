@@ -17,6 +17,8 @@ scenes: [intro, individual, share, reflect]
 effort: 1
 grade: null
 unit: ""
+ict_use: "単元を組む前に事例集で近い単元を探し、掲載カードを取り込む"
+ict_effect: "カードを一から作らずに済み、そのまま授業に持ち込める"
 howto:
   - "リンク先のページからPDFをダウンロードする"
   - "小3から小6の国語事例から、いま扱う単元に近いものを探す"

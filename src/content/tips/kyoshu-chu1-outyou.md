@@ -18,6 +18,8 @@ scenes: [intro, individual, share, discuss]
 effort: 2
 grade: "中1"
 unit: "桜蝶"
+ict_use: "デジタル教科書のマーカーで二つの文章を色分けし、ベン図に整理する"
+ict_effect: "ページや行数を言い合わずに済み、比較そのものに時間を使える"
 howto:
   - "前の時間に読んだ文章の視点を確かめさせる"
   - "もう一方の文章を読み、心情が変わる箇所に線を引かせる"
