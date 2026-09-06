@@ -148,6 +148,22 @@ sources:
       中学校国語で3件。学校名も授業者名も載っていない。検索で見つけて実在を確認した。
       教科別の個別PDFも別にあるが未確認。
 
+  - id: okayama-pref-giga-junior
+    name: 中学校における１人１台端末活用事例（岡山県 教育情報化推進室）
+    host: www.pref.okayama.jp
+    entry: https://www.pref.okayama.jp/page/722739.html
+    type: index
+    license: gov-open
+    license_basis: https://www.pref.okayama.jp/page/detail-4318.html
+    license_checked: 2026-09-06
+    group: A
+    status: active
+    note: >-
+      公共データ利用規約（第1.0版）PDL1.0 を適用。S2 で初めての gov-open。
+      1事例1ページのPDFで、手順が具体的に書かれている。中学校国語が3件あるが、
+      3件とも Google Jamboard / Meet を使っており、§4.2 の「扱わないツール」に当たる。
+      掲載するかは運営者の判断待ち（2026-09-06 時点で保留）。
+
   # 調べたが登録を見送ったホスト（2026-09-06）
   #   www.doken.hokkaido-c.ed.jp  北海道立教育研究所。事例の入口を特定できず
   #   www.edu-c.pref.aomori.jp    青森県総合学校教育センター。無断複製・転載の禁止が明記
