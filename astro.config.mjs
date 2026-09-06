@@ -1,13 +1,12 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 
-// GitHub Pages に出す前に site / base を実際の値へ書き換える。
-//   ユーザーページ  https://<user>.github.io/          → site: そのURL, base: '/'
-//   プロジェクトページ https://<user>.github.io/<repo>/ → site: 'https://<user>.github.io', base: '/<repo>'
-// リンクは src/lib/url.ts の url() を通しているので、base を変えるだけで全ページ追従する。
+// 公開先は https://<GitHubユーザー名>.github.io/kokugo-ict-hints/ のプロジェクトページ。
+// site は canonical と sitemap にしか使わないが、<GitHubユーザー名> を実際の値に直すこと。
+// リンクは src/lib/site.ts の url() を通しているので、base を変えれば全ページ追従する。
 export default defineConfig({
-  site: 'https://example.github.io',
-  base: '/',
+  site: 'https://GITHUB_USER.github.io',
+  base: '/kokugo-ict-hints',
   trailingSlash: 'always',
   build: { format: 'directory' },
   compressHTML: true,

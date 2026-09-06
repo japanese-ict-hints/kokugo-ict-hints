@@ -43,10 +43,10 @@ python3 scripts/preview.py && open .preview/index.html
 
 ## 公開する
 
-1. `astro.config.mjs` の `site` と `base` を実際のURLに書き換える
-   - ユーザーページ `https://<user>.github.io/` → `site` はそのURL、`base: '/'`
-   - プロジェクトページ `https://<user>.github.io/<repo>/` → `site: 'https://<user>.github.io'`、`base: '/<repo>'`
-   - リンクはすべて `src/lib/site.ts` の `url()` を通しているので、`base` を変えれば全ページ追従する
+1. 公開先は `https://<user>.github.io/kokugo-ict-hints/`（プロジェクトページ）。
+   `astro.config.mjs` の `site` にある `GITHUB_USER` を実際のユーザー名に直す。
+   `base` は `/kokugo-ict-hints` に設定済み。リンクはすべて `src/lib/site.ts` の `url()` を
+   通しているので、リポジトリ名を変えるときは `base` だけ直せば全ページ追従する
 2. GitHub の Settings → Pages で Source を GitHub Actions にする
 3. `main` に push すると `.github/workflows/deploy.yml` がビルドして公開する
 
