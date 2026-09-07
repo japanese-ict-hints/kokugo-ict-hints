@@ -227,13 +227,28 @@ const toolItems = TOOL_IDS.map((id) => ({
       return out;
     }
 
-    // 語ごとに当たった数で並べる。全部当たることは求めない（当たらなすぎるため）
+    // 語ごとの重みで並べる。全部当たることは求めない（当たらなすぎるため）。
+    // どの事例にも出る語（「共有」「楽しく」など）は軽く、珍しい語（「漢字」「音読」）は
+    // 重く数える。そうしないと、当たった語の数だけでは的外れなものが上に来る。
+    function weightOf(terms) {
+      var w = {};
+      terms.forEach(function (t) {
+        var df = 0;
+        indexed.forEach(function (x) {
+          if (x.indexOf(t) !== -1) df++;
+        });
+        w[t] = df === 0 ? 0 : Math.log(rows.length / df + 1);
+      });
+      return w;
+    }
+
     function scoreRows(terms, pfRank) {
+      var w = weightOf(terms);
       var scored = [];
       rows.forEach(function (row, i) {
         var hit = 0;
         terms.forEach(function (t) {
-          if (indexed[i].indexOf(t) !== -1) hit++;
+          if (indexed[i].indexOf(t) !== -1) hit += w[t];
         });
         var pf = pfRank && i in pfRank ? pfRank[i] : null;
         if (hit === 0 && pf === null) return;
