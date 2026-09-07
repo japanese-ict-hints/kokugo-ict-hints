@@ -257,6 +257,11 @@ main { display: block; padding-bottom: 3.5rem; }
   line-height: 1.75;
 }
 
+.unit-jump { margin: 0 0 1.25rem; }
+.unit-jump .h-sub { margin: 0 0 0.4rem; }
+/* 学年のチップから飛んだとき、見出しが画面の上端に貼りつかないようにする */
+.section[id^="g-"] { scroll-margin-top: 1rem; }
+
 .howto {
   list-style: none;
   counter-reset: step;

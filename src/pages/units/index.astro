@@ -30,6 +30,32 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
     出典が単元名や教材名を示している事例を、学年ごとに並べています。{unitCount}の単元、{withUnit.length}件。
   </p>
 
+  <nav class="unit-jump" aria-label="学年から探す">
+    <p class="h-sub" id="unit-jump-label">学年</p>
+    <ul class="chips" aria-labelledby="unit-jump-label">
+      {
+        byGrade.map((g) => (
+          <li>
+            <a class="chip" href={`#g-${g.id}`}>
+              {g.label}
+              <span class="count">{g.units.length}</span>
+            </a>
+          </li>
+        ))
+      }
+      {
+        noGrade.length > 0 && (
+          <li>
+            <a class="chip" href="#g-nograde">
+              学年なし
+              <span class="count">{noGrade.length}</span>
+            </a>
+          </li>
+        )
+      }
+    </ul>
+  </nav>
+
   <aside class="notice">
     <p>
       ここに並ぶのは、集めた事例が扱っていた単元です。教科書の目次ではありません。
@@ -40,7 +66,7 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
 
   {
     byGrade.map((g) => (
-      <section class="section" aria-labelledby={`h-${g.id}`}>
+      <section class="section" id={`g-${g.id}`} aria-labelledby={`h-${g.id}`}>
         <h2 id={`h-${g.id}`}>
           <a href={url(`/grades/${g.id}/`)}>{g.label}</a>
         </h2>
@@ -56,7 +82,7 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
 
   {
     noGrade.length > 0 && (
-      <section class="section" aria-labelledby="h-nograde">
+      <section class="section" id="g-nograde" aria-labelledby="h-nograde">
         <h2 id="h-nograde">学年の指定がないもの</h2>
         <TipList tips={noGrade} id="unit-nograde" />
       </section>
