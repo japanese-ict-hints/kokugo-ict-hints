@@ -62,7 +62,7 @@ const rows = tips.map((tip) => ({
         document.querySelectorAll<HTMLElement>('.tip-helpful[data-slug]').forEach((el) => {
           const n = counts[el.dataset.slug ?? ''];
           if (!n) return;
-          el.textContent = `役に立った ${n}`;
+          el.textContent = `👍 役に立った ${n}`;
           el.hidden = false;
         });
       })
