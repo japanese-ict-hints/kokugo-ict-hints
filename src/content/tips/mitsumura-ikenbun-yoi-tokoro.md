@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "友達の文章の良いところを一覧で映し、理由を問い返す"
+title: "良いところを一覧で映し、理由を問う"
 summary: "小学5年の意見文。読み合って見つけた良いところを端末で一覧表示し、なぜ良いと考えたかを問う。自分が工夫した点と一致した箇所に印を付け、自分の文章の良さを見える形にする。"
 source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/shokoku-jugyodukuri-idea/23"

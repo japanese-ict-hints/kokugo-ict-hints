@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "表現技法をクイズで復習させ、画像を見ながら詩を作らせる"
+title: "技法をクイズで復習し、画像から作る"
 summary: "中学1年の詩の創作。既習の表現技法を四択クイズで復習してから、端末で題材の画像を探してイメージを広げ、詩を作る。外に出られない日でも題材に近づける。"
 source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/c-kokugo-jugyou-report/report04"

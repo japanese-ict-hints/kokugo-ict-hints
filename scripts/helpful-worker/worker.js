@@ -1,6 +1,7 @@
 // 「役に立った」の数を数える受け口（Cloudflare Workers + KV）。
 //
 // GET  /?slug=<事例のslug>   → { "count": 12 }
+// GET  /all                 → { "<slug>": 12, … }（0件のものは含めない）
 // POST /  body {"slug":"…"}  → { "count": 13 }
 //
 // 保存するのは事例ごとの数だけ。閲覧者を識別する情報は保存しない。
@@ -29,6 +30,30 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors });
 
     const url = new URL(request.url);
+
+    // 一覧の行に数を出すために、全件をまとめて返す。1件ずつ聞くと事例の数だけ
+    // 通信が出るので、一覧ページはこちらを使う。
+    if (request.method === 'GET' && url.pathname === '/all') {
+      const out = {};
+      let cursor;
+      do {
+        const page = await env.HELPFUL.list({ cursor });
+        await Promise.all(
+          page.keys.map(async (k) => {
+            const n = Number((await env.HELPFUL.get(k.name)) ?? '0');
+            if (Number.isFinite(n) && n > 0) out[k.name] = n;
+          }),
+        );
+        cursor = page.list_complete ? undefined : page.cursor;
+      } while (cursor);
+      return new Response(JSON.stringify(out), {
+        headers: {
+          'content-type': 'application/json; charset=utf-8',
+          'cache-control': 'public, max-age=60',
+          ...cors,
+        },
+      });
+    }
 
     if (request.method === 'GET') {
       const slug = url.searchParams.get('slug') ?? '';

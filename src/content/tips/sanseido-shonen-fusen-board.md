@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "付箋で読みを組み立てさせ、画面ごしに互いの考えを見せ合う"
+title: "付箋で読みを組み立て、画面で見せ合う"
 summary: "中学1年の物語。本文から読み取ったことを付箋に書いてボードで整理し、まとめはスライドに貼る。友達のボードが見えるので、静かなまま考えの交流が起きる。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-6851/"

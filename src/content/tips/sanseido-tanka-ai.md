@@ -1,5 +1,5 @@
 ---
-title: "生成AIの提案を採るか採らないか、理由をつけて短歌を推敲させる"
+title: "AIの提案の採否を理由つきで残させる"
 summary: "中学校の短歌の創作。作った短歌をまず生徒どうしで分析し合い、次に生成AIにも入力して改善案をもらう。採った提案と採らなかった提案を理由つきで書かせるので、言葉の選択が自分のものになる。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-10169/"

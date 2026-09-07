@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "端末を配る前に約束と時間を決め、延長せずに切り上げる"
+title: "約束と時間を決めてから端末を配る"
 summary: "中学校国語で端末を使うときの構え。約束事と本時のねらいを先に伝え、作業時間を具体的に決めて延長しない。指示は端末を触らせる前に済ませる。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-7362/"

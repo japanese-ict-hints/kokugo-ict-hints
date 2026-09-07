@@ -1,5 +1,5 @@
 ---
-title: "自分の原稿を写真に撮り、隣に並べて書き直させる"
+title: "原稿を撮って隣に並べ、書き直させる"
 summary: "小学6年で文の組み立てを学んだあとの推敲。手書きの原稿を写真に撮り、画面の片側に写真、もう片側にワークシートを並べて書き直す。書き写す手間が減り、直すことに時間を使える。"
 source:
   url: "https://www.pref.fukui.lg.jp/doc/gimu/mokuji_d/fil/0-0jirei.pdf#page=4"

@@ -27,7 +27,6 @@ export const TOOL_IDS = [
   'okulink-plus',
   'drillpark',
   'miraiseed',
-  'digital-textbook',
   'canva',
   'kahoot',
   'padlet',
@@ -92,8 +91,6 @@ export const TOOLS: Record<ToolId, string> = {
   drillpark: 'ドリルパーク',
   // 製品を特定できないとき、または製品をまたぐ資料のときだけ使う
   miraiseed: 'ミライシード',
-  // 教科書会社が出す指導者用デジタル教科書（教材）。教科書の採択に依存する
-  'digital-textbook': '指導者用デジタル教科書',
   canva: 'Canva',
   kahoot: 'Kahoot!',
   padlet: 'Padlet',
@@ -131,10 +128,11 @@ export const SUBJECTS: Record<SubjectId, string> = {
   general: '教科共通',
 };
 
-export const EFFORTS: Record<number, { stars: string; label: string }> = {
-  1: { stars: '★☆☆', label: '5分以内' },
-  2: { stars: '★★☆', label: '事前準備30分' },
-  3: { stars: '★★★', label: '単元設計が必要' },
+// ★は使わない（2026-09-08 運営者の指示）。言葉でそのまま出す。
+export const EFFORTS: Record<number, { label: string }> = {
+  1: { label: '5分以内' },
+  2: { label: '事前準備30分' },
+  3: { label: '単元設計が必要' },
 };
 
 export const LICENSES: Record<string, string> = {
@@ -146,7 +144,7 @@ export const LICENSES: Record<string, string> = {
 
 export const effortText = (n: number) => {
   const e = EFFORTS[n] ?? EFFORTS[1]!;
-  return `準備 ${e.stars}`;
+  return `準備 ${e.label}`;
 };
 
 // 領域が未設定の事例もある。その場合は色を持たせず、ラベルも出さない。

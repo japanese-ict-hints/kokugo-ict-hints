@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "身の回りの空間を撮らせ、筆者の言う「間」を自分事にさせる"
+title: "身の回りの空間を撮り、自分事にする"
 summary: "中学校の説明文。筆者が言う空間的な間を、教室や廊下など身の回りから探して撮る。抽象的な語が、自分が過ごす場所の具体と結び付く。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-6527/"

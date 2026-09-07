@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "初読の問いを書き出させ、共有のノートで互いに見せ合う"
+title: "初読の問いを共有ノートで見せ合う"
 summary: "中学2年の古典。初読の感想と一緒に疑問を書き出し、共有のノートに並べる。人物の人となりは骨の形の図に根拠を並べて整理し、友達の書き込みを見ながら自分の問いを育てる。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-7438/"

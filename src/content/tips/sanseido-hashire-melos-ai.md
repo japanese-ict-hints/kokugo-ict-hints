@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "他作品と比べて読ませ、AIが作った問題で理解を確かめさせる"
+title: "他作品と比べ、AIの問題で確かめる"
 summary: "中学2年の物語。紙で本文を読み取ったあと、同じ作者の別の作品を読んで比べる。教師がAIに作らせた試験形式の問題を配り、希望する生徒が自分の理解を確かめる。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-9900/"

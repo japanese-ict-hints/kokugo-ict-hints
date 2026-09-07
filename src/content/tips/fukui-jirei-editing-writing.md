@@ -1,5 +1,5 @@
 ---
-title: "題材を選んで情報を集め、構成メモから原稿まで書き上げさせる"
+title: "情報を集め、構成メモから書き上げる"
 summary: "中学3年の書くこと。主張する内容を決めて必要な情報を集め、構成メモを作り、推敲して原稿にする。書く過程を段階に分け、それぞれを端末上に残していく進め方。"
 source:
   url: "https://www.pref.fukui.lg.jp/doc/gimu/mokuji_d/fil/0-0jirei.pdf#page=12"

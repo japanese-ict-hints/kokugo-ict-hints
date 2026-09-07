@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "全クラスをつないで歌会を開き、作者を伏せて選ばせる"
+title: "全クラスをつなぎ、作者を伏せて選ぶ"
 summary: "中学2年の短歌。季節ごとに作りためた中から一首を選んで掲示し、鑑賞して投票する。ルール説明は各教室をつないで一度に行い、投票とコメントで評価し合う。"
 source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/c-kokugo-jugyou-report/report03"

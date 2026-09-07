@@ -5,6 +5,7 @@ import TipList from '../../components/TipList.astro';
 import { loadTips, type Tip } from '../../lib/tips';
 import { url } from '../../lib/site';
 import { SCHOOL_IDS, SCHOOLS, SCENE_IDS, SCENES, type SchoolId } from '../../lib/vocab';
+import { GRADE_IDS, GRADES, matchesGrade } from '../../lib/grades';
 
 export async function getStaticPaths() {
   const tips = await loadTips();
@@ -29,6 +30,15 @@ const schoolItems = SCHOOL_IDS.map((id) => ({
   current: id === school,
 }));
 
+// この校種の学年だけを出す。小学校のページに中学1年を出しても選べない。
+const gradeItems = GRADE_IDS.filter((id) => GRADES[id].school === school)
+  .map((id) => ({
+    href: `/grades/${id}/`,
+    label: GRADES[id].short,
+    count: tips.filter((t) => matchesGrade(t.data.grade, id)).length,
+  }))
+  .filter((i) => i.count > 0);
+
 // この校種の中で、どの場面に事例があるか。件数と行き先をそろえるため、
 // 飛び先は校種で絞った組み合わせページにする。
 const sceneItems = SCENE_IDS.map((id) => ({
@@ -46,6 +56,11 @@ const sceneItems = SCENE_IDS.map((id) => ({
   <section class="section" aria-labelledby="h-school">
     <h2 id="h-school">校種</h2>
     <Chips items={schoolItems} label="校種から探す" lead={true} />
+  </section>
+
+  <section class="section" aria-labelledby="h-grade">
+    <h2 id="h-grade">学年</h2>
+    <Chips items={gradeItems} label="学年から探す" />
   </section>
 
   <section class="section" aria-labelledby="h-scene">

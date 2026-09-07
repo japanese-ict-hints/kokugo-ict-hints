@@ -257,6 +257,18 @@ main { display: block; padding-bottom: 3.5rem; }
   line-height: 1.75;
 }
 
+/* 単元名は題名の前に、少し小さく主色で。区切り文字は置かず余白で分ける */
+.tip-unit {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: normal;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+  margin-bottom: 0.1rem;
+}
+h1 .tip-unit { font-size: 0.9375rem; margin-bottom: 0.25rem; }
+
+.unit-cta { margin: 0; }
 .unit-jump { margin: 0 0 1.25rem; }
 .unit-jump .h-sub { margin: 0 0 0.4rem; }
 /* 学年のチップから飛んだとき、見出しが画面の上端に貼りつかないようにする */

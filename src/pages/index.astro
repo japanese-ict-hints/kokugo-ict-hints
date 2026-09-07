@@ -5,6 +5,7 @@ import TipList from '../components/TipList.astro';
 import { loadTips, lastUpdated } from '../lib/tips';
 import { SITE, formatDate, url } from '../lib/site';
 import { GRADE_IDS, GRADES, matchesGrade } from '../lib/grades';
+import { KYOIKU_UNITS } from '../lib/kyoiku-units';
 import {
   DOMAIN_IDS,
   DOMAINS,
@@ -27,6 +28,11 @@ const gradeItems = GRADE_IDS.map((id) => ({
   label: GRADES[id].short,
   count: tips.filter((t) => matchesGrade(t.data.grade, id)).length,
 }));
+
+// 単元から探すに出る単元の数（教育出版にあるものだけ）
+const unitCount = new Set(
+  tips.filter((t) => t.data.unit && KYOIKU_UNITS.has(t.data.unit)).map((t) => t.data.unit),
+).size;
 
 const schoolItems = SCHOOL_IDS.map((id) => ({
   href: `/school/${id}/`,
@@ -83,8 +89,14 @@ const toolItems = TOOL_IDS.map((id) => ({
   <section class="section" aria-labelledby="h-grade">
     <h2 id="h-grade">学年</h2>
     <Chips items={gradeItems} label="学年から探す" />
-    <p class="lede" style="margin-top: 0.7rem;">
-      <a href={url('/units/')}>単元から探す</a>
+  </section>
+
+  <section class="section" aria-labelledby="h-unit">
+    <h2 id="h-unit">単元</h2>
+    <p class="unit-cta">
+      <a class="chip chip-lead" href={url('/units/')}>
+        教科書の単元から探す<span class="count">{unitCount}</span>
+      </a>
     </p>
   </section>
 
@@ -180,13 +192,58 @@ const toolItems = TOOL_IDS.map((id) => ({
       status.textContent = hit === null ? '' : hit + '件';
     }
 
-    // 素の文字合わせ。Pagefind の取りこぼしを埋めるのに使う
-    function substringMatches(q) {
-      var terms = q.split(/\s+/);
-      return rows.filter(function (row, i) {
-        return terms.every(function (t) {
-          return indexed[i].indexOf(t) !== -1;
+    // 日本語は語の間に空白がない。「話し合いで使えるもの」のような文をそのまま
+    // 突き合わせると何にも当たらないので、語のまとまりに割ってから探す。
+    var STOP = [
+      'もの', 'こと', 'ため', 'とき', 'よう', 'ところ', 'ほう', 'とこ',
+      '方法', '仕方', 'やり方', '授業', '国語', '事例', 'ヒント', '先生', '子ども',
+      '使う', '使える', '使い方', 'したい', 'する', 'できる', 'ある', 'いる', 'なる',
+      'どう', '何か', 'ほしい', 'たい', 'です', 'ます', 'ください',
+    ];
+    function splitTerms(q) {
+      var raw = [];
+      if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+        try {
+          var seg = new Intl.Segmenter('ja', { granularity: 'word' });
+          Array.from(seg.segment(q)).forEach(function (s) {
+            if (s.isWordLike) raw.push(s.segment);
+          });
+        } catch (e) {
+          raw = [];
+        }
+      }
+      // Intl.Segmenter が無い環境では、助詞らしいところで割る
+      if (!raw.length) raw = q.split(/[\s、。・「」（）をにはがのでとへやかもねよ]+/);
+      var out = [];
+      raw.forEach(function (t) {
+        t = t.trim();
+        if (!t) return;
+        if (STOP.indexOf(t) !== -1) return;
+        // ひらがな1字は当たりすぎるので落とす
+        if (t.length === 1 && /[ぁ-ん]/.test(t)) return;
+        if (out.indexOf(t) === -1) out.push(t);
+      });
+      if (!out.length) out.push(q);
+      return out;
+    }
+
+    // 語ごとに当たった数で並べる。全部当たることは求めない（当たらなすぎるため）
+    function scoreRows(terms, pfRank) {
+      var scored = [];
+      rows.forEach(function (row, i) {
+        var hit = 0;
+        terms.forEach(function (t) {
+          if (indexed[i].indexOf(t) !== -1) hit++;
         });
+        var pf = pfRank && i in pfRank ? pfRank[i] : null;
+        if (hit === 0 && pf === null) return;
+        scored.push({ row: row, hit: hit, pf: pf === null ? 9999 : pf, i: i });
+      });
+      scored.sort(function (a, b) {
+        return b.hit - a.hit || a.pf - b.pf || a.i - b.i;
+      });
+      return scored.map(function (x) {
+        return x.row;
       });
     }
 
@@ -201,7 +258,8 @@ const toolItems = TOOL_IDS.map((id) => ({
 
       // 索引の読み込みを待たせない。まず文字合わせで出し、Pagefind が来たら並べ替える。
       // 初回の1打鍵目で索引を取りに行くので、待つと何も絞られない時間ができる。
-      var quick = substringMatches(q);
+      var terms = splitTerms(q);
+      var quick = scoreRows(terms, null);
       show(quick, quick.length);
 
       loadPagefind().then(function (pf) {
@@ -217,18 +275,19 @@ const toolItems = TOOL_IDS.map((id) => ({
               //  - 拾いすぎる（「存在しない語」で全件返す。細かく分割して当たってしまう）
               // そこで、並び順だけ Pagefind に任せ、採否は本文に語が含まれるかで決める。
               // Pagefind の本文は詳細ページ全体なので、一覧の行より広く当たる。
-              var terms = q.split(/\s+/);
-              var order = [];
-              items.forEach(function (it) {
+              // Pagefind の日本語は取りこぼしも拾いすぎもある。順位だけ借りて、
+              // 採否は「割った語のどれかが本文にあるか」で決める。
+              var pfRank = {};
+              items.forEach(function (it, n) {
                 var body = norm(it.content || '');
-                if (!terms.every(function (t) { return body.indexOf(t) !== -1; })) return;
+                if (!terms.some(function (t) { return body.indexOf(t) !== -1; })) return;
                 var path = new URL(it.url, location.origin).pathname;
                 var row = byPath[path] || byPath[path.replace(/index\.html$/, '')];
-                if (row && order.indexOf(row) === -1) order.push(row);
+                if (!row) return;
+                var k = rows.indexOf(row);
+                if (k >= 0 && !(k in pfRank)) pfRank[k] = n;
               });
-              substringMatches(q).forEach(function (row) {
-                if (order.indexOf(row) === -1) order.push(row);
-              });
+              var order = scoreRows(terms, pfRank);
               show(order, order.length);
             },
           );

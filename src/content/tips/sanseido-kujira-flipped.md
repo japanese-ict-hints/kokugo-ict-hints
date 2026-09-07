@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "解説の動画を家で見せ、授業では生徒が作った問題を解かせる"
+title: "解説は家で見せ、授業で問題を解く"
 summary: "中学校の説明文。40分の解説動画を家で見て教科書に書き込み、各自が問題と解答と解説を作る。授業では友達の問題を解き続け、分からなければ作った本人に聞きに行く。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-202108_02/"

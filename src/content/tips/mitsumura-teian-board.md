@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "単元の流れをボードに置き、いつでも見られる状態にする"
+title: "単元の流れをボードに置いておく"
 summary: "中学2年の話すこと・聞くこと。オンラインのボードに単元の流れとヒントを置いて随時共有し、グループで提案をまとめて発表する。評価の観点を先に配り、聞き手の役割をはっきりさせる。"
 source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/c-kokugo-jugyou-report/report05"

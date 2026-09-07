@@ -1,5 +1,5 @@
 ---
-title: "本文の書き写しを端末に任せ、心情を考える時間に回す"
+title: "書き写しを端末に任せ、考える時間を作る"
 summary: "中学1年の物語文。描写を本文から抜き出す作業を端末上で行い、書き写しに使っていた時間を考える時間と話し合いに回す。書くのが苦手な生徒も、読み取りに力を注げるようになったという報告。"
 source:
   url: "https://www.pref.fukui.lg.jp/doc/gimu/tablet/r5tablethoukoku_d/fil/katuyamatyuubushidouan1.pdf"

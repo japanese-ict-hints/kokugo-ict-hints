@@ -1,5 +1,5 @@
 ---
-title: "俳句をオクリンクプラスで練り、Canvaで作品にして鑑賞し合う"
+title: "俳句を練り、Canvaで作品に仕上げる"
 summary: "季節の言葉から地域の春を俳句にし、オクリンクプラスで見せ合ってブラッシュアップする。仕上がった句はCanvaのAIに読ませて作品カードにし、取り込んで鑑賞会を開く。考える場と仕上げる場を分けている。"
 source:
   url: "https://bso.benesse.ne.jp/miraiseed/fansite/info/1190581_1506.html"

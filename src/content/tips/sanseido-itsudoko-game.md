@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "表計算の表に班で順に言葉を入れ、文の成分を確かめさせる"
+title: "表に班で順に言葉を入れて文を作る"
 summary: "中学1年の文法。主語や述語の欄が入った表に、条件に合う言葉を順に入れて一文を作る。班で順番に入力するので、前後の言葉との続き方まで考えることになる。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-202202_24/"

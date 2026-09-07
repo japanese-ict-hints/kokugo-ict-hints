@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "紙の本で調べてから検索させ、情報の絞り込みを先にさせる"
+title: "本で調べてから検索させ、絞り込む"
 summary: "中学校国語での使い分けの指針。調べ学習は紙の本を先に置き、絞り込んでから検索する。考えの共有は掲示板のように使い、話す練習は動画に撮る。"
 source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-7367/"

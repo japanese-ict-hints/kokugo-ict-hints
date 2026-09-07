@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "AIに反論役をさせ、合意に向けた話し合いを揺さぶる"
+title: "AIに反論役をさせ、話し合いを揺さぶる"
 summary: "小学6年の話し合い。提案と理由を学習支援ソフトに出して論点を可視化する。教師が生成AIに反論を作らせて示し、話し合いの様子は動画に記録して振り返る。"
 source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/shokoku-jugyodukuri-idea/30"

@@ -44,19 +44,22 @@ const attribution =
     : null;
 ---
 
-<Base title={d.title} description={d.summary}>
+<Base title={d.unit ? `${d.unit}　${d.title}` : d.title} description={d.summary}>
   <p class="breadcrumb"><a href={url('/')}>トップ</a>　事例</p>
 
   <article
     data-pagefind-body
-    data-pagefind-meta={`publisher:${d.source.publisher},effort:${effort.stars},domain:${domainLabel},color:${color}`}
+    data-pagefind-meta={`publisher:${d.source.publisher},effort:${effort.label},domain:${domainLabel},color:${color}`}
   >
     <header class="tip-header" style={`--row-accent: ${color}`}>
-      <h1>{d.title}</h1>
+      <h1>
+        {d.unit && <span class="tip-unit">{d.unit}</span>}
+        {d.title}
+      </h1>
       <p class="tip-meta">
         <span>{d.school.map((s) => SCHOOLS[s]).join('・')}</span>
         <span>{d.subjects.map((s) => SUBJECTS[s]).join('・')}</span>
-        <span>{effort.stars} {effort.label}</span>
+        <span>準備 {effort.label}</span>
         {d.origin === 'original' && <span class="flag flag-original">自作</span>}
         {d.source.verified === 'listed' && <span class="flag">本文未確認</span>}
         {d.status === 'draft' && <span class="flag">下書き</span>}
@@ -70,6 +73,19 @@ const attribution =
         <div class="ict">
           <h2 class="h-sub">ICTの使いどころ</h2>
           <dl class="ict-dl">
+            {d.tools.length > 0 && (
+              <>
+                <dt>使うもの</dt>
+                <dd class="ict-tools">
+                  {d.tools.map((t, i) => (
+                    <>
+                      {i > 0 && '、'}
+                      <a href={url(`/tools/${t}/`)}>{TOOLS[t]}</a>
+                    </>
+                  ))}
+                </dd>
+              </>
+            )}
             {d.ict_use && (
               <>
                 <dt>どこで使うか</dt>
@@ -143,6 +159,14 @@ const attribution =
     <div class="prose">
       <Content />
     </div>
+
+    <aside class="helpful" hidden id="helpful" data-slug={tip.id} data-count-url={HELPFUL.countUrl}>
+      <p class="helpful-label">{HELPFUL.label}</p>
+      <button type="button" class="button button-quiet" id="helpful-button">
+        {HELPFUL.button}
+      </button>
+      <p class="helpful-count" id="helpful-count" role="status" aria-live="polite"></p>
+    </aside>
 
     {
       d.note && (
@@ -260,13 +284,6 @@ const attribution =
       </div>
     </dl>
 
-    <aside class="helpful" hidden id="helpful" data-slug={tip.id} data-count-url={HELPFUL.countUrl}>
-      <p class="helpful-label">{HELPFUL.label}</p>
-      <button type="button" class="button button-quiet" id="helpful-button">
-        {HELPFUL.button}
-      </button>
-      <p class="helpful-count" id="helpful-count" role="status" aria-live="polite"></p>
-    </aside>
     {attribution && <p class="attribution">{attribution}</p>}
 
   </article>

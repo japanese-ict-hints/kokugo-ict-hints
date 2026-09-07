@@ -1,7 +1,7 @@
 ---
 import type { Tip } from '../lib/tips';
 import { searchText } from '../lib/tips';
-import { url } from '../lib/site';
+import { url, HELPFUL } from '../lib/site';
 import DomainMark from './DomainMark.astro';
 import { DOMAINS, EFFORTS, domainColor, type DomainId } from '../lib/vocab';
 
@@ -28,18 +28,20 @@ const rows = tips.map((tip) => ({
 }));
 ---
 
-<ul class="tip-list" id={id}>
+<ul class="tip-list" id={id} data-count-url={HELPFUL.countUrl}>
   {
     rows.map(({ tip, href, color, domainLabel, effort, mark, index }) => (
       <li class={mark ? 'has-mark' : undefined} style={`--row-accent: ${color}`} data-index={index}>
         {mark && <DomainMark domain={mark} />}
         <div class="row-body">
           <a class="tip-title" href={href}>
+            {tip.data.unit && <span class="tip-unit">{tip.data.unit}</span>}
             {tip.data.title}
           </a>
         <p class="tip-meta">
           {domainLabel && <span>{domainLabel}</span>}
-          <span title={`準備 ${effort.label}`}>{effort.stars}</span>
+          <span>{effort.label}</span>
+          <span class="tip-helpful" data-slug={tip.id} hidden />
           <span>{tip.data.source.publisher}</span>
           {tip.data.origin === 'original' && <span class="flag flag-original">自作</span>}
           {tip.data.source.verified === 'listed' && <span class="flag">本文未確認</span>}
@@ -49,3 +51,24 @@ const rows = tips.map((tip) => ({
     ))
   }
 </ul>
+
+<script>
+  // 一覧の行に「役に立った」の数を出す。受け口に1回だけ聞いて、全部の行に配る。
+  // 数が0のものは何も出さない（0が並ぶと読みにくいため）。
+  const lists = document.querySelectorAll<HTMLElement>('.tip-list[data-count-url]');
+  const endpoint = lists[0]?.dataset.countUrl;
+  if (endpoint) {
+    fetch(endpoint + '/all')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((counts: Record<string, number> | null) => {
+        if (!counts) return;
+        document.querySelectorAll<HTMLElement>('.tip-helpful[data-slug]').forEach((el) => {
+          const n = counts[el.dataset.slug ?? ''];
+          if (!n) return;
+          el.textContent = `役に立った ${n}`;
+          el.hidden = false;
+        });
+      })
+      .catch(() => {});
+  }
+</script>

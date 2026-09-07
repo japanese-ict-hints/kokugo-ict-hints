@@ -1,6 +1,6 @@
 ---
 origin: source
-title: "叙述を探すAIだけを使わせ、解釈は生徒に委ねて話し合わせる"
+title: "AIには叙述の場所だけを探させる"
 summary: "中学3年の物語。人物相関図を編集ツールで作り、エピソードから人間や社会の姿を話し合う。AIには叙述の場所だけを示させ、解釈は出させない使い方をしている。"
 source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/c-kokugo-jugyou-report/report01"

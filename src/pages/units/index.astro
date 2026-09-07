@@ -4,9 +4,13 @@ import TipList from '../../components/TipList.astro';
 import { loadTips } from '../../lib/tips';
 import { url } from '../../lib/site';
 import { GRADE_IDS, GRADES, matchesGrade } from '../../lib/grades';
+import { KYOIKU_UNITS } from '../../lib/kyoiku-units';
 
 const tips = await loadTips();
-const withUnit = tips.filter((t) => t.data.unit);
+// 佐倉市の採択は教育出版。他社だけにある教材名を並べても探せないので、
+// 教育出版の年間指導計画に出てくる単元だけを残す（2026-09-08 運営者の指示）。
+// 表は scripts/kyoiku-units.ts が作る。
+const withUnit = tips.filter((t) => t.data.unit && KYOIKU_UNITS.has(t.data.unit));
 
 // 学年ごとに、単元名でまとめる。学年が分からないものは最後にまとめる。
 const byGrade = GRADE_IDS.map((id) => {
@@ -27,7 +31,7 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
   <p class="breadcrumb"><a href={url('/')}>トップ</a>　単元から探す</p>
   <h1>単元から探す</h1>
   <p class="lede">
-    出典が単元名や教材名を示している事例を、学年ごとに並べています。{unitCount}の単元、{withUnit.length}件。
+    教育出版の教科書にある単元だけを、学年ごとに並べています。{unitCount}の単元、{withUnit.length}件。
   </p>
 
   <nav class="unit-jump" aria-label="学年から探す">
@@ -58,9 +62,10 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
 
   <aside class="notice">
     <p>
-      ここに並ぶのは、集めた事例が扱っていた単元です。教科書の目次ではありません。
-      発行者が異なれば同じ教材が別の学年に置かれていることもあるので、
-      所属校の教科書で確かめてください。
+      佐倉市が採択している教育出版の年間指導計画に出てくる単元だけを載せています。
+      出典が他社の教科書を使っていても、同じ教材が教育出版にあれば並べています。
+      学年の並びは出典のもので、教育出版とは異なることがあります。所属校の教科書で確かめてください。
+      ここに出ない事例は、学年・場面・領域や検索から探せます。
     </p>
   </aside>
 
