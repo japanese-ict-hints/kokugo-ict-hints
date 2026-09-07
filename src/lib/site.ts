@@ -21,7 +21,7 @@ export const SITE = {
 export const HELPFUL = {
   countUrl: 'https://kokugo-helpful.japanese-ict-hints.workers.dev',
   label: 'この事例は役に立ちましたか',
-  button: '役に立った',
+  button: '👍 役に立った',
   thanks: 'ありがとうございました',
 } as const;
 

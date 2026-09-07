@@ -3,7 +3,7 @@ import type { Tip } from '../lib/tips';
 import { searchText } from '../lib/tips';
 import { url, HELPFUL } from '../lib/site';
 import DomainMark from './DomainMark.astro';
-import { DOMAINS, EFFORTS, domainColor, type DomainId } from '../lib/vocab';
+import { DOMAINS, domainColor, type DomainId } from '../lib/vocab';
 
 interface Props {
   tips: Tip[];
@@ -22,7 +22,6 @@ const rows = tips.map((tip) => ({
     const labels = tip.data.domains.map((d) => DOMAINS[d].short);
     return labels.length > 3 ? `${labels.slice(0, 3).join('、')}ほか` : labels.join('、');
   })(),
-  effort: EFFORTS[tip.data.effort]!,
   mark: tip.data.domains.find((d): d is DomainId => d in DOMAINS),
   index: searchable ? searchText(tip).replace(/\s+/g, ' ') : undefined,
 }));
@@ -30,7 +29,7 @@ const rows = tips.map((tip) => ({
 
 <ul class="tip-list" id={id} data-count-url={HELPFUL.countUrl}>
   {
-    rows.map(({ tip, href, color, domainLabel, effort, mark, index }) => (
+    rows.map(({ tip, href, color, domainLabel, mark, index }) => (
       <li class={mark ? 'has-mark' : undefined} style={`--row-accent: ${color}`} data-index={index}>
         {mark && <DomainMark domain={mark} />}
         <div class="row-body">
@@ -40,12 +39,10 @@ const rows = tips.map((tip) => ({
           </a>
         <p class="tip-meta">
           {domainLabel && <span>{domainLabel}</span>}
-          <span>{effort.label}</span>
-          <span class="tip-helpful" data-slug={tip.id} hidden />
-          <span>{tip.data.source.publisher}</span>
           {tip.data.origin === 'original' && <span class="flag flag-original">自作</span>}
           {tip.data.source.verified === 'listed' && <span class="flag">本文未確認</span>}
-          </p>
+          <span class="tip-helpful" data-slug={tip.id} hidden />
+        </p>
         </div>
       </li>
     ))
