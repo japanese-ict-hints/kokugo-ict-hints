@@ -606,3 +606,6 @@ main { flex: 1 0 auto; padding-bottom: 3rem; }
 .kinds li { padding: 0.35rem 0; border-bottom: 1px solid var(--rule); font-size: 0.9375rem; }
 .kinds li:last-child { border-bottom: 0; }
 .kinds strong { display: inline-block; min-width: 8em; color: var(--accent); }
+
+/* 公開日。いつごろの実践かを一覧で見せる */
+.tag-date { background: transparent; }

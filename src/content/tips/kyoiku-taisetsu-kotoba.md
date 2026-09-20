@@ -6,7 +6,7 @@ source:
   url: "https://kyoiku.sho.jp/361143/"
   publisher: "みんなの教育技術（小学館）"
   region: "民間"
-  published: null
+  published: 2025-01-20
   retrieved: 2026-09-06
   license: link-only
   verified: fetched

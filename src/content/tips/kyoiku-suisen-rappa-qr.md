@@ -6,7 +6,7 @@ source:
   url: "https://kyoiku.sho.jp/300199/"
   publisher: "みんなの教育技術（小学館）"
   region: "民間"
-  published: null
+  published: 2024-03-23
   retrieved: 2026-09-06
   license: link-only
   verified: fetched

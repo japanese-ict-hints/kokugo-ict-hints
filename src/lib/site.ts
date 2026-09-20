@@ -36,6 +36,10 @@ export const url = (path: string) => {
 export const formatDate = (d: Date | null) =>
   d ? `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日` : '';
 
+/** 一覧で「いつごろの実践か」だけ分かればよいところに使う */
+export const formatMonth = (d: Date | null) =>
+  d ? `${d.getFullYear()}年${d.getMonth() + 1}月` : '';
+
 export const formatISO = (d: Date | null) => (d ? d.toISOString().slice(0, 10) : '');
 
 export const formatShort = (d: Date | null) =>

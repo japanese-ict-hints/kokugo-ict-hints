@@ -106,7 +106,8 @@ const labels = Object.fromEntries(
     <div class="sort-box" id="sort-box" hidden>
       <label for="sort">並び替え</label>
       <select id="sort">
-        <option value="new">新しい順</option>
+        <option value="new">掲載が新しい順</option>
+        <option value="published">出典が新しい順</option>
         <option value="grade">学年順</option>
         <option value="unit">単元名順</option>
       </select>
@@ -176,6 +177,7 @@ const labels = Object.fromEntries(
           kind: card.getAttribute('data-kind') || '',
           unit: card.getAttribute('data-unit') || '',
           added: card.getAttribute('data-added') || '',
+          published: card.getAttribute('data-published') || '',
           gorder: Number(card.getAttribute('data-gorder') || 99),
         };
       });
@@ -252,6 +254,11 @@ const labels = Object.fromEntries(
           if (terms.length && b.score !== a.score) return b.score - a.score;
           if (state.sort === 'grade') return a.d.gorder - b.d.gorder || a.d.unit.localeCompare(b.d.unit, 'ja');
           if (state.sort === 'unit') return a.d.unit.localeCompare(b.d.unit, 'ja');
+          // 公開日が分からないものは後ろへ。分からないことを上位に置かない
+          if (state.sort === 'published') {
+            if (!a.d.published !== !b.d.published) return a.d.published ? -1 : 1;
+            return a.d.published < b.d.published ? 1 : a.d.published > b.d.published ? -1 : 0;
+          }
           return a.d.added < b.d.added ? 1 : a.d.added > b.d.added ? -1 : 0;
         });
         var frag = document.createDocumentFragment();

@@ -55,6 +55,7 @@ export const searchText = (tip: Tip): string =>
     tip.data.note,
     tip.data.source.publisher,
     tip.data.source.region,
+    tip.data.source.published ? `${tip.data.source.published.getFullYear()}年` : '',
     tip.data.grade ?? '',
     EFFORTS[tip.data.effort]?.label ?? '',
     ...tip.data.domains.map((id) => `${DOMAINS[id].label} ${DOMAINS[id].short}`),

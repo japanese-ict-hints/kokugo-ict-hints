@@ -6,7 +6,7 @@ source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/shokoku-jugyodukuri-idea/23"
   publisher: "みつむら web magazine（光村図書出版）"
   region: "民間"
-  published: null
+  published: 2025-11-14
   retrieved: 2026-09-07
   license: link-only
   verified: fetched

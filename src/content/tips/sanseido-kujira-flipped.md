@@ -6,7 +6,7 @@ source:
   url: "https://tb.sanseido-publ.co.jp/ict_practicalexample/ict_practicalexample-202108_02/"
   publisher: "三省堂 ICT実践事例紹介"
   region: "民間"
-  published: null
+  published: 2021-08-31
   retrieved: 2026-09-07
   license: link-only
   verified: fetched

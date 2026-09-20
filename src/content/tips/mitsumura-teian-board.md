@@ -6,7 +6,7 @@ source:
   url: "https://www.mitsumura-tosho.co.jp/webmaga/jugyou/c-kokugo-jugyou-report/report05"
   publisher: "みつむら web magazine（光村図書出版）"
   region: "民間"
-  published: null
+  published: 2026-08-18
   retrieved: 2026-09-06
   license: link-only
   verified: fetched

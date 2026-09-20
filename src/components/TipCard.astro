@@ -1,7 +1,7 @@
 ---
 import type { Tip } from '../lib/tips';
 import { searchText } from '../lib/tips';
-import { url } from '../lib/site';
+import { url, formatMonth } from '../lib/site';
 import DomainMark from './DomainMark.astro';
 import { DOMAINS, EFFORTS, SCENES, TOOLS, SCHOOLS, domainColor, type DomainId } from '../lib/vocab';
 import { OPERATORS } from '../lib/vocab';
@@ -26,6 +26,8 @@ const domainLabel = d.domains.map((x) => DOMAINS[x].short).join('、');
 const where = d.grade || d.school.map((s) => SCHOOLS[s]).join('・');
 const kind = sourceKind(tip);
 const tools = d.tools.map((t) => TOOLS[t]);
+// いつごろの実践かが一覧で分かるようにする。出典に記載が無いものは、無いと書く
+const published = formatMonth(d.source.published);
 // 並べ替え用。学年が分からないものは最後に回す
 const gradeOrder = GRADE_IDS.findIndex((g) => matchesGrade(d.grade, g));
 // 検索で重く見る部分。題名・教材名・使いどころ・タグの日本語ラベル
@@ -48,6 +50,7 @@ const keyText = [
   data-tool={searchable ? d.tools.join(' ') : undefined}
   data-unit={searchable ? d.unit : undefined}
   data-added={searchable ? d.added.toISOString().slice(0, 10) : undefined}
+  data-published={searchable ? (d.source.published?.toISOString().slice(0, 10) ?? '') : undefined}
   data-gorder={searchable ? String(gradeOrder < 0 ? 99 : gradeOrder) : undefined}
   data-kind={searchable ? (kind ?? '') : undefined}
   data-key={searchable ? keyText : undefined}
@@ -83,6 +86,7 @@ const keyText = [
     {d.operator && <span class="tag">{OPERATORS[d.operator]}</span>}
     <span class="tag">準備 {EFFORTS[d.effort]?.label}</span>
     {kind && <span class="tag tag-source">{SOURCE_KINDS[kind].label}</span>}
+    <span class="tag tag-date">{published || '公開日不明'}</span>
     {isUnverified(tip) && <span class="tag tag-warn">本文未確認</span>}
     <span class="card-helpful" data-slug={tip.id} hidden></span>
   </p>
