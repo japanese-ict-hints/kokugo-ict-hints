@@ -1,10 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import { url } from '../lib/site';
 ---
 
 <Base title="プライバシー" description="このサイトが集めている情報について。">
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　プライバシー</p>
+  <Breadcrumb items={[{ label: 'プライバシー' }]} />
   <h1>プライバシー</h1>
 
   <div class="prose">

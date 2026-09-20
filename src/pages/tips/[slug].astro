@@ -1,12 +1,14 @@
 ---
 import { render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import TipList from '../../components/TipList.astro';
 import SceneFlow from '../../components/SceneFlow.astro';
 import { loadTips, relatedTips, type Tip } from '../../lib/tips';
 import { HELPFUL, url, formatDate } from '../../lib/site';
 import { CURRICULUM } from '../../lib/curriculum';
 import { GRADE_IDS, GRADES, matchesGrade } from '../../lib/grades';
+import { SOURCE_KINDS, sourceKind, isUnverified } from '../../lib/sources';
 import {
   DOMAINS,
   SCENES,
@@ -14,6 +16,7 @@ import {
   TOOLS,
   SUBJECTS,
   EFFORTS,
+  OPERATORS,
   LICENSES,
   domainColor,
 } from '../../lib/vocab';
@@ -36,6 +39,18 @@ const { Content } = await render(tip);
 const effort = EFFORTS[d.effort]!;
 const color = domainColor(d.domains);
 const domainLabel = d.domains.map((id) => DOMAINS[id].short).join('、');
+const toolLabel = d.tools.map((id) => TOOLS[id]).join('・');
+const kind = sourceKind(tip);
+const gradeIds = GRADE_IDS.filter((g) => matchesGrade(d.grade, g));
+
+// ホーム ＞ 小学校 ＞ 4年 ＞ ごんぎつね ＞ 事例名。持っている情報の分だけ出す
+const crumbs = [
+  { href: '/tips/', label: '事例一覧' },
+  ...d.school.slice(0, 1).map((s) => ({ href: `/school/${s}/`, label: SCHOOLS[s] })),
+  ...gradeIds.slice(0, 1).map((g) => ({ href: `/grades/${g}/`, label: GRADES[g].short })),
+  ...(d.unit ? [{ href: '/units/', label: d.unit }] : []),
+  { label: d.title },
+];
 
 // gov-open で本文を翻案した場合の出典表記（CLAUDE.md §7.4）。
 const attribution =
@@ -45,11 +60,11 @@ const attribution =
 ---
 
 <Base title={d.unit ? `${d.unit}　${d.title}` : d.title} description={d.summary}>
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　事例</p>
+  <Breadcrumb items={crumbs} />
 
   <article
     data-pagefind-body
-    data-pagefind-meta={`publisher:${d.source.publisher},effort:${effort.label},domain:${domainLabel},color:${color}`}
+    data-pagefind-meta={`publisher:${d.source.publisher},domain:${domainLabel},color:${color}`}
   >
     <header class="tip-header" style={`--row-accent: ${color}`}>
       <h1>
@@ -57,57 +72,79 @@ const attribution =
         {d.title}
       </h1>
       <p class="tip-meta">
-        <span>{d.school.map((s) => SCHOOLS[s]).join('・')}</span>
+        <span>{d.grade || d.school.map((s) => SCHOOLS[s]).join('・')}</span>
         <span>{d.subjects.map((s) => SUBJECTS[s]).join('・')}</span>
-        <span>準備 {effort.label}</span>
+        {domainLabel && <span>{domainLabel}</span>}
+        {kind && <span class="tag tag-source">{SOURCE_KINDS[kind].label}</span>}
         {d.origin === 'original' && <span class="flag flag-original">自作</span>}
-        {d.source.verified === 'listed' && <span class="flag">本文未確認</span>}
+        {isUnverified(tip) && <span class="flag">本文未確認</span>}
         {d.status === 'draft' && <span class="flag">下書き</span>}
       </p>
     </header>
 
+    <section class="quick" aria-labelledby="h-quick">
+      <h2 id="h-quick">この実践を30秒で</h2>
+      <dl>
+        {
+          (d.grade || domainLabel) && (
+            <div>
+              <dt>学年・領域</dt>
+              <dd>{[d.grade, domainLabel].filter(Boolean).join('　')}</dd>
+            </div>
+          )
+        }
+        {
+          d.operator && (
+            <div>
+              <dt>使う人</dt>
+              <dd>{OPERATORS[d.operator]}</dd>
+            </div>
+          )
+        }
+        {
+          toolLabel && (
+            <div>
+              <dt>使うもの</dt>
+              <dd>{toolLabel}</dd>
+            </div>
+          )
+        }
+        {
+          d.ict_use && (
+            <div class="quick-wide">
+              <dt>どこで使うか</dt>
+              <dd>{d.ict_use}</dd>
+            </div>
+          )
+        }
+        {
+          d.ict_effect && (
+            <div class="quick-wide">
+              <dt>ICTを使う意味</dt>
+              <dd>{d.ict_effect}</dd>
+            </div>
+          )
+        }
+        <div>
+          <dt>準備</dt>
+          <dd>{effort.label}</dd>
+        </div>
+        <div>
+          <dt>出典</dt>
+          <dd>{d.origin === 'original' ? 'このサイト（自作）' : d.source.publisher}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <h2 class="h-sub">どんな授業か</h2>
     <p class="prose">{d.summary}</p>
 
     {
-      (d.ict_use || d.ict_effect) && (
-        <div class="ict">
-          <h2 class="h-sub">ICTの使いどころ</h2>
-          <dl class="ict-dl">
-            {d.tools.length > 0 && (
-              <>
-                <dt>使うもの</dt>
-                <dd class="ict-tools">
-                  {d.tools.map((t, i) => (
-                    <>
-                      {i > 0 && '、'}
-                      <a href={url(`/tools/${t}/`)}>{TOOLS[t]}</a>
-                    </>
-                  ))}
-                </dd>
-              </>
-            )}
-            {d.ict_use && (
-              <>
-                <dt>どこで使うか</dt>
-                <dd>{d.ict_use}</dd>
-              </>
-            )}
-            {d.ict_effect && (
-              <>
-                <dt>何が変わるか</dt>
-                <dd>{d.ict_effect}</dd>
-              </>
-            )}
-          </dl>
-        </div>
-      )
-    }
-
-    {
-      d.scenes.length > 0 && (
+      (d.scenes.length > 0 || d.ict_use) && (
         <>
-          <h2 class="h-sub">使う場面</h2>
-          <SceneFlow scenes={d.scenes} />
+          <h2 class="h-sub">どこで使うか</h2>
+          {d.scenes.length > 0 && <SceneFlow scenes={d.scenes} />}
+          {d.ict_use && <p class="prose">{d.ict_use}</p>}
         </>
       )
     }
@@ -115,7 +152,7 @@ const attribution =
     {
       d.howto.length > 0 && (
         <>
-          <h2 class="h-sub">使い方</h2>
+          <h2 class="h-sub">具体的な使い方</h2>
           <ol class="howto">
             {d.howto.map((step) => (
               <li>{step}</li>
@@ -126,12 +163,49 @@ const attribution =
     }
 
     {
-      d.source.verified === 'listed' && (
+      d.ict_effect && (
+        <>
+          <h2 class="h-sub">ICTを使う意味</h2>
+          <div class="why">
+            <p>{d.ict_effect}</p>
+          </div>
+        </>
+      )
+    }
+
+    <h2 class="h-sub">この事例の見どころ</h2>
+    <div class="prose">
+      <Content />
+    </div>
+
+    {
+      isUnverified(tip) && (
         <aside class="notice">
           <p>この事例は、出典ページの見出しと抜粋だけを見て書いています。本文をまだ確認していないため、細部が実際と異なる場合があります。使う前に出典を開いて確かめてください。</p>
         </aside>
       )
     }
+
+    {
+      d.note && (
+        <>
+          <h2 class="h-sub">授業で注意すること</h2>
+          <aside class="notice">
+            <p>{d.note}</p>
+          </aside>
+        </>
+      )
+    }
+
+    <aside class="helpful" hidden id="helpful" data-slug={tip.id} data-count-url={HELPFUL.countUrl}>
+      <p class="helpful-label">{HELPFUL.label}</p>
+      <button type="button" class="button button-quiet" id="helpful-button">
+        {HELPFUL.button}
+      </button>
+      <p class="helpful-count" id="helpful-count" role="status" aria-live="polite"></p>
+    </aside>
+
+    <h2 class="h-sub">出典・参考資料</h2>
 
     {
       d.origin === 'original' ? (
@@ -155,29 +229,6 @@ const attribution =
       )
     }
 
-    <h2 class="h-sub">この事例の見どころ</h2>
-    <div class="prose">
-      <Content />
-    </div>
-
-
-    {
-      d.note && (
-        <aside class="notice">
-          <p>{d.note}</p>
-        </aside>
-      )
-    }
-
-    <aside class="helpful" hidden id="helpful" data-slug={tip.id} data-count-url={HELPFUL.countUrl}>
-      <p class="helpful-label">{HELPFUL.label}</p>
-      <button type="button" class="button button-quiet" id="helpful-button">
-        {HELPFUL.button}
-      </button>
-      <p class="helpful-count" id="helpful-count" role="status" aria-live="polite"></p>
-    </aside>
-
-    <h2 class="h-sub">この事例の情報</h2>
     <dl class="meta-table">
       <div>
         <dt>{d.origin === 'original' ? '作成' : '出典'}</dt>
@@ -368,8 +419,8 @@ const attribution =
   {
     related.length > 0 && (
       <section class="section" aria-labelledby="h-related" data-pagefind-ignore>
-        <h2 id="h-related">近い事例</h2>
-        <TipList tips={related} id="related-list" />
+        <h2 id="h-related">似た授業のヒント</h2>
+        <TipList tips={related} id="related-list" compact={true} />
       </section>
     )
   }

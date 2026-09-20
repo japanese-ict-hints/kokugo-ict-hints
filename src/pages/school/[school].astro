@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import Chips from '../../components/Chips.astro';
 import TipList from '../../components/TipList.astro';
 import { loadTips, type Tip } from '../../lib/tips';
@@ -49,7 +50,7 @@ const sceneItems = SCENE_IDS.map((id) => ({
 ---
 
 <Base title={SCHOOLS[school]} description={`${SCHOOLS[school]}の国語で使えるICT活用事例。`}>
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　校種から探す</p>
+  <Breadcrumb items={[{ href: '/tips/', label: '事例一覧' }, { label: SCHOOLS[school] }]} />
   <h1>{SCHOOLS[school]}の国語</h1>
   <p class="lede">{tips.length}件</p>
 

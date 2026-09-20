@@ -1,0 +1,25 @@
+---
+import { url } from '../lib/site';
+
+interface Crumb {
+  href?: string;
+  label: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="現在位置">
+  <ol>
+    <li><a href={url('/')}>ホーム</a></li>
+    {
+      items.map((c) => (
+        <li>{c.href ? <a href={url(c.href)}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+      ))
+    }
+  </ol>
+</nav>

@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import TipList from '../../components/TipList.astro';
 import { loadTips } from '../../lib/tips';
 import { url } from '../../lib/site';
@@ -28,7 +29,7 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
   title="単元から探す"
   description="事例が扱っている単元名・教材名の一覧。学年ごとに並べています。"
 >
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　単元から探す</p>
+  <Breadcrumb items={[{ label: '単元から探す' }]} />
   <h1>単元から探す</h1>
   <p class="lede">
     教育出版の教科書にある単元だけを、学年ごとに並べています。{unitCount}の単元、{withUnit.length}件。
@@ -78,7 +79,7 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
         {g.units.map(([unit, list]) => (
           <div class="unit-block">
             <h3 class="unit-name">{unit}</h3>
-            <TipList tips={list} id={`unit-${g.id}-${unit}`} />
+            <TipList tips={list} id={`unit-${g.id}-${unit}`} level={4} />
           </div>
         ))}
       </section>
@@ -89,7 +90,7 @@ const unitCount = new Set(withUnit.map((t) => t.data.unit)).size;
     noGrade.length > 0 && (
       <section class="section" id="g-nograde" aria-labelledby="h-nograde">
         <h2 id="h-nograde">学年の指定がないもの</h2>
-        <TipList tips={noGrade} id="unit-nograde" />
+        <TipList tips={noGrade} id="unit-nograde" level={3} />
       </section>
     )
   }

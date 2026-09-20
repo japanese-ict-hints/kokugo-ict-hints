@@ -1,65 +1,41 @@
 ---
 import type { Tip } from '../lib/tips';
-import { searchText } from '../lib/tips';
-import { url, HELPFUL } from '../lib/site';
-import DomainMark from './DomainMark.astro';
-import { DOMAINS, domainColor, type DomainId } from '../lib/vocab';
+import { HELPFUL } from '../lib/site';
+import TipCard from './TipCard.astro';
 
 interface Props {
   tips: Tip[];
   id?: string;
   searchable?: boolean;
+  /** 2列までに抑えたいところで使う（関連事例など） */
+  compact?: boolean;
+  level?: 2 | 3 | 4;
 }
 
-const { tips, id = 'tip-list', searchable = false } = Astro.props;
-
-const rows = tips.map((tip) => ({
-  tip,
-  href: url(`/tips/${tip.id}/`),
-  color: domainColor(tip.data.domains),
-  // 領域名そのものに「・」が入る（話す・聞く）ので読点でつなぎ、3つで打ち切る
-  domainLabel: (() => {
-    const labels = tip.data.domains.map((d) => DOMAINS[d].short);
-    return labels.length > 3 ? `${labels.slice(0, 3).join('、')}ほか` : labels.join('、');
-  })(),
-  mark: tip.data.domains.find((d): d is DomainId => d in DOMAINS),
-  index: searchable ? searchText(tip).replace(/\s+/g, ' ') : undefined,
-}));
+const { tips, id = 'tip-list', searchable = false, compact = false, level = 3 } = Astro.props;
 ---
 
-<ul class="tip-list" id={id} data-count-url={HELPFUL.countUrl}>
+<ul class:list={['card-grid', compact && 'card-grid-compact']} id={id} data-count-url={HELPFUL.countUrl}>
   {
-    rows.map(({ tip, href, color, domainLabel, mark, index }) => (
-      <li class={mark ? 'has-mark' : undefined} style={`--row-accent: ${color}`} data-index={index}>
-        {mark && <DomainMark domain={mark} />}
-        <div class="row-body">
-          <a class="tip-title" href={href}>
-            {tip.data.unit && <span class="tip-unit">{tip.data.unit}</span>}
-            {tip.data.title}
-          </a>
-        <p class="tip-meta">
-          {domainLabel && <span>{domainLabel}</span>}
-          {tip.data.origin === 'original' && <span class="flag flag-original">自作</span>}
-          {tip.data.source.verified === 'listed' && <span class="flag">本文未確認</span>}
-          <span class="tip-helpful" data-slug={tip.id} hidden />
-        </p>
-        </div>
+    tips.map((tip) => (
+      <li>
+        <TipCard tip={tip} searchable={searchable} level={level} />
       </li>
     ))
   }
 </ul>
 
 <script>
-  // 一覧の行に「役に立った」の数を出す。受け口に1回だけ聞いて、全部の行に配る。
+  // 事例カードに「役に立った」の数を出す。受け口に1回だけ聞いて、全部のカードに配る。
   // 数が0のものは何も出さない（0が並ぶと読みにくいため）。
-  const lists = document.querySelectorAll<HTMLElement>('.tip-list[data-count-url]');
-  const endpoint = lists[0]?.dataset.countUrl;
+  const grids = document.querySelectorAll<HTMLElement>('.card-grid[data-count-url]');
+  const endpoint = grids[0]?.dataset.countUrl;
   if (endpoint) {
     fetch(endpoint + '/all')
       .then((r) => (r.ok ? r.json() : null))
       .then((counts: Record<string, number> | null) => {
         if (!counts) return;
-        document.querySelectorAll<HTMLElement>('.tip-helpful[data-slug]').forEach((el) => {
+        document.querySelectorAll<HTMLElement>('.card-helpful[data-slug]').forEach((el) => {
           const n = counts[el.dataset.slug ?? ''];
           if (!n) return;
           el.textContent = `👍 役に立った ${n}`;

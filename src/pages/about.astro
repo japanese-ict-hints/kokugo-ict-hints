@@ -1,44 +1,122 @@
 ---
 import Base from '../layouts/Base.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
 import { SITE, url } from '../lib/site';
+import { SOURCE_KINDS } from '../lib/sources';
 ---
 
-<Base title="このサイトについて" description={SITE.description}>
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　このサイトについて</p>
+<Base title="このサイトについて" description={SITE.description} narrow={true}>
+  <Breadcrumb items={[{ label: 'このサイトについて' }]} />
   <h1>このサイトについて</h1>
 
-  <section class="section" aria-labelledby="h-what">
-    <h2 id="h-what">何のためのサイトか</h2>
+  <section class="section" aria-labelledby="h-purpose">
+    <h2 id="h-purpose">このサイトの目的</h2>
     <div class="prose">
-      <p>小中学校の国語の授業で使えるICT活用の事例を、公的機関と事業者が公開している情報から集めて、探しやすい形に並べています。読んだあとは出典のページへ移ってもらうことを想定していて、このサイトの中で完結させるつもりはありません。</p>
-      <p>当面は国語だけを扱います。ほかの教科は、国語での出来栄えを見てから考えます。</p>
+      <p>
+        小中学校の国語の授業で使えるICT活用の事例を、公的機関と事業者が公開している情報から集めて、
+        探しやすい形に並べています。忙しい先生が、明日の授業で使えるヒントを短い時間で見つけられることを
+        目指しています。
+      </p>
+      <p>
+        読んだあとは出典のページへ移ってもらうことを想定していて、このサイトの中で完結させるつもりはありません。
+        当面は国語だけを扱います。ほかの教科は、国語での出来栄えを見てから考えます。
+      </p>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="h-unofficial">
-    <h2 id="h-unofficial">運営</h2>
-    <div class="prose">
+  <section class="section" aria-labelledby="h-more">
+    <h2 id="h-more">詳しいこと</h2>
+
+    <details class="acc">
+      <summary>掲載している情報</summary>
+      <div class="prose">
+        <p>
+          事例1件につき、教材名・学年・領域・学習場面・使うツール・授業での手順・
+          ICTを使う意味・出典を載せています。手順と要約は、出典の言い回しを写さずにこのサイトが書いています。
+        </p>
+        <p>
+          画面写真・ワークシート・図版は載せていません。それらは出典で見ていただく形にしています。
+        </p>
+        <p>
+          「本文未確認」と表示している事例は、出典ページの見出しと抜粋だけを見て書いたものです。
+          本文を読んで確認したものと区別できるようにしています。
+        </p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>情報源について</summary>
+      <div class="prose">
+        <p>事例には、どこが公開している情報かを次の区分で表示しています。</p>
+        <ul class="kinds">
+          {
+            (Object.keys(SOURCE_KINDS) as (keyof typeof SOURCE_KINDS)[]).map((k) => (
+              <li>
+                <strong>{SOURCE_KINDS[k].label}</strong>
+                {SOURCE_KINDS[k].help}
+              </li>
+            ))
+          }
+        </ul>
+        <p>
+          区分は、事例に記録してある発行者の種別から機械的に付けています。内容の質を評価した印ではありません。
+          収集元ごとの扱いは<a href={url('/regions/')}>収集源のページ</a>にまとめています。
+        </p>
+        <p>
+          集め方は、いまは手作業が中心です。自動収集では robots.txt を尊重し、同じサイトへの取得間隔をあけ、
+          1回の実行で取得するページ数にも上限を設けます。公開はどちらの場合も人が確認してから行います。
+        </p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>独自作成事例について</summary>
+      <div class="prose">
+        <p>
+          <strong>「自作」と表示している事例は、このサイトが考えたものです。</strong>
+          どこかの学校で実際に行われた記録ではありません。出典のある事例と混ざらないよう、
+          一覧にも詳細にも印を出し、出典を開くボタンは出していません。
+        </p>
+        <p>
+          2026年9月の運営者の判断により、現在は自作の事例を載せていません。仕組みだけを残しています。
+        </p>
+      </div>
+    </details>
+
+    <details class="acc">
+      <summary>著作権・引用について</summary>
+      <div class="prose">
+        <p>
+          収集元ごとに本文の扱いを判定し、記録しています。出典明示を条件に複製や翻案が認められているものだけ、
+          出典表記を添えて内容を要約・翻案しています。判定できないものはリンクと自作の要約だけにとどめ、
+          本文の引用はしません。
+        </p>
+        <p>
+          外部サイトの画像・写真・図版は、どの区分であっても一切配信していません。
+          児童生徒や教職員が特定できる情報も載せません。
+        </p>
+        <p>
+          事例に添えている学習指導要領の区分は、文部科学省が公開しているコード表をもとに、
+          このサイトが領域の単位まで当てたものです。出典が示しているものではありません。
+        </p>
+        <p class="attribution">
+          出典：「学習指導要領コードのコード表（全体版）」（文部科学省）（https://www.mext.go.jp/a_menu/other/data_00002.htm）（2026年9月6日に利用）を加工して作成
+        </p>
+        <p>掲載内容について、権利者の方から削除や訂正のご依頼があれば速やかに対応します。</p>
+      </div>
+    </details>
+  </section>
+
+  <section class="section" aria-labelledby="h-disclaimer">
+    <h2 id="h-disclaimer">免責事項</h2>
+    <div class="notice">
       <p>{SITE.disclaimer}</p>
     </div>
-  </section>
-
-  <section class="section" aria-labelledby="h-copyright">
-    <h2 id="h-copyright">引用と著作権の扱い</h2>
     <div class="prose">
-      <p>収集元ごとに本文の扱いを判定し、記録しています。出典明示を条件に複製や翻案が認められているものだけ、出典表記を添えて内容を要約・翻案しています。判定できないものはリンクと自作の要約だけにとどめ、本文の引用はしません。</p>
-      <p>区分ごとの扱いは<a href={url('/regions/')}>収集源のページ</a>にまとめています。外部サイトの画像・写真・図版は、どの区分であっても一切配信していません。児童生徒や教職員が特定できる情報も載せません。</p>
-      <p>事例に添えている学習指導要領の区分は、文部科学省が公開しているコード表をもとに、このサイトが領域の単位まで当てたものです。出典が示しているものではありません。</p>
-      <p class="attribution">出典：「学習指導要領コードのコード表（全体版）」（文部科学省）（https://www.mext.go.jp/a_menu/other/data_00002.htm）（2026年9月6日に利用）を加工して作成</p>
-      <p>掲載内容について、権利者の方から削除や訂正のご依頼があれば速やかに対応します。</p>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="h-collect">
-    <h2 id="h-collect">集め方</h2>
-    <div class="prose">
-      <p>いまは手作業で集めています。今後は自動収集に切り替えますが、公開はどちらの場合も人が確認してから行います。自動収集では robots.txt を尊重し、同じサイトへの取得間隔をあけ、1回の実行で取得するページ数にも上限を設けます。</p>
-      <p>「本文未確認」と表示している事例は、出典ページの見出しと抜粋だけを見て書いたものです。本文を読んで確認したものと区別できるようにしています。</p>
-      <p><strong>「自作」と表示している事例は、このサイトが考えたものです。</strong>どこかの学校で実際に行われた記録ではありません。学習指導要領の内容と、ほかの事例で確かめられた進め方をもとに組み立てています。出典のある事例と混ざらないよう、一覧にも詳細にも印を出し、出典を開くボタンは出していません。</p>
+      <p>
+        掲載している事例は、出典が公開している情報をもとにこのサイトがまとめたものです。
+        実際の授業で使えるかどうか、目の前の子どもに合うかどうかは、先生ご自身でご判断ください。
+      </p>
     </div>
   </section>
 

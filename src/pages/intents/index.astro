@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import { loadTips } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { INTENTS, tipsForIntent } from '../../lib/intents';
+
+const tips = await loadTips();
+const items = INTENTS.map((i) => ({ ...i, count: tipsForIntent(i, tips).length })).filter(
+  (i) => i.count > 0,
+);
+---
+
+<Base
+  title="やりたいことから探す"
+  description="「考えを共有したい」「音読を振り返らせたい」など、授業でさせたいことから国語のICT活用事例を探せます。"
+>
+  <Breadcrumb items={[{ label: 'やりたいことから探す' }]} />
+  <h1>やりたいことから探す</h1>
+  <p class="lede">
+    授業でさせたいことから引けるようにした入口です。ツールから決めるのではなく、
+    「この授業で何をさせたいか」から選んでください。
+  </p>
+
+  <ul class="entries" style="margin-top:1.4rem;">
+    {
+      items.map((i) => (
+        <li>
+          <a class="entry" href={url(`/intents/${i.id}/`)}>
+            <strong>{i.label}</strong>
+            <span>{i.count}件　{i.basis}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="notice">
+    <p>
+      ここでの振り分けは、事例に付けたタグと、事例の文に実際に出てくる言葉だけで機械的に行っています。
+      「この実践は○○の授業だ」とサイト側で判断したものではありません。
+      当てはめ方は各ページに書いてあります。
+    </p>
+  </div>
+</Base>

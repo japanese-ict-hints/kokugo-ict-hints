@@ -1,0 +1,89 @@
+---
+import type { Tip } from '../lib/tips';
+import { searchText } from '../lib/tips';
+import { url } from '../lib/site';
+import DomainMark from './DomainMark.astro';
+import { DOMAINS, EFFORTS, SCENES, TOOLS, SCHOOLS, domainColor, type DomainId } from '../lib/vocab';
+import { OPERATORS } from '../lib/vocab';
+import { SOURCE_KINDS, sourceKind, isUnverified } from '../lib/sources';
+import { GRADE_IDS, matchesGrade } from '../lib/grades';
+
+interface Props {
+  tip: Tip;
+  /** 一覧の絞り込みに使う索引を data 属性で持たせるか */
+  searchable?: boolean;
+  /** 見出しレベル。前後の見出しと段を飛ばさないために指定する（CLAUDE.md §8） */
+  level?: 2 | 3 | 4;
+}
+
+const { tip, searchable = false, level = 3 } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3' | 'h4';
+const d = tip.data;
+
+const mark = d.domains.find((x): x is DomainId => x in DOMAINS);
+const domainLabel = d.domains.map((x) => DOMAINS[x].short).join('、');
+// 学年が分かればそれを、無ければ校種を出す。推測はしない
+const where = d.grade || d.school.map((s) => SCHOOLS[s]).join('・');
+const kind = sourceKind(tip);
+const tools = d.tools.map((t) => TOOLS[t]);
+// 並べ替え用。学年が分からないものは最後に回す
+const gradeOrder = GRADE_IDS.findIndex((g) => matchesGrade(d.grade, g));
+// 検索で重く見る部分。題名・教材名・使いどころ・タグの日本語ラベル
+const keyText = [
+  d.unit, d.title, d.ict_use, d.ict_effect,
+  ...d.domains.map((x) => DOMAINS[x].label), ...d.domains.map((x) => DOMAINS[x].short),
+  ...d.scenes.map((x) => SCENES[x].label),
+  ...tools, where,
+].filter(Boolean).join(' ');
+---
+
+<article
+  class="card"
+  style={`--row-accent: ${domainColor(d.domains)}`}
+  data-index={searchable ? searchText(tip).replace(/\s+/g, ' ') : undefined}
+  data-school={searchable ? d.school.join(' ') : undefined}
+  data-grade={searchable ? d.grade ?? '' : undefined}
+  data-domain={searchable ? d.domains.join(' ') : undefined}
+  data-scene={searchable ? d.scenes.join(' ') : undefined}
+  data-tool={searchable ? d.tools.join(' ') : undefined}
+  data-unit={searchable ? d.unit : undefined}
+  data-added={searchable ? d.added.toISOString().slice(0, 10) : undefined}
+  data-gorder={searchable ? String(gradeOrder < 0 ? 99 : gradeOrder) : undefined}
+  data-kind={searchable ? (kind ?? '') : undefined}
+  data-key={searchable ? keyText : undefined}
+>
+  {d.unit && <p class="card-unit">{d.unit}</p>}
+  <Heading class="card-title">
+    <a href={url(`/tips/${tip.id}/`)}>{d.title}</a>
+  </Heading>
+
+  <p class="card-facets">
+    {where && <span class="card-where">{where}</span>}
+    {
+      domainLabel && (
+        <span class="card-domain">
+          {mark && <DomainMark domain={mark} size={16} />}
+          {domainLabel}
+        </span>
+      )
+    }
+  </p>
+
+  {
+    d.ict_use && (
+      <div class="card-use">
+        <span class="card-use-label">こんなときに</span>
+        <p>{d.ict_use}</p>
+      </div>
+    )
+  }
+
+  <p class="card-foot">
+    {tools.length > 0 && <span class="tag tag-tool">{tools.join('・')}</span>}
+    {d.operator && <span class="tag">{OPERATORS[d.operator]}</span>}
+    <span class="tag">準備 {EFFORTS[d.effort]?.label}</span>
+    {kind && <span class="tag tag-source">{SOURCE_KINDS[kind].label}</span>}
+    {isUnverified(tip) && <span class="tag tag-warn">本文未確認</span>}
+    <span class="card-helpful" data-slug={tip.id} hidden></span>
+  </p>
+</article>

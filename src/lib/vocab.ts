@@ -135,6 +135,16 @@ export const EFFORTS: Record<number, { label: string }> = {
   3: { label: '単元設計が必要' },
 };
 
+// 誰が端末を操作するか。出典が明記している事例にだけ入れる。推測で付けない。
+// 2026-09-21 時点で値を持つ事例は無い。枠だけ用意してある（CLAUDE.md §4.1）
+export const OPERATOR_IDS = ['teacher', 'student', 'both'] as const;
+export type OperatorId = (typeof OPERATOR_IDS)[number];
+export const OPERATORS: Record<OperatorId, string> = {
+  teacher: '教師が操作',
+  student: '児童生徒が操作',
+  both: '教師と児童生徒',
+};
+
 export const LICENSES: Record<string, string> = {
   'gov-open': '出典明示で複製・翻案が可',
   'link-only': 'リンクと自作要約のみ',

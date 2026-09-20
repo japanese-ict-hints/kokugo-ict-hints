@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import Chips from '../../components/Chips.astro';
 import TipList from '../../components/TipList.astro';
 import { loadTips, type Tip } from '../../lib/tips';
@@ -35,7 +36,7 @@ const items = DOMAIN_IDS.map((id) => ({
 ---
 
 <Base title={meta.label} description={`国語の「${meta.label}」で使えるICT活用事例。`}>
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　領域から探す</p>
+  <Breadcrumb items={[{ href: '/tips/', label: '事例一覧' }, { label: meta.label }]} />
   <h1 style={`border-left: 3px solid ${meta.color}; padding-left: 0.7rem;`}>{meta.label}</h1>
   <p class="lede">{tips.length}件</p>
 

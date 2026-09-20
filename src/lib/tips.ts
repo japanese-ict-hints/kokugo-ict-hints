@@ -1,5 +1,5 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { DOMAINS, SCENES, SCHOOLS, TOOLS } from './vocab';
+import { DOMAINS, EFFORTS, SCENES, SCHOOLS, TOOLS } from './vocab';
 
 export type Tip = CollectionEntry<'tips'>;
 
@@ -18,8 +18,9 @@ export const lastUpdated = (tips: Tip[]): Date | null =>
     null,
   );
 
-// 同じ領域・場面を共有する数で近さを測る。出典が同じものは少しだけ下げる。
-export const relatedTips = (tip: Tip, all: Tip[], limit = 3): Tip[] => {
+// 近さの順は、同じ単元 → 同じ学習場面 → 同じ領域（2026-09-21 運営者の指示）。
+// 同じ教材を扱う事例が並ぶことを最優先する。出典が同じものは少しだけ下げる。
+export const relatedTips = (tip: Tip, all: Tip[], limit = 4): Tip[] => {
   const overlap = (a: readonly string[], b: readonly string[]) =>
     a.filter((x) => b.includes(x)).length;
   return all
@@ -27,29 +28,46 @@ export const relatedTips = (tip: Tip, all: Tip[], limit = 3): Tip[] => {
     .map((t) => ({
       t,
       score:
+        (tip.data.unit && t.data.unit === tip.data.unit ? 40 : 0) +
+        (tip.data.grade && t.data.grade === tip.data.grade ? 6 : 0) +
+        overlap(t.data.scenes, tip.data.scenes) * 4 +
         overlap(t.data.domains, tip.data.domains) * 3 +
-        overlap(t.data.scenes, tip.data.scenes) * 2 +
         overlap(t.data.school, tip.data.school) +
         overlap(t.data.tools, tip.data.tools) -
         (t.data.source.publisher === tip.data.source.publisher ? 1 : 0),
     }))
+    .filter((x) => x.score > 0)
     .sort((a, b) => b.score - a.score || b.t.data.added.getTime() - a.t.data.added.getTime())
     .slice(0, limit)
     .map((x) => x.t);
 };
 
-// 検索用のテキスト。フェーズ2で Pagefind に置き換える前の、10件を絞るだけの索引。
-// 「話し合い」のように、本文には出ないがタグには入っている語で探されるので、
-// タグの日本語ラベルも索引に入れる。
+// 検索用のテキスト。単元名・教材名・活用方法・学習活動・ツール・説明文・タグを
+// 横断できるようにする（2026-09-21 運営者の指示）。ここに入れ忘れると引けない。
 export const searchText = (tip: Tip): string =>
   [
     tip.data.title,
+    tip.data.unit,
     tip.data.summary,
-    tip.data.source.publisher,
-    tip.data.grade ?? '',
+    tip.data.ict_use,
+    tip.data.ict_effect,
+    ...tip.data.howto,
     tip.data.note,
+    tip.data.source.publisher,
+    tip.data.source.region,
+    tip.data.grade ?? '',
+    EFFORTS[tip.data.effort]?.label ?? '',
     ...tip.data.domains.map((id) => `${DOMAINS[id].label} ${DOMAINS[id].short}`),
     ...tip.data.scenes.map((id) => SCENES[id].label),
     ...tip.data.tools.map((id) => TOOLS[id]),
     ...tip.data.school.map((id) => SCHOOLS[id]),
   ].join(' ');
+
+/** 探しやすさのための正規化。全角英数を半角に、カタカナをひらがなに、小文字にそろえる。
+ *  校務PCで全角入力する人と、「ごんぎつね」を「ゴンギツネ」と打つ人の両方を拾う。 */
+export const normalizeQuery = (s: string): string =>
+  String(s)
+    .replace(/[\uff01-\uff5e]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0xfee0))
+    .replace(/\u3000/g, ' ')
+    .replace(/[\u30a1-\u30f6]/g, (c) => String.fromCharCode(c.charCodeAt(0) - 0x60))
+    .toLowerCase();

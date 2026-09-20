@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import { loadTips } from '../../lib/tips';
 import { url, formatDate } from '../../lib/site';
 import { LICENSES } from '../../lib/vocab';
@@ -26,7 +27,7 @@ const rows = [...map.values()].sort(
   title="収集源"
   description="どの発行元から何件の事例を集めているかの一覧。"
 >
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　収集源</p>
+  <Breadcrumb items={[{ label: '収集源' }]} />
   <h1>収集源</h1>
   <p class="lede">いまは全 {tips.length} 件です。都道府県の教育センターからの収集はまだ始めていないため、国と民間に偏っています。</p>
 

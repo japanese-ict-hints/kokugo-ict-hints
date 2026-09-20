@@ -1,321 +1,147 @@
 ---
 import Base from '../layouts/Base.astro';
-import Chips from '../components/Chips.astro';
 import TipList from '../components/TipList.astro';
 import { loadTips, lastUpdated } from '../lib/tips';
-import { SITE, formatDate, url } from '../lib/site';
-import { GRADE_IDS, GRADES, matchesGrade } from '../lib/grades';
+import { url, formatDate } from '../lib/site';
+import { INTENTS, tipsForIntent } from '../lib/intents';
 import { KYOIKU_UNITS } from '../lib/kyoiku-units';
+import { GRADE_IDS, GRADES, matchesGrade } from '../lib/grades';
 import {
-  DOMAIN_IDS,
-  DOMAINS,
-  SCENE_IDS,
-  SCENES,
-  SCHOOL_IDS,
-  SCHOOLS,
-  TOOL_IDS,
-  TOOLS,
+  DOMAIN_IDS, DOMAINS, SCENE_IDS, SCENES,
+  SCHOOL_IDS, SCHOOLS, TOOL_IDS, TOOLS,
 } from '../lib/vocab';
 
 const tips = await loadTips();
 const updated = lastUpdated(tips);
+const recent = tips.slice(0, 6);
 
-const countBy = (key: 'domains' | 'scenes' | 'school' | 'tools', id: string) =>
-  tips.filter((t) => (t.data[key] as readonly string[]).includes(id)).length;
-
-const gradeItems = GRADE_IDS.map((id) => ({
-  href: `/grades/${id}/`,
-  label: GRADES[id].short,
-  count: tips.filter((t) => matchesGrade(t.data.grade, id)).length,
-}));
-
-// 単元から探すに出る単元の数（教育出版にあるものだけ）
 const unitCount = new Set(
   tips.filter((t) => t.data.unit && KYOIKU_UNITS.has(t.data.unit)).map((t) => t.data.unit),
 ).size;
 
-const schoolItems = SCHOOL_IDS.map((id) => ({
-  href: `/school/${id}/`,
-  label: SCHOOLS[id],
-  count: countBy('school', id),
-}));
+// 0件の入口は出さない。押しても何も出ない場所を作らない
+const intentItems = INTENTS.map((i) => ({ ...i, count: tipsForIntent(i, tips).length })).filter(
+  (i) => i.count > 0,
+);
 
-// 件数が0の入口は出さない。空振りさせない。
-const sceneItems = SCENE_IDS.map((id) => ({
-  href: `/scenes/${id}/`,
-  label: SCENES[id].label,
-  count: countBy('scenes', id),
-})).filter((i) => i.count > 0);
+const countBy = (key: 'scenes' | 'domains' | 'tools' | 'school', id: string) =>
+  tips.filter((t) => (t.data[key] as readonly string[]).includes(id)).length;
 
-const domainItems = DOMAIN_IDS.map((id) => ({
-  href: `/domains/${id}/`,
-  label: DOMAINS[id].short,
-  count: countBy('domains', id),
-})).filter((i) => i.count > 0);
-
-// 件数の多い順。教員は「使えるツール」から入ることが多い
-const toolItems = TOOL_IDS.map((id) => ({
-  href: `/tools/${id}/`,
-  label: TOOLS[id],
-  count: countBy('tools', id),
-}))
-  .filter((i) => i.count > 0)
-  .sort((a, b) => b.count - a.count);
+const facets = [
+  {
+    name: '校種',
+    items: SCHOOL_IDS.map((id) => ({ href: `/school/${id}/`, label: SCHOOLS[id], count: countBy('school', id) })),
+  },
+  {
+    name: '学年',
+    items: GRADE_IDS.map((id) => ({
+      href: `/grades/${id}/`,
+      label: GRADES[id].short,
+      count: tips.filter((t) => matchesGrade(t.data.grade, id)).length,
+    })),
+  },
+  {
+    name: '領域',
+    items: DOMAIN_IDS.map((id) => ({ href: `/domains/${id}/`, label: DOMAINS[id].short, count: countBy('domains', id) })),
+  },
+  {
+    name: '学習場面',
+    items: SCENE_IDS.map((id) => ({ href: `/scenes/${id}/`, label: SCENES[id].label, count: countBy('scenes', id) })),
+  },
+  {
+    name: '使うツール',
+    items: TOOL_IDS.map((id) => ({ href: `/tools/${id}/`, label: TOOLS[id], count: countBy('tools', id) })),
+  },
+].map((g) => ({ ...g, items: g.items.filter((i) => i.count > 0).sort((a, b) => b.count - a.count) }));
 ---
 
 <Base home={true}>
-  <div class="home-head">
-    <h1 class="home-title">国語の<span class="mark">ICT</span>活用ヒント</h1>
-    <p class="home-tagline">小中学校の国語　有志運営・非公式</p>
-  </div>
+  <section class="hero">
+    <h1>国語科の授業に、ICTのひと工夫。</h1>
+    <p class="hero-lead">
+      明日の授業で使えるICT活用のヒントを、教材名・やりたいことから探せます。{tips.length}件。
+    </p>
 
-  <div class="search" hidden id="search-box" data-base={url('/')}>
-    <label for="q">やりたいことを入力</label>
-    <input
-      type="search"
-      id="q"
-      autocomplete="off"
-      placeholder="話し合い、推敲、音声入力…"
-      aria-describedby="search-status"
-    />
-    <p class="search-status" id="search-status" role="status" aria-live="polite"></p>
-  </div>
-
-  <section class="section" aria-labelledby="h-school">
-    <h2 id="h-school">校種</h2>
-    <Chips items={schoolItems} label="校種から探す" lead={true} />
+    <div class="big-search">
+      <form action={url('/tips/')} method="get" role="search">
+        <label class="sr-only" for="q">教材名・やりたいことを検索</label>
+        <input
+          type="search"
+          id="q"
+          name="q"
+          autocomplete="off"
+          placeholder="ごんぎつね、音読、話し合い…"
+        />
+        <button class="button" type="submit">検索</button>
+      </form>
+      <p class="hint">教材名・単元名・使い方・ツール名のどれでも探せます。</p>
+    </div>
   </section>
 
-  <section class="section" aria-labelledby="h-grade">
-    <h2 id="h-grade">学年</h2>
-    <Chips items={gradeItems} label="学年から探す" />
-  </section>
-
-  <section class="section" aria-labelledby="h-unit">
-    <h2 id="h-unit">単元</h2>
-    <p class="unit-cta">
-      <a class="chip chip-lead" href={url('/units/')}>
-        教科書の単元から探す<span class="count">{unitCount}</span>
+  <ul class="entries">
+    <li>
+      <a class="entry" href={url('/units/')}>
+        <strong>単元から探す</strong>
+        <span>教科書（教育出版）の単元名・教材名から。{unitCount}の単元</span>
       </a>
+    </li>
+    <li>
+      <a class="entry" href={url('/intents/')}>
+        <strong>やりたいことから探す</strong>
+        <span>「考えを共有したい」「音読を振り返らせたい」など、授業でさせたいことから</span>
+      </a>
+    </li>
+  </ul>
+
+  <section class="section" aria-labelledby="h-intent">
+    <h2 id="h-intent">授業でこんなことをさせたい</h2>
+    <ul class="chips">
+      {
+        intentItems.slice(0, 8).map((i) => (
+          <li>
+            <a class="chip" href={url(`/intents/${i.id}/`)}>
+              {i.label}
+              <span class="count">{i.count}</span>
+            </a>
+          </li>
+        ))
+      }
+      <li>
+        <a class="chip" href={url('/intents/')}>すべて見る</a>
+      </li>
+    </ul>
+  </section>
+
+  <details class="filters">
+    <summary>校種・学年・領域・場面・ツールから絞り込む</summary>
+    <div class="filter-body">
+      {
+        facets.map((g) => (
+          <div class="filter-group">
+            <p>{g.name}</p>
+            <ul class="chips">
+              {g.items.map((i) => (
+                <li>
+                  <a class="chip" href={url(i.href)}>
+                    {i.label}
+                    <span class="count">{i.count}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </details>
+
+  <section class="section" aria-labelledby="h-recent">
+    <h2 id="h-recent">最近追加した事例</h2>
+    <TipList tips={recent} id="recent-list" />
+    <p class="lede" style="margin-top: 1rem;">
+      <a class="chip chip-lead" href={url('/tips/')}>事例をすべて見る（{tips.length}件）</a>
     </p>
   </section>
 
-  <section class="section" aria-labelledby="h-scene">
-    <h2 id="h-scene">場面</h2>
-    <Chips items={sceneItems} label="場面から探す" />
-  </section>
-
-  <section class="section" aria-labelledby="h-domain">
-    <h2 id="h-domain">領域</h2>
-    <Chips items={domainItems} label="領域から探す" />
-  </section>
-
-  <section class="section" aria-labelledby="h-tool">
-    <h2 id="h-tool">ツール</h2>
-    <Chips items={toolItems} label="ツールから探す" />
-  </section>
-
-  <section class="section" aria-labelledby="h-list">
-    <h2 id="h-list">事例 {tips.length}</h2>
-    <TipList tips={tips} searchable={true} id="tip-list" />
-    <p class="empty" id="no-hit" hidden>見つかりません。言葉を短くするか、上の場面・領域から探してください。</p>
-  </section>
-
-  <p class="lede">最終更新 {formatDate(updated)}　<a href={url('/updates/')}>更新履歴</a></p>
+  {updated && <p class="lede">最終更新 {formatDate(updated)}　<a href={url('/updates/')}>更新履歴</a></p>}
 </Base>
-
-<script is:inline>
-  // 検索は Pagefind（ビルド時に作る静的索引）。最初の入力があってから読み込むので、
-  // トップページの初回転送量には乗らない。
-  // Pagefind が無い場所（astro dev や索引の作成前）では、その場の文字合わせに落とす。
-  //
-  // いま一覧は全件を書き出しているので、Pagefind には「どれをどの順で出すか」だけを
-  // 決めさせ、行そのものは既にあるDOMを並べ替えて使う。件数が増えて全件を書き出さなく
-  // なったら、ここは結果から行を組み立てる作りに変える必要がある。
-  (function () {
-    var box = document.getElementById('search-box');
-    var input = document.getElementById('q');
-    var list = document.getElementById('tip-list');
-    var status = document.getElementById('search-status');
-    var empty = document.getElementById('no-hit');
-    if (!box || !input || !list || !status || !empty) return;
-    box.hidden = false;
-
-    var base = box.getAttribute('data-base') || '/';
-
-    // 校務PCでは全角で打つ人がいる。「提出ＢＯＸ」と「提出BOX」を同じ扱いにする
-    function norm(s) {
-      return String(s)
-        .replace(/[\uff01-\uff5e]/g, function (c) {
-          return String.fromCharCode(c.charCodeAt(0) - 0xfee0);
-        })
-        .replace(/\u3000/g, ' ')
-        .toLowerCase();
-    }
-    var rows = Array.prototype.slice.call(list.children);
-    var original = rows.slice();
-    var byPath = {};
-    var indexed = rows.map(function (row, i) {
-      var a = row.querySelector('a.tip-title');
-      if (a) byPath[new URL(a.getAttribute('href'), location.origin).pathname] = row;
-      return norm((row.getAttribute('data-index') || '') + ' ' + (row.textContent || ''));
-    });
-
-    var pagefind = null;
-    var pagefindTried = false;
-
-    function loadPagefind() {
-      if (pagefindTried) return Promise.resolve(pagefind);
-      pagefindTried = true;
-      return import(base + 'pagefind/pagefind.js')
-        .then(function (m) {
-          pagefind = m;
-          return m.options ? m.options({ baseUrl: base }).then(function () { return m; }) : m;
-        })
-        .catch(function () {
-          pagefind = null;
-          return null;
-        });
-    }
-
-    function show(order, hit) {
-      var frag = document.createDocumentFragment();
-      order.forEach(function (row) {
-        row.hidden = false;
-        frag.appendChild(row);
-      });
-      list.appendChild(frag);
-      rows.forEach(function (row) {
-        if (order.indexOf(row) === -1) row.hidden = true;
-      });
-      empty.hidden = hit !== 0;
-      status.textContent = hit === null ? '' : hit + '件';
-    }
-
-    // 日本語は語の間に空白がない。「話し合いで使えるもの」のような文をそのまま
-    // 突き合わせると何にも当たらないので、語のまとまりに割ってから探す。
-    var STOP = [
-      'もの', 'こと', 'ため', 'とき', 'よう', 'ところ', 'ほう', 'とこ',
-      '方法', '仕方', 'やり方', '授業', '国語', '事例', 'ヒント', '先生', '子ども',
-      '使う', '使える', '使い方', 'したい', 'する', 'できる', 'ある', 'いる', 'なる',
-      'どう', '何か', 'ほしい', 'たい', 'です', 'ます', 'ください',
-      // 修飾するだけの語。事例の数が少ないと珍しい語と判定されて上に来てしまう
-      '楽しく', '楽しい', '簡単', '手軽', 'うまく', 'すぐ', 'もっと', '上手', 'いい', 'よい',
-    ];
-    function splitTerms(q) {
-      var raw = [];
-      if (typeof Intl !== 'undefined' && Intl.Segmenter) {
-        try {
-          var seg = new Intl.Segmenter('ja', { granularity: 'word' });
-          Array.from(seg.segment(q)).forEach(function (s) {
-            if (s.isWordLike) raw.push(s.segment);
-          });
-        } catch (e) {
-          raw = [];
-        }
-      }
-      // Intl.Segmenter が無い環境では、助詞らしいところで割る
-      if (!raw.length) raw = q.split(/[\s、。・「」（）をにはがのでとへやかもねよ]+/);
-      var out = [];
-      raw.forEach(function (t) {
-        t = t.trim();
-        if (!t) return;
-        if (STOP.indexOf(t) !== -1) return;
-        // ひらがな1字は当たりすぎるので落とす
-        if (t.length === 1 && /[ぁ-ん]/.test(t)) return;
-        if (out.indexOf(t) === -1) out.push(t);
-      });
-      if (!out.length) out.push(q);
-      return out;
-    }
-
-    // 語ごとの重みで並べる。全部当たることは求めない（当たらなすぎるため）。
-    // どの事例にも出る語（「共有」「楽しく」など）は軽く、珍しい語（「漢字」「音読」）は
-    // 重く数える。そうしないと、当たった語の数だけでは的外れなものが上に来る。
-    function weightOf(terms) {
-      var w = {};
-      terms.forEach(function (t) {
-        var df = 0;
-        indexed.forEach(function (x) {
-          if (x.indexOf(t) !== -1) df++;
-        });
-        w[t] = df === 0 ? 0 : Math.log(rows.length / df + 1);
-      });
-      return w;
-    }
-
-    function scoreRows(terms, pfRank) {
-      var w = weightOf(terms);
-      var scored = [];
-      rows.forEach(function (row, i) {
-        var hit = 0;
-        terms.forEach(function (t) {
-          if (indexed[i].indexOf(t) !== -1) hit += w[t];
-        });
-        var pf = pfRank && i in pfRank ? pfRank[i] : null;
-        if (hit === 0 && pf === null) return;
-        scored.push({ row: row, hit: hit, pf: pf === null ? 9999 : pf, i: i });
-      });
-      scored.sort(function (a, b) {
-        return b.hit - a.hit || a.pf - b.pf || a.i - b.i;
-      });
-      return scored.map(function (x) {
-        return x.row;
-      });
-    }
-
-    var seq = 0;
-    function run() {
-      var q = norm(input.value.trim());
-      if (!q) {
-        show(original, null);
-        return;
-      }
-      var mine = ++seq;
-
-      // 索引の読み込みを待たせない。まず文字合わせで出し、Pagefind が来たら並べ替える。
-      // 初回の1打鍵目で索引を取りに行くので、待つと何も絞られない時間ができる。
-      var terms = splitTerms(q);
-      var quick = scoreRows(terms, null);
-      show(quick, quick.length);
-
-      loadPagefind().then(function (pf) {
-        if (mine !== seq) return;
-        if (!pf) return; // 文字合わせの結果をそのまま使う
-        pf.search(q).then(function (search) {
-          if (mine !== seq) return;
-          Promise.all(search.results.slice(0, 50).map(function (r) { return r.data(); })).then(
-            function (items) {
-              if (mine !== seq) return;
-              // Pagefind の日本語の扱いには癖が2つある。
-              //  - 取りこぼす（「中学校」で13件中1件しか返さない）
-              //  - 拾いすぎる（「存在しない語」で全件返す。細かく分割して当たってしまう）
-              // そこで、並び順だけ Pagefind に任せ、採否は本文に語が含まれるかで決める。
-              // Pagefind の本文は詳細ページ全体なので、一覧の行より広く当たる。
-              // Pagefind の日本語は取りこぼしも拾いすぎもある。順位だけ借りて、
-              // 採否は「割った語のどれかが本文にあるか」で決める。
-              var pfRank = {};
-              items.forEach(function (it, n) {
-                var body = norm(it.content || '');
-                if (!terms.some(function (t) { return body.indexOf(t) !== -1; })) return;
-                var path = new URL(it.url, location.origin).pathname;
-                var row = byPath[path] || byPath[path.replace(/index\.html$/, '')];
-                if (!row) return;
-                var k = rows.indexOf(row);
-                if (k >= 0 && !(k in pfRank)) pfRank[k] = n;
-              });
-              var order = scoreRows(terms, pfRank);
-              show(order, order.length);
-            },
-          );
-        });
-      });
-    }
-
-    var timer = 0;
-    input.addEventListener('input', function () {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(run, 150);
-    });
-  })();
-</script>

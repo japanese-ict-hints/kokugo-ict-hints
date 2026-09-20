@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import Chips from '../../components/Chips.astro';
 import TipList from '../../components/TipList.astro';
 import { loadTips, type Tip } from '../../lib/tips';
@@ -31,7 +32,7 @@ const items = TOOL_IDS.map((id) => ({
 ---
 
 <Base title={TOOLS[tool]} description={`${TOOLS[tool]}を使う、小中学校の国語のICT活用事例。`}>
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　ツールから探す</p>
+  <Breadcrumb items={[{ href: '/tips/', label: '事例一覧' }, { label: TOOLS[tool] }]} />
   <h1>{TOOLS[tool]}</h1>
   <p class="lede">{tips.length}件　所属校で使えるかどうかは、必ず最新の規程を確認してください。</p>
 

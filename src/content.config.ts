@@ -6,6 +6,7 @@ import {
   SCHOOL_IDS,
   SUBJECT_IDS,
   TOOL_IDS,
+  OPERATOR_IDS,
 } from './lib/vocab';
 import { CURRICULUM_CODES } from './lib/curriculum';
 
@@ -46,6 +47,8 @@ const tips = defineCollection({
     scenes: z.array(z.enum(SCENE_IDS)).default([]),
     effort: z.number().int().min(1).max(3),
     grade: z.string().nullable().default(null),
+    // 誰が端末を操作するか。出典が明記している場合だけ。推測しない（CLAUDE.md §4.1）
+    operator: z.enum(OPERATOR_IDS).nullable().default(null),
     // 出典が単元名・教材名を示している場合だけ書く。推測しない（CLAUDE.md §4.1）
     unit: z.string().max(40).default(''),
     // ICT活用サイトなので、どこで何を使い、何が変わるかを必ず1文ずつ書く

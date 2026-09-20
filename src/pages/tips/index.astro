@@ -1,0 +1,386 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import TipList from '../../components/TipList.astro';
+import { loadTips } from '../../lib/tips';
+import { url } from '../../lib/site';
+import { GRADE_IDS, GRADES } from '../../lib/grades';
+import { SOURCE_KINDS, sourceKind } from '../../lib/sources';
+import {
+  DOMAIN_IDS, DOMAINS, SCENE_IDS, SCENES,
+  SCHOOL_IDS, SCHOOLS, TOOL_IDS, TOOLS,
+} from '../../lib/vocab';
+
+const tips = await loadTips();
+
+const countBy = (key: 'scenes' | 'domains' | 'tools' | 'school', id: string) =>
+  tips.filter((t) => (t.data[key] as readonly string[]).includes(id)).length;
+
+// 0件の選択肢は出さない。押しても何も出ない場所を作らない
+const groups = [
+  {
+    facet: 'school',
+    name: '校種',
+    items: SCHOOL_IDS.map((id) => ({ value: id, label: SCHOOLS[id], count: countBy('school', id) })),
+  },
+  {
+    facet: 'grade',
+    name: '学年',
+    items: GRADE_IDS.map((id) => ({
+      value: GRADES[id].short,
+      label: GRADES[id].short,
+      count: tips.filter((t) => (t.data.grade ?? '').includes(GRADES[id].short)).length,
+    })),
+  },
+  {
+    facet: 'domain',
+    name: '領域',
+    items: DOMAIN_IDS.map((id) => ({ value: id, label: DOMAINS[id].short, count: countBy('domains', id) })),
+  },
+  {
+    facet: 'scene',
+    name: '学習場面',
+    items: SCENE_IDS.map((id) => ({ value: id, label: SCENES[id].label, count: countBy('scenes', id) })),
+  },
+  {
+    facet: 'tool',
+    name: '使うツール',
+    items: TOOL_IDS.map((id) => ({ value: id, label: TOOLS[id], count: countBy('tools', id) })),
+  },
+  {
+    facet: 'kind',
+    name: '情報源',
+    items: (Object.keys(SOURCE_KINDS) as (keyof typeof SOURCE_KINDS)[]).map((id) => ({
+      value: id,
+      label: SOURCE_KINDS[id].label,
+      count: tips.filter((t) => sourceKind(t) === id).length,
+    })),
+  },
+].map((g) => ({ ...g, items: g.items.filter((i) => i.count > 0) }));
+
+// クライアントのJSに渡す表。ラベルはここでしか作らない
+const labels = Object.fromEntries(
+  groups.map((g) => [g.facet, Object.fromEntries(g.items.map((i) => [i.value, i.label]))]),
+);
+---
+
+<Base
+  title="事例一覧"
+  description="国語のICT活用事例を、教材名・やりたいこと・学年・領域・場面から絞り込めます。"
+>
+  <Breadcrumb items={[{ label: '事例一覧' }]} />
+  <h1>事例一覧</h1>
+
+  <div class="search" style="margin-top:1rem;">
+    <label for="q">教材名・やりたいことを検索</label>
+    <input type="search" id="q" autocomplete="off" placeholder="ごんぎつね、音読、話し合い…" />
+  </div>
+
+  <details class="filters" id="filters" hidden>
+    <summary>詳しく絞り込む</summary>
+    <div class="filter-body">
+      {
+        groups.map((g) => (
+          <div class="filter-group">
+            <p>{g.name}</p>
+            <ul class="chips">
+              {g.items.map((i) => (
+                <li>
+                  <button type="button" class="chip" data-facet={g.facet} data-value={i.value} aria-pressed="false">
+                    {i.label}
+                    <span class="count">{i.count}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </details>
+
+  <div class="applied" id="applied" hidden></div>
+
+  <div class="result-bar">
+    <p class="result-count" id="result-count"><span class="num">{tips.length}</span>件</p>
+    <div class="sort-box" id="sort-box" hidden>
+      <label for="sort">並び替え</label>
+      <select id="sort">
+        <option value="new">新しい順</option>
+        <option value="grade">学年順</option>
+        <option value="unit">単元名順</option>
+      </select>
+    </div>
+  </div>
+
+  <h2 class="sr-only">事例</h2>
+  <TipList tips={tips} searchable={true} id="tip-list" />
+
+  <div class="empty" id="no-hit" hidden>
+    <p><strong>その言葉では見つかりませんでした。</strong></p>
+    <p>次のどれかを試してください。</p>
+    <ul class="chips">
+      <li><button type="button" class="chip" id="clear-filters">絞り込みをすべて外す</button></li>
+      <li><a class="chip" href={url('/units/')}>単元から探す</a></li>
+      <li><a class="chip" href={url('/intents/')}>やりたいことから探す</a></li>
+    </ul>
+    <p class="lede" style="margin-top:0.8rem;">
+      言葉を短くすると当たりやすくなります（「音読の振り返り」→「音読」）。
+    </p>
+  </div>
+
+  <script define:vars={{ labels }} is:inline>
+    // 一覧の絞り込み。条件はURLに残す（戻ったときに同じ状態に戻すため）。
+    (function () {
+      var grid = document.getElementById('tip-list');
+      var input = document.getElementById('q');
+      var filters = document.getElementById('filters');
+      var applied = document.getElementById('applied');
+      var countEl = document.getElementById('result-count');
+      var sortBox = document.getElementById('sort-box');
+      var sortSel = document.getElementById('sort');
+      var noHit = document.getElementById('no-hit');
+      if (!grid || !input) return;
+
+      filters.hidden = false;
+      sortBox.hidden = false;
+
+      var FACETS = ['school', 'grade', 'domain', 'scene', 'tool', 'kind'];
+      var items = Array.prototype.slice.call(grid.children);
+      var original = items.slice();
+
+      // 全角→半角、カタカナ→ひらがな、小文字。打ち方の揺れを吸収する
+      function norm(s) {
+        return String(s)
+          .replace(/[！-～]/g, function (c) {
+            return String.fromCharCode(c.charCodeAt(0) - 0xfee0);
+          })
+          .replace(/　/g, ' ')
+          .replace(/[ァ-ヶ]/g, function (c) {
+            return String.fromCharCode(c.charCodeAt(0) - 0x60);
+          })
+          .toLowerCase();
+      }
+
+      var data = items.map(function (li) {
+        var card = li.querySelector('.card');
+        return {
+          li: li,
+          text: norm(card.getAttribute('data-index') || ''),
+          key: norm(card.getAttribute('data-key') || ''),
+          school: (card.getAttribute('data-school') || '').split(' '),
+          grade: card.getAttribute('data-grade') || '',
+          domain: (card.getAttribute('data-domain') || '').split(' '),
+          scene: (card.getAttribute('data-scene') || '').split(' '),
+          tool: (card.getAttribute('data-tool') || '').split(' '),
+          kind: card.getAttribute('data-kind') || '',
+          unit: card.getAttribute('data-unit') || '',
+          added: card.getAttribute('data-added') || '',
+          gorder: Number(card.getAttribute('data-gorder') || 99),
+        };
+      });
+
+      var state = { q: '', sort: 'new' };
+      FACETS.forEach(function (f) { state[f] = ''; });
+
+      // 日本語は語の間に空白がない。文で打たれても当たるように語のまとまりに割る
+      var STOP = ['もの','こと','ため','とき','よう','ところ','方法','仕方','やり方','授業','国語',
+        '事例','ヒント','使う','使える','使い方','したい','する','できる','ある','いる','なる',
+        'どう','ほしい','たい','です','ます','ください','楽しく','簡単','うまく','すぐ','もっと'];
+      function splitTerms(q) {
+        var raw = [];
+        if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+          try {
+            var seg = new Intl.Segmenter('ja', { granularity: 'word' });
+            Array.from(seg.segment(q)).forEach(function (s) { if (s.isWordLike) raw.push(s.segment); });
+          } catch (e) { raw = []; }
+        }
+        if (!raw.length) raw = q.split(/[\s、。・「」（）をにはがのでとへやかもねよ]+/);
+        var out = [];
+        raw.forEach(function (t) {
+          t = t.trim();
+          if (!t || STOP.indexOf(t) !== -1) return;
+          if (t.length === 1 && /[ぁ-ん]/.test(t)) return;
+          if (out.indexOf(t) === -1) out.push(t);
+        });
+        return out.length ? out : [q];
+      }
+
+      // ありふれた語は軽く、珍しい語は重く。数だけで数えると的外れが上に来る
+      function weights(terms) {
+        var w = {};
+        terms.forEach(function (t) {
+          var df = 0;
+          data.forEach(function (d) { if (d.text.indexOf(t) !== -1) df++; });
+          w[t] = df === 0 ? 0 : Math.log(data.length / df + 1);
+        });
+        return w;
+      }
+
+      function apply() {
+        var q = norm(state.q.trim());
+        var terms = q ? splitTerms(q) : [];
+        var w = terms.length ? weights(terms) : {};
+        var hits = [];
+
+        data.forEach(function (d) {
+          var ok = FACETS.every(function (f) {
+            if (!state[f]) return true;
+            if (f === 'grade') return d.grade.indexOf(state[f]) !== -1;
+            if (f === 'kind') return d.kind === state[f];
+            return d[f].indexOf(state[f]) !== -1;
+          });
+          var score = 0;
+          if (ok && terms.length) {
+            var hit = 0;
+            terms.forEach(function (t) {
+              if (d.text.indexOf(t) === -1) return;
+              // 題名・教材名・使いどころに出る語は重く見る。本文の端に一度だけ出る語より確か
+              score += w[t] * (d.key.indexOf(t) !== -1 ? 2.5 : 1);
+              hit++;
+            });
+            // 語数が多い文で打たれたとき、1語だけ当たったものまで拾うと的が外れる。
+            // 3語以上なら半分以上当たることを求める
+            var need = terms.length >= 3 ? Math.ceil(terms.length / 2) : 1;
+            if (hit < need) ok = false;
+          }
+          d.li.hidden = !ok;
+          if (ok) hits.push({ d: d, score: score });
+        });
+
+        hits.sort(function (a, b) {
+          if (terms.length && b.score !== a.score) return b.score - a.score;
+          if (state.sort === 'grade') return a.d.gorder - b.d.gorder || a.d.unit.localeCompare(b.d.unit, 'ja');
+          if (state.sort === 'unit') return a.d.unit.localeCompare(b.d.unit, 'ja');
+          return a.d.added < b.d.added ? 1 : a.d.added > b.d.added ? -1 : 0;
+        });
+        var frag = document.createDocumentFragment();
+        hits.forEach(function (h) { frag.appendChild(h.d.li); });
+        grid.appendChild(frag);
+        original.forEach(function (li) { if (li.hidden) grid.appendChild(li); });
+
+        paintApplied(hits.length);
+        noHit.hidden = hits.length !== 0;
+        save();
+      }
+
+      function paintApplied(n) {
+        var parts = [];
+        FACETS.forEach(function (f) {
+          if (!state[f]) return;
+          var label = (labels[f] && labels[f][state[f]]) || state[f];
+          parts.push({ facet: f, label: label });
+        });
+        if (state.q.trim()) parts.push({ facet: 'q', label: '「' + state.q.trim() + '」' });
+
+        countEl.innerHTML = '';
+        if (parts.length) {
+          countEl.appendChild(
+            document.createTextNode(parts.map(function (p) { return p.label; }).join(' × ') + '：'),
+          );
+        }
+        var num = document.createElement('span');
+        num.className = 'num';
+        num.textContent = String(n);
+        countEl.appendChild(num);
+        countEl.appendChild(document.createTextNode('件'));
+
+        applied.innerHTML = '';
+        applied.hidden = parts.length === 0;
+        parts.forEach(function (p) {
+          var chip = document.createElement('span');
+          chip.className = 'applied-chip';
+          chip.appendChild(document.createTextNode(p.label));
+          var b = document.createElement('button');
+          b.type = 'button';
+          b.setAttribute('aria-label', p.label + ' の条件を外す');
+          b.textContent = '×';
+          b.addEventListener('click', function () {
+            if (p.facet === 'q') { state.q = ''; input.value = ''; }
+            else state[p.facet] = '';
+            syncButtons();
+            apply();
+          });
+          chip.appendChild(b);
+          applied.appendChild(chip);
+        });
+        if (parts.length > 1) {
+          var all = document.createElement('button');
+          all.type = 'button';
+          all.className = 'chip';
+          all.textContent = '条件をすべてクリア';
+          all.addEventListener('click', clearAll);
+          applied.appendChild(all);
+        }
+      }
+
+      function clearAll() {
+        FACETS.forEach(function (f) { state[f] = ''; });
+        state.q = '';
+        input.value = '';
+        syncButtons();
+        apply();
+      }
+
+      function syncButtons() {
+        filters.querySelectorAll('button[data-facet]').forEach(function (b) {
+          var on = state[b.getAttribute('data-facet')] === b.getAttribute('data-value');
+          b.classList.toggle('is-on', on);
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+
+      function save() {
+        var p = new URLSearchParams();
+        if (state.q.trim()) p.set('q', state.q.trim());
+        FACETS.forEach(function (f) { if (state[f]) p.set(f, state[f]); });
+        if (state.sort !== 'new') p.set('sort', state.sort);
+        var qs = p.toString();
+        history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+      }
+
+      function load() {
+        var p = new URLSearchParams(location.search);
+        state.q = p.get('q') || '';
+        FACETS.forEach(function (f) { state[f] = p.get(f) || ''; });
+        state.sort = p.get('sort') || 'new';
+        input.value = state.q;
+        sortSel.value = state.sort;
+        if (FACETS.some(function (f) { return state[f]; })) filters.open = true;
+        syncButtons();
+      }
+
+      filters.addEventListener('click', function (e) {
+        var b = e.target.closest ? e.target.closest('button[data-facet]') : null;
+        if (!b) return;
+        var f = b.getAttribute('data-facet');
+        var v = b.getAttribute('data-value');
+        state[f] = state[f] === v ? '' : v;
+        syncButtons();
+        apply();
+      });
+      document.getElementById('clear-filters').addEventListener('click', clearAll);
+      sortSel.addEventListener('change', function () { state.sort = sortSel.value; apply(); });
+
+      var timer = 0;
+      input.addEventListener('input', function () {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function () { state.q = input.value; apply(); }, 150);
+      });
+
+      // 詳細から戻ったとき、同じ位置に戻す
+      var KEY = 'tips-scroll';
+      window.addEventListener('pagehide', function () {
+        try { sessionStorage.setItem(KEY, location.search + '|' + window.scrollY); } catch (e) {}
+      });
+      load();
+      apply();
+      try {
+        var saved = (sessionStorage.getItem(KEY) || '').split('|');
+        if (saved[0] === location.search && saved[1]) {
+          window.scrollTo(0, Number(saved[1]));
+        }
+      } catch (e) {}
+    })();
+  </script>
+</Base>

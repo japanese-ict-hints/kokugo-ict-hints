@@ -5,21 +5,37 @@ import { SITE, url } from '../lib/site';
 interface Props {
   title?: string;
   description?: string;
+  /** トップだけ、ヘッダーのサイト名を見出しとして出さない */
   home?: boolean;
+  /** 本文を読み物の幅に絞る（about・privacy など） */
+  narrow?: boolean;
 }
 
-const { title, description = SITE.description, home = false } = Astro.props;
+const { title, description = SITE.description, home = false, narrow = false } = Astro.props;
 const pageTitle = title ? `${title}｜${SITE.title}` : SITE.title;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 
-const footerLinks = [
-  { href: '/', label: 'トップ' },
+// 階層を深くしない。5つまで（2026-09-21 運営者の指示）
+const navLinks = [
+  { href: '/', label: 'ホーム' },
   { href: '/units/', label: '単元から探す' },
+  { href: '/intents/', label: 'やりたいことから探す' },
+  { href: '/tips/', label: '事例一覧' },
+  { href: '/about/', label: 'このサイトについて' },
+];
+
+const footerLinks = [
+  { href: '/tips/', label: '事例一覧' },
+  { href: '/units/', label: '単元から探す' },
+  { href: '/intents/', label: 'やりたいことから探す' },
   { href: '/regions/', label: '収集源' },
   { href: '/updates/', label: '更新履歴' },
   { href: '/about/', label: 'このサイトについて' },
   { href: '/privacy/', label: 'プライバシー' },
 ];
+
+const here = Astro.url.pathname.replace(/\/+$/, '/');
+const isCurrent = (href: string) => here === url(href).replace(/\/+$/, '/');
 ---
 
 <!doctype html>
@@ -36,28 +52,37 @@ const footerLinks = [
   <body>
     <a class="skip-link" href="#main">本文へ移動</a>
 
-    {
-      !home && (
-        <header class="site-header">
-          <div class="wrap">
-            <a class="site-name" href={url('/')}>
-              {SITE.title}
-            </a>
-            <span class="tagline">{SITE.tagline}</span>
-          </div>
-        </header>
-      )
-    }
+    <header class="site-header">
+      <div class="wrap header-bar">
+        <a class="site-name" href={url('/')}>
+          {SITE.title}
+          <span class="tagline">{SITE.tagline}</span>
+        </a>
+        <nav class="site-nav" aria-label="サイト内">
+          <ul>
+            {
+              navLinks.map((l) => (
+                <li>
+                  <a href={url(l.href)} aria-current={isCurrent(l.href) ? 'page' : undefined}>
+                    {l.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
 
-    <main id="main">
-      <div class="wrap">
+    <main id="main" class={home ? 'is-home' : undefined}>
+      <div class:list={['wrap', narrow && 'wrap-narrow']}>
         <slot />
       </div>
     </main>
 
     <footer class="site-footer">
       <div class="wrap">
-        <nav aria-label="サイト内">
+        <nav aria-label="フッター">
           <ul>
             {
               footerLinks.map((l) => (

@@ -1,32 +1,39 @@
+/* 配色。2026-09-21 に桜色から、白地＋濃紺・チャコールへ切り替えた（運営者の指示）。
+   主な利用者は教員。子ども向けの彩度ではなく、毎週使える落ち着いた面にする。
+   すべての前景／背景の組み合わせでコントラスト 4.5:1 以上（CLAUDE.md §8）。
+   scripts/contrast-check.py で検証してから変える。 */
 :root {
-  /* 桜色を基調にした面。白より少しだけ赤みを持たせる */
-  --paper:      #FFFAFC;
-  --paper-sunk: #FBEEF3;
-  --ink:        #241A1E;
-  --ink-mute:   #6B5860;
-  --rule:       #F0DDE5;
+  --paper:      #FFFFFF;
+  --paper-sunk: #F5F7FA;   /* ヘッダー・面の沈み */
+  --ink:        #1A2432;   /* 本文。濃紺寄りのチャコール */
+  --ink-mute:   #56606E;   /* 補助。白地に 6.6:1 */
+  --rule:       #DFE4EA;
 
-  /* 主色。リンク・ボタン・現在地の表示に使う */
-  --accent:      #B3245C;
-  --accent-hover:#8C1746;
-  --accent-soft: #FDEFF4;
+  /* 主色。リンク・ボタン・現在地。アクセントはこの1色に絞る */
+  --accent:      #1F4E8C;
+  --accent-hover:#153962;
+  --accent-soft: #EDF3FA;
 
-  /* 後方互換。リンク色は主色に寄せる */
   --link:       var(--accent);
   --link-hover: var(--accent-hover);
 
-  /* 国語の領域色。装飾ではなく識別子。すべて紙地に対して 4.5:1 以上 */
-  --d-speak:      #B23A48;
-  --d-write:      #3A5A98;
-  --d-read:       #3F7A5E;
-  --d-language:   #7A4FA3;
-  --d-handwriting:#8A6420;
-  --d-reading:    #6B6470;
+  /* 国語の領域色。装飾ではなく識別子。必ず文字ラベルを併記する */
+  --d-speak:      #A3323F;
+  --d-write:      #2F5596;
+  --d-read:       #2A6B4F;
+  --d-language:   #6B3FA0;
+  --d-handwriting:#7A5510;
+  --d-reading:    #565B66;
 
   --step-0: 1rem; --step-1: 1.125rem; --step-2: 1.375rem; --step-3: 1.75rem;
   --measure: 40em;   /* 日本語で約40字 */
 
-  --page: 880px;
+  --page: 1100px;    /* 一覧を2〜3列にするため広げた */
+  --page-narrow: 760px;
   --radius: 10px;
   --pill: 999px;
+
+  /* 影は極めて弱く。面の輪郭は罫線が担う */
+  --lift: 0 1px 2px rgba(26, 36, 50, 0.06);
+  --lift-hover: 0 2px 8px rgba(26, 36, 50, 0.10);
 }

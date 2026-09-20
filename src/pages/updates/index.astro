@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import TipList from '../../components/TipList.astro';
 import { loadTips } from '../../lib/tips';
 import { url, formatDate, formatISO } from '../../lib/site';
@@ -15,7 +16,7 @@ const days = [...groups.entries()].sort((a, b) => (a[0] < b[0] ? 1 : -1));
 ---
 
 <Base title="更新履歴" description="事例を追加した日ごとの一覧。">
-  <p class="breadcrumb"><a href={url('/')}>トップ</a>　更新履歴</p>
+  <Breadcrumb items={[{ label: '更新履歴' }]} />
   <h1>更新履歴</h1>
   <p class="lede">追加した日ごとに並べています。</p>
 
